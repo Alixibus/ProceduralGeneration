@@ -6,7 +6,8 @@ public class MapGeneratorScript : MonoBehaviour {
 
     public GameObject[] prefabObjects;
     private GameObject startPoint, exitPoint;
-    private GameObject[] gridPoints;
+    private GameObject[] gridPath;
+    private GameObject[] instantiatedMap;
     public int gridWidth, gridHeight = 0;
     int findCornerHeight = 0;
     int findCornerWidth = 0;
@@ -20,11 +21,11 @@ public class MapGeneratorScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if(Input.GetMouseButtonDown(0) && gridPoints != null)
+        if(Input.GetMouseButtonDown(0) && gridPath != null)
         {
-            for (int eachGridPoint = 0; eachGridPoint < gridPoints.Length; eachGridPoint++)
+            for (int eachGridPoint = 0; eachGridPoint < gridPath.Length; eachGridPoint++)
             {
-                Destroy(gridPoints[eachGridPoint], 0.0f);
+                Destroy(instantiatedMap[eachGridPoint], 0.0f);
             }
             Destroy(startPoint, 0.0f);
             Destroy(exitPoint, 0.0f);
@@ -41,32 +42,32 @@ public class MapGeneratorScript : MonoBehaviour {
     {
         if (gridWidth == 0)
         {
-            gridWidth = Mathf.RoundToInt(Random.Range(3.0f, 21.0f));
+            gridWidth = Mathf.RoundToInt(Random.Range(9.0f, 25.0f));
             while (gridWidth % 2 == 0)
             {
-                gridWidth = Mathf.RoundToInt(Random.Range(3.0f, 21.0f));
+                gridWidth = Mathf.RoundToInt(Random.Range(9.0f, 25.0f));
             }
         }
         if (gridHeight == 0)
         {
-            gridHeight = Mathf.RoundToInt(Random.Range(3.0f, 21.0f));
+            gridHeight = Mathf.RoundToInt(Random.Range(5.0f, 25.0f));
             while (gridHeight % 2 == 0)
             {
-                gridHeight = Mathf.RoundToInt(Random.Range(3.0f, 21.0f));
+                gridHeight = Mathf.RoundToInt(Random.Range(5.0f, 25.0f));
             }
         }
 
         findCornerHeight -= gridHeight / 2;
         findCornerWidth -= gridWidth / 2;
         int totalGridPoints = gridWidth * gridHeight;
-        gridPoints = new GameObject[totalGridPoints];
+        gridPath = new GameObject[totalGridPoints];
 
         int gridCount = 0;
         for (int makeWidth = 0; makeWidth < gridWidth; makeWidth++)
         {
             for (int makeHeight = 0; makeHeight < gridHeight; makeHeight++)
             {
-                gridPoints[gridCount] = Instantiate(prefabObjects[0], new Vector3(findCornerWidth + makeWidth, 0, findCornerHeight + makeHeight), Quaternion.identity);
+                gridPath[gridCount] = Instantiate(prefabObjects[0], new Vector3(findCornerWidth + makeWidth, 0, findCornerHeight + makeHeight), Quaternion.identity);
                 gridCount++;
             }
         }
@@ -75,20 +76,35 @@ public class MapGeneratorScript : MonoBehaviour {
     void BuildMap()
     {
         //Instantiate(prefabObjects[0], new Vector3(0, 0, 0), Quaternion.identity);       
-
-        //Generate start point near inner circle
-        int randomStart = Mathf.RoundToInt(Random.Range(-1.0f, 1.0f));
-       startPoint = Instantiate(prefabObjects[1], new Vector3(randomStart, 0, randomStart), Quaternion.identity);
+        instantiatedMap = new GameObject[gridPath.Length];
+        //Generate start point near inner circle, for testing only use 0,0
+        //int randomStart = Mathf.RoundToInt(Random.Range(-1.0f, 1.0f));
+        //startPoint = Instantiate(prefabObjects[1], new Vector3(randomStart, 0, randomStart), Quaternion.identity);
+        startPoint = Instantiate(prefabObjects[1], new Vector3(0, 0, 0), Quaternion.identity);
 
         //Generate exit Route on Outer
         ChooseExitPoint();
 
-       BuildEscapeRoute(startPoint.transform.position, exitPoint.transform.position);
-    }
+        for(int x = 0; x < gridPath.Length; x++)
+        {
+            if (gridPath[x].transform.position == startPoint.transform.position || gridPath[x].transform.position == exitPoint.transform.position)
+            {
+                continue;
+            }
+            else if(gridPath[x].transform.position.z == gridHeight / 2 || gridPath[x].transform.position.z == findCornerHeight || gridPath[x].transform.position.x == gridWidth / 2 || gridPath[x].transform.position.x == findCornerWidth)
+            {
+                instantiatedMap[x] = Instantiate(prefabObjects[5], gridPath[x].transform.position, Quaternion.identity);
+            }
+            else
+            {
+                instantiatedMap[x] = Instantiate(prefabObjects[4], gridPath[x].transform.position, Quaternion.identity);
+            }
+        }
 
-    void BuildEscapeRoute(Vector3 startingPosition, Vector3 exitPosition)
-    {
-
+        for (int eachGridPoint = 0; eachGridPoint < gridPath.Length; eachGridPoint++)
+        {
+            Destroy(gridPath[eachGridPoint], 0.0f);
+        }
     }
 
     void ChooseExitPoint()
@@ -116,6 +132,12 @@ public class MapGeneratorScript : MonoBehaviour {
                 break;
         }
     }
+
+    void FindExcapePath(Vector3 startPos, Vector3 exitPos)
+    {
+
+    }
 }
+
 
 

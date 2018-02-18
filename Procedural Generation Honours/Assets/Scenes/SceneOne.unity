@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: da976b1a4f7ebb949b0f71341e4f1821, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.68361646, g: 0.7761399, b: 0.8526095, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -302,12 +302,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73119478d4d25b4aaf40746ce36c211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabObjects:
-  - {fileID: 1948207233843146, guid: bf2b0072231d2af4aa774e376af7cca1, type: 2}
-  - {fileID: 1868359541300674, guid: 641ef6b89ec9f774c8faf6332841e250, type: 2}
-  - {fileID: 1600778632050710, guid: 19a325201200e3e43be0556270f596c8, type: 2}
-  - {fileID: 1044576547876792, guid: 0fa1069eafaeac9428dffdec698f26fa, type: 2}
-  - {fileID: 1742870977948756, guid: 2b5522fd90f1e5b41b69d470a7d55b88, type: 2}
+  startPointPreFab: {fileID: 1897405527962658, guid: 0fd361ed5249701468469f08e4d52e61,
+    type: 2}
+  exitPointPreFab: {fileID: 1670002398617470, guid: e67d7624e287c9542af27d1eef5ba8cf,
+    type: 2}
+  getawayVehiclePrefab: {fileID: 1450834509033030, guid: 51febbe5849ca1f4684fbaf10bf87fb5,
+    type: 2}
+  escapePathPreFab:
+  - {fileID: 1659542645964364, guid: b3350fe69982fa246b6f7219b07053c4, type: 2}
+  - {fileID: 1875679751427462, guid: a3039a3b46ac7b24da478e474f9f375a, type: 2}
   - {fileID: 1956206006462808, guid: 9ecc944a694154949b40cf75c7de21ad, type: 2}
   gridWidth: 0
   gridHeight: 0

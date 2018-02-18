@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class MapGeneratorScript : MonoBehaviour {
 
-    public GameObject[] prefabObjects;
-    private GameObject startPoint, currentTile, exitPoint;
+    public GameObject startPointPreFab, exitPointPreFab, getawayVehiclePrefab;
+    public GameObject[] escapePathPreFab;
+    private GameObject startPoint, currentTile, exitPoint, getAwayVehicle;
     private Vector3 preExitTile;
     private List<GameObject> gridPath;
     private GameObject[] instantiatedMap;
@@ -37,6 +38,7 @@ public class MapGeneratorScript : MonoBehaviour {
             }
             Destroy(startPoint, 0.0f);
             Destroy(exitPoint, 0.0f);
+            Destroy(getAwayVehicle, 0.0f);
             gridWidth = 0;
             gridHeight = 0;
             findCornerHeight = 0;
@@ -75,7 +77,7 @@ public class MapGeneratorScript : MonoBehaviour {
         {
             for (int makeHeight = 0; makeHeight < gridHeight; makeHeight++)
             {
-                gridPath.Add(Instantiate(prefabObjects[0], new Vector3(findCornerWidth + makeWidth, 0, findCornerHeight + makeHeight), Quaternion.identity));
+                gridPath.Add(Instantiate(escapePathPreFab[0], new Vector3(findCornerWidth + makeWidth, 0, findCornerHeight + makeHeight), Quaternion.identity));
                 gridCount++;
             }
         }
@@ -89,7 +91,8 @@ public class MapGeneratorScript : MonoBehaviour {
         escapeRoute = new List<GameObject>();
         //Generate start point near inner circle, for testing only use 0,0
         int randomStart = Mathf.RoundToInt(Random.Range(-1.0f, 1.0f));
-        startPoint = Instantiate(prefabObjects[1], new Vector3(randomStart, 0, randomStart), Quaternion.identity);
+        startPoint = Instantiate(startPointPreFab, new Vector3(randomStart, 0, randomStart), Quaternion.identity);
+        getAwayVehicle = Instantiate(getawayVehiclePrefab, new Vector3(startPoint.transform.position.x + 0.077f, startPoint.transform.position.y + 0.078f, startPoint.transform.position.z + 0.346f), Quaternion.identity);
         //startPoint = Instantiate(prefabObjects[1], new Vector3(0, 0, 0), Quaternion.identity);
 
         //Generate exit Route on Outer
@@ -99,7 +102,7 @@ public class MapGeneratorScript : MonoBehaviour {
         int tileCount = 0;
         while (exitFound == false)
         {
-            escapeRoute.Add(Instantiate(prefabObjects[3], ChooseNextTile(currentTile.transform.position, preExitTile), Quaternion.identity));
+            escapeRoute.Add(Instantiate(escapePathPreFab[0], ChooseNextTile(currentTile.transform.position, preExitTile), Quaternion.identity));
             currentTile = escapeRoute[tileCount];
             tileCount++;
         }
@@ -112,11 +115,11 @@ public class MapGeneratorScript : MonoBehaviour {
             }
             else if (gridPath[x].transform.position.z == gridHeight / 2 || gridPath[x].transform.position.z == findCornerHeight || gridPath[x].transform.position.x == gridWidth / 2 || gridPath[x].transform.position.x == findCornerWidth)
             {
-                instantiatedMap[x] = Instantiate(prefabObjects[5], gridPath[x].transform.position, Quaternion.identity);
+                instantiatedMap[x] = Instantiate(escapePathPreFab[2], gridPath[x].transform.position, Quaternion.identity);
             }
             else
             {
-                instantiatedMap[x] = Instantiate(prefabObjects[4], gridPath[x].transform.position, Quaternion.identity);
+                instantiatedMap[x] = Instantiate(escapePathPreFab[1], gridPath[x].transform.position, Quaternion.identity);
                 
             }
             foreach (GameObject escapeVector in escapeRoute)
@@ -129,10 +132,10 @@ public class MapGeneratorScript : MonoBehaviour {
             }
         }        
 
-        //for (int eachGridPoint = 0; eachGridPoint < gridPath.Length; eachGridPoint++)
-        //{
-        //    Destroy(gridPath[eachGridPoint], 0.0f);
-        //}
+        for (int eachGridPoint = 0; eachGridPoint < gridPath.Count; eachGridPoint++)
+        {
+            Destroy(gridPath[eachGridPoint], 0.0f);
+        }
     }
 
     void ChooseExitPoint()
@@ -146,24 +149,24 @@ public class MapGeneratorScript : MonoBehaviour {
         switch(randomNumber)
         {
             case 1:
-                exitPoint = Instantiate(prefabObjects[2], new Vector3(findCornerWidth + Random.Range(1, gridWidth - 1), 0, gridHeight / 2), Quaternion.identity);
+                exitPoint = Instantiate(exitPointPreFab, new Vector3(findCornerWidth + Random.Range(1, gridWidth - 1), 0, gridHeight / 2), Quaternion.Euler(0.0f,90.0f,0.0f));
                 preExitTile = new Vector3(exitPoint.transform.position.x, exitPoint.transform.position.y, exitPoint.transform.position.z - 1);
                 break;
             case 2:
-                exitPoint = Instantiate(prefabObjects[2], new Vector3(findCornerWidth + Random.Range(1, gridWidth - 1), 0, findCornerHeight), Quaternion.identity);
+                exitPoint = Instantiate(exitPointPreFab, new Vector3(findCornerWidth + Random.Range(1, gridWidth - 1), 0, findCornerHeight), Quaternion.Euler(0.0f, 270.0f, 0.0f));
                 preExitTile = new Vector3(exitPoint.transform.position.x, exitPoint.transform.position.y, exitPoint.transform.position.z + 1);
                 break;
             case 3:
-                exitPoint = Instantiate(prefabObjects[2], new Vector3(findCornerWidth, 0, findCornerHeight + Random.Range(1, gridHeight - 1)), Quaternion.identity);
+                exitPoint = Instantiate(exitPointPreFab, new Vector3(findCornerWidth, 0, findCornerHeight + Random.Range(1, gridHeight - 1)), Quaternion.identity);
                 preExitTile = new Vector3(exitPoint.transform.position.x + 1, exitPoint.transform.position.y, exitPoint.transform.position.z);
                 break;
             case 4:
-                exitPoint = Instantiate(prefabObjects[2], new Vector3(gridWidth / 2, 0, findCornerHeight + Random.Range(1, gridHeight - 1)), Quaternion.identity);
+                exitPoint = Instantiate(exitPointPreFab, new Vector3(gridWidth / 2, 0, findCornerHeight + Random.Range(1, gridHeight - 1)), Quaternion.Euler(0.0f, 180.0f, 0.0f));
                 preExitTile = new Vector3(exitPoint.transform.position.x - 1, exitPoint.transform.position.y, exitPoint.transform.position.z);
                 break;
             case 5:
                 //For Testing purposes
-                exitPoint = Instantiate(prefabObjects[2], new Vector3(gridWidth / 2, 0, findCornerHeight + 1), Quaternion.identity);
+                exitPoint = Instantiate(exitPointPreFab, new Vector3(gridWidth / 2, 0, findCornerHeight + 1), Quaternion.identity);
                 preExitTile = new Vector3(exitPoint.transform.position.x - 1, exitPoint.transform.position.y, exitPoint.transform.position.z);
                 break;
             default:

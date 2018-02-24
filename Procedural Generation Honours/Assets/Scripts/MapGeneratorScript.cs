@@ -1,17 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MapGeneratorScript : MonoBehaviour {
 
     public GameObject startPointPreFab, exitPointPreFab, getawayVehiclePrefab;
     public GameObject[] escapePathPreFab;
+    public InputField seedInputField;
+    public Text seedHolder;
     private GameObject startPoint, currentTile, exitPoint, getAwayVehicle;
     private Vector3 preExitTile;
     private List<GameObject> gridPath;
     private GameObject[] instantiatedMap;
     private List<GameObject> escapeRoute;
     public int gridWidth, gridHeight = 0;
+    [SerializeField]
+    int seed;
     bool exitFound;
     int findCornerHeight = 0;
     int findCornerWidth = 0;
@@ -20,32 +25,14 @@ public class MapGeneratorScript : MonoBehaviour {
     void Start () {        
         BuildGrid();
         BuildMap();
-	}
+
+        seed = 12345;
+        seedHolder.text = "Current Seed = " + seed;
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        if(Input.GetMouseButtonDown(0) && gridPath != null)
-        {
-            for (int eachGridPoint = 0; eachGridPoint < instantiatedMap.Length; eachGridPoint++)
-            {
-                Destroy(instantiatedMap[eachGridPoint], 0.0f);
-                Destroy(gridPath[eachGridPoint], 0.0f);                
-            }
-            for (int x = 0; x < escapeRoute.Count; x++)
-            {
-                Destroy(escapeRoute[x], 0.0f);
-            }
-            Destroy(startPoint, 0.0f);
-            Destroy(exitPoint, 0.0f);
-            Destroy(getAwayVehicle, 0.0f);
-            gridWidth = 0;
-            gridHeight = 0;
-            findCornerHeight = 0;
-            findCornerWidth = 0;
-            BuildGrid();
-            BuildMap();
-        }
     }
 
     void BuildGrid()
@@ -91,9 +78,10 @@ public class MapGeneratorScript : MonoBehaviour {
         escapeRoute = new List<GameObject>();
         //Generate start point near inner circle, for testing only use 0,0
         int randomStart = Mathf.RoundToInt(Random.Range(-1.0f, 1.0f));
-        startPoint = Instantiate(startPointPreFab, new Vector3(randomStart, 0, randomStart), Quaternion.identity);
+        //startPoint = Instantiate(startPointPreFab, new Vector3(randomStart, 0, randomStart), Quaternion.identity);
+       
+        startPoint = Instantiate(startPointPreFab, new Vector3(0, 0, 0), Quaternion.identity);
         getAwayVehicle = Instantiate(getawayVehiclePrefab, new Vector3(startPoint.transform.position.x + 0.077f, startPoint.transform.position.y + 0.078f, startPoint.transform.position.z + 0.346f), Quaternion.identity);
-        //startPoint = Instantiate(prefabObjects[1], new Vector3(0, 0, 0), Quaternion.identity);
 
         //Generate exit Route on Outer
         ChooseExitPoint();
@@ -144,7 +132,7 @@ public class MapGeneratorScript : MonoBehaviour {
         // let 1 represent Top of Grid, 2 Bottom, 3 Left and 4 Right
         int randomNumber = Mathf.RoundToInt(Random.Range(1.0f, 4.0f));
 
-        //randomNumber = 1; //For Testing
+       // int randomNumber = 5; //For Testing
 
         switch(randomNumber)
         {
@@ -166,7 +154,7 @@ public class MapGeneratorScript : MonoBehaviour {
                 break;
             case 5:
                 //For Testing purposes
-                exitPoint = Instantiate(exitPointPreFab, new Vector3(gridWidth / 2, 0, findCornerHeight + 1), Quaternion.identity);
+                exitPoint = Instantiate(exitPointPreFab, new Vector3(gridWidth / 2, 0, findCornerHeight + 1), Quaternion.Euler(0.0f, 180.0f, 0.0f));
                 preExitTile = new Vector3(exitPoint.transform.position.x - 1, exitPoint.transform.position.y, exitPoint.transform.position.z);
                 break;
             default:
@@ -205,6 +193,63 @@ public class MapGeneratorScript : MonoBehaviour {
             exitFound = true;
         }
         return chosenTile;
+    }
+
+    public void Generate(int chosenSeed)
+    {
+        if (chosenSeed == 0)
+        {
+            for (int eachGridPoint = 0; eachGridPoint < instantiatedMap.Length; eachGridPoint++)
+            {
+                Destroy(instantiatedMap[eachGridPoint], 0.0f);
+                Destroy(gridPath[eachGridPoint], 0.0f);
+            }
+            for (int x = 0; x < escapeRoute.Count; x++)
+            {
+                Destroy(escapeRoute[x], 0.0f);
+            }
+            Destroy(startPoint, 0.0f);
+            Destroy(exitPoint, 0.0f);
+            Destroy(getAwayVehicle, 0.0f);
+            gridWidth = 0;
+            gridHeight = 0;
+            findCornerHeight = 0;
+            findCornerWidth = 0;
+            BuildGrid();
+            BuildMap();
+
+            seed = Mathf.RoundToInt(Random.seed);
+            print(seed);
+            seedHolder.text = "Current Seed = " + seed;
+        }
+        else
+        {            
+            seed = System.Convert.ToInt32(seedInputField.text);
+            Random.InitState(seed);
+
+            for (int eachGridPoint = 0; eachGridPoint < instantiatedMap.Length; eachGridPoint++)
+            {
+                Destroy(instantiatedMap[eachGridPoint], 0.0f);
+                Destroy(gridPath[eachGridPoint], 0.0f);
+            }
+            for (int x = 0; x < escapeRoute.Count; x++)
+            {
+                Destroy(escapeRoute[x], 0.0f);
+            }
+            Destroy(startPoint, 0.0f);
+            Destroy(exitPoint, 0.0f);
+            Destroy(getAwayVehicle, 0.0f);
+            gridWidth = 0;
+            gridHeight = 0;
+            findCornerHeight = 0;
+            findCornerWidth = 0;
+            BuildGrid();
+            BuildMap();
+
+            print(seed);
+            seedHolder.text = "Current Seed = " + seed;
+            seedInputField.text = "";
+        }
     }
 }
 

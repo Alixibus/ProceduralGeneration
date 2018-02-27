@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33942432471590224}
   - component: {fileID: 65263323519224262}
   - component: {fileID: 23033362474849526}
+  - component: {fileID: 114615443619348114}
   m_Layer: 0
   m_Name: ExitPoint_Road
   m_TagString: Untagged
@@ -41,8 +42,8 @@ GameObject:
   - component: {fileID: 23313471756354664}
   - component: {fileID: 64399367503257868}
   m_Layer: 0
-  m_Name: Road_Widening
-  m_TagString: Untagged
+  m_Name: Exit_Road
+  m_TagString: Road Piece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -178,3 +179,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114615443619348114
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1670002398617470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88f3833afdf8ed24197ba3b112c4fdf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  haveRoad: 0
+  roadName: 

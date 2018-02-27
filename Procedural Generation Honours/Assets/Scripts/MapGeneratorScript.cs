@@ -260,6 +260,11 @@ public class MapGeneratorScript : MonoBehaviour {
             seedInputField.text = "";
         }
     }
+
+    void ChooseRoadPiece()
+    {
+
+    }
 }
 
 

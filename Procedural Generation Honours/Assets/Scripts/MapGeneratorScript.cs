@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class MapGeneratorScript : MonoBehaviour {
 
@@ -69,6 +70,8 @@ public class MapGeneratorScript : MonoBehaviour {
                 gridCount++;
             }
         }
+        Vector3 testPos = new Vector3();
+        List<GameObject> goAtPos = gridPath.Where(x => x.transform.position == testPos).ToList();
     }
 
     void BuildMap()

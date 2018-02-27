@@ -77,18 +77,15 @@ LightmapSettings:
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
-    m_PVRFilterTypeDirect: 0
-    m_PVRFilterTypeIndirect: 0
-    m_PVRFilterTypeAO: 0
+    m_PVRFiltering: 0
     m_PVRFilteringMode: 1
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
     m_PVRFilteringGaussRadiusAO: 2
-    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
-    m_PVRFilteringAtrousPositionSigmaIndirect: 2
-    m_PVRFilteringAtrousPositionSigmaAO: 1
-    m_ShowResolutionOverlay: 1
+    m_PVRFilteringAtrousColorSigma: 1
+    m_PVRFilteringAtrousNormalSigma: 1
+    m_PVRFilteringAtrousPositionSigma: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -110,8 +107,6 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
-    debug:
-      m_Flags: 0
   m_NavMeshData: {fileID: 0}
 --- !u!1 &41770949
 GameObject:
@@ -258,11 +253,11 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+  m_StereoMirrorMode: 0
 --- !u!4 &69684840
 Transform:
   m_ObjectHideFlags: 0
@@ -898,11 +893,11 @@ MonoBehaviour:
     type: 2}
   getawayVehiclePrefab: {fileID: 1450834509033030, guid: 51febbe5849ca1f4684fbaf10bf87fb5,
     type: 2}
-  escapePathPreFab:
-  - {fileID: 1659542645964364, guid: b3350fe69982fa246b6f7219b07053c4, type: 2}
-  - {fileID: 1899928636344018, guid: 17e114cbb5d22234097e6cbf0a4414a2, type: 2}
-  - {fileID: 1664331438409630, guid: 81dcfea8eadbb9d40815312b70560c86, type: 2}
-  - {fileID: 1041353202830146, guid: e9f788a0bd804d04db1eedcf598645ed, type: 2}
+  buildingBlocks:
+  - {fileID: 1948207233843146, guid: bf2b0072231d2af4aa774e376af7cca1, type: 2}
+  - {fileID: 1044576547876792, guid: 0fa1069eafaeac9428dffdec698f26fa, type: 2}
+  - {fileID: 1742870977948756, guid: 2b5522fd90f1e5b41b69d470a7d55b88, type: 2}
+  - {fileID: 1956206006462808, guid: 9ecc944a694154949b40cf75c7de21ad, type: 2}
   fillerPreFab:
   - {fileID: 1875679751427462, guid: a3039a3b46ac7b24da478e474f9f375a, type: 2}
   - {fileID: 1406436339326988, guid: cc3f3e673e1946d44a01e46af40c2e8a, type: 2}

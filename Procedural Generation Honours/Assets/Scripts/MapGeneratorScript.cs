@@ -7,7 +7,7 @@ using System.Linq;
 public class MapGeneratorScript : MonoBehaviour {
 
     public GameObject startPointPreFab, exitPointPreFab, getawayVehiclePrefab;
-    public GameObject[] escapePathPreFab;
+    public GameObject[] buildingBlocks;
     public GameObject[] fillerPreFab;
     public InputField seedInputField;
     public Text seedHolder;
@@ -70,7 +70,7 @@ public class MapGeneratorScript : MonoBehaviour {
         {
             for (int makeHeight = 0; makeHeight < gridHeight; makeHeight++)
             {
-                gridPath.Add(Instantiate(escapePathPreFab[0], new Vector3(findCornerWidth + makeWidth, 0, findCornerHeight + makeHeight), Quaternion.identity));
+                gridPath.Add(Instantiate(buildingBlocks[0], new Vector3(findCornerWidth + makeWidth, 0, findCornerHeight + makeHeight), Quaternion.identity));
                 gridCount++;
             }
         }
@@ -98,7 +98,7 @@ public class MapGeneratorScript : MonoBehaviour {
         int tileCount = 0;
         while (exitFound == false)
         {
-            escapeRoute.Add(Instantiate(escapePathPreFab[0], ChooseNextTile(currentTile.transform.position, preExitTile), Quaternion.identity));
+            escapeRoute.Add(Instantiate(buildingBlocks[1], ChooseNextTile(currentTile.transform.position, preExitTile), Quaternion.identity));
             currentTile = escapeRoute[tileCount];
             tileCount++;
         }
@@ -111,12 +111,11 @@ public class MapGeneratorScript : MonoBehaviour {
             }
             else if (gridPath[x].transform.position.z == gridHeight / 2 || gridPath[x].transform.position.z == findCornerHeight || gridPath[x].transform.position.x == gridWidth / 2 || gridPath[x].transform.position.x == findCornerWidth)
             {
-                instantiatedMap[x] = Instantiate(fillerPreFab[2], gridPath[x].transform.position, Quaternion.identity);
+                instantiatedMap[x] = Instantiate(buildingBlocks[3], gridPath[x].transform.position, Quaternion.identity);
             }
             else
             {
-                int randomNumber = Mathf.RoundToInt(Random.Range(0.0f, 3.0f));
-                instantiatedMap[x] = Instantiate(fillerPreFab[randomNumber], gridPath[x].transform.position, Quaternion.identity);
+                instantiatedMap[x] = Instantiate(buildingBlocks[2], gridPath[x].transform.position, Quaternion.identity);
                 
             }
             foreach (GameObject escapeVector in escapeRoute)

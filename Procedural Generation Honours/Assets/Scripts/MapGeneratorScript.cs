@@ -24,11 +24,15 @@ public class MapGeneratorScript : MonoBehaviour {
     int findCornerWidth = 0;
 
     // Use this for initialization
-    void Start () {        
+    void Start ()
+    {
+        seed = Random.Range(-10000, 10000);
+        Random.InitState(seed);
+
         BuildGrid();
         BuildMap();
 
-        seed = Mathf.RoundToInt(Random.seed);
+        //seed = Mathf.RoundToInt(Random.seed);
         seedHolder.text = "Current Seed = " + seed;
     }
 	
@@ -204,6 +208,10 @@ public class MapGeneratorScript : MonoBehaviour {
     {
         if (chosenSeed == 0)
         {
+            seed = Random.Range(-10000, 10000);
+            Random.InitState(seed);
+            seedHolder.text = "Current Seed = " + seed;
+            
             for (int eachGridPoint = 0; eachGridPoint < instantiatedMap.Length; eachGridPoint++)
             {
                 Destroy(instantiatedMap[eachGridPoint], 0.0f);
@@ -223,14 +231,11 @@ public class MapGeneratorScript : MonoBehaviour {
             BuildGrid();
             BuildMap();
 
-            seed = Mathf.RoundToInt(Random.seed);
-            print(seed);
-            seedHolder.text = "Current Seed = " + seed;
         }
         else
         {            
-            seed = System.Convert.ToInt32(seedInputField.text);
-            Random.InitState(seed);
+            long seed = System.Convert.ToInt64(seedInputField.text);
+            Random.InitState((int)seed);
 
             for (int eachGridPoint = 0; eachGridPoint < instantiatedMap.Length; eachGridPoint++)
             {

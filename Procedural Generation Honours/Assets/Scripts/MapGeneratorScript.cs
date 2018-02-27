@@ -7,6 +7,7 @@ public class MapGeneratorScript : MonoBehaviour {
 
     public GameObject startPointPreFab, exitPointPreFab, getawayVehiclePrefab;
     public GameObject[] escapePathPreFab;
+    public GameObject[] fillerPreFab;
     public InputField seedInputField;
     public Text seedHolder;
     private GameObject startPoint, currentTile, exitPoint, getAwayVehicle;
@@ -26,7 +27,7 @@ public class MapGeneratorScript : MonoBehaviour {
         BuildGrid();
         BuildMap();
 
-        seed = 12345;
+        seed = Mathf.RoundToInt(Random.seed);
         seedHolder.text = "Current Seed = " + seed;
     }
 	
@@ -103,11 +104,12 @@ public class MapGeneratorScript : MonoBehaviour {
             }
             else if (gridPath[x].transform.position.z == gridHeight / 2 || gridPath[x].transform.position.z == findCornerHeight || gridPath[x].transform.position.x == gridWidth / 2 || gridPath[x].transform.position.x == findCornerWidth)
             {
-                instantiatedMap[x] = Instantiate(escapePathPreFab[2], gridPath[x].transform.position, Quaternion.identity);
+                instantiatedMap[x] = Instantiate(fillerPreFab[2], gridPath[x].transform.position, Quaternion.identity);
             }
             else
             {
-                instantiatedMap[x] = Instantiate(escapePathPreFab[1], gridPath[x].transform.position, Quaternion.identity);
+                int randomNumber = Mathf.RoundToInt(Random.Range(0.0f, 3.0f));
+                instantiatedMap[x] = Instantiate(fillerPreFab[randomNumber], gridPath[x].transform.position, Quaternion.identity);
                 
             }
             foreach (GameObject escapeVector in escapeRoute)

@@ -19,6 +19,8 @@ public class MapGeneratorScript : MonoBehaviour {
     public int gridWidth, gridHeight = 0;
     [SerializeField]
     int seed;
+    public float percentageChancePark;
+    int numberOfParkTiles;
     bool exitFound;
     int findCornerHeight = 0;
     int findCornerWidth = 0;
@@ -34,6 +36,10 @@ public class MapGeneratorScript : MonoBehaviour {
 
         //seed = Mathf.RoundToInt(Random.seed);
         seedHolder.text = "Current Seed = " + seed;
+        percentageChancePark = 0.20f;
+        numberOfParkTiles = Mathf.RoundToInt(((gridWidth * gridHeight) - (((gridWidth * 2) + (gridHeight * 2)) - 2)) * percentageChancePark);
+        print("Number of park Tiles is = " + numberOfParkTiles);
+        
     }
 	
 	// Update is called once per frame
@@ -111,12 +117,12 @@ public class MapGeneratorScript : MonoBehaviour {
             }
             else if (gridPath[x].transform.position.z == gridHeight / 2 || gridPath[x].transform.position.z == findCornerHeight || gridPath[x].transform.position.x == gridWidth / 2 || gridPath[x].transform.position.x == findCornerWidth)
             {
-                instantiatedMap[x] = Instantiate(buildingBlocks[3], gridPath[x].transform.position, Quaternion.identity);
+                instantiatedMap[x] = Instantiate(buildingBlocks[4], gridPath[x].transform.position, Quaternion.identity);
             }
             else
             {
                 instantiatedMap[x] = Instantiate(buildingBlocks[2], gridPath[x].transform.position, Quaternion.identity);
-                
+                ChooseRoadPiece(instantiatedMap[x]);
             }
             foreach (GameObject escapeVector in escapeRoute)
             {
@@ -132,6 +138,7 @@ public class MapGeneratorScript : MonoBehaviour {
         {
             Destroy(gridPath[eachGridPoint], 0.0f);
         }
+        
     }
 
     void ChooseExitPoint()
@@ -230,6 +237,8 @@ public class MapGeneratorScript : MonoBehaviour {
             BuildGrid();
             BuildMap();
 
+            numberOfParkTiles = Mathf.RoundToInt(((gridWidth * gridHeight) - (((gridWidth * 2) + (gridHeight * 2)) - 2)) * percentageChancePark);
+            print("Number of park Tiles is = " + numberOfParkTiles);
         }
         else
         {            
@@ -258,12 +267,22 @@ public class MapGeneratorScript : MonoBehaviour {
             print(seed);
             seedHolder.text = "Current Seed = " + seed;
             seedInputField.text = "";
+
+            numberOfParkTiles = Mathf.RoundToInt(((gridWidth * gridHeight) - (((gridWidth * 2) + (gridHeight * 2)) - 2)) * percentageChancePark);
+            print("Number of park Tiles is = " + numberOfParkTiles);
         }
+        
     }
 
-    void ChooseRoadPiece()
+    void ChooseRoadPiece(GameObject chosenObject)
     {
-
+        Road_Type_Script currentTile = chosenObject.gameObject.GetComponent<Road_Type_Script>();
+        bool result = currentTile.hasRoadCheck();
+        if (result == false)
+        {
+            print("No Road Found");
+            currentTile.beginAllProcesses();
+        }
     }
 }
 

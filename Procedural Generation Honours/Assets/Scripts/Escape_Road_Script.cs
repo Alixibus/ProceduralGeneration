@@ -3,12 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Escape_Road_Script : MonoBehaviour {
-    
-    public bool haveRoad = false;
     [SerializeField]
     bool northHasRoad, southHasRoad, eastHasRoad, westHasRoad;
-    public bool exitPointNorth, exitPointSouth, exitPointEast, exitPointWest;
     public GameObject[] roadPrefabs;
+
+    [SerializeField]
+    public bool exitNorth
+    {
+        get { return exitPointNorth; }
+        set { exitPointNorth = value; }
+    }
+    public bool exitPointNorth;
+
+    [SerializeField]
+    public bool exitSouth
+    {
+        get { return exitPointSouth; }
+        set { exitPointSouth = value; }
+    }
+    public bool exitPointSouth;
+
+    [SerializeField]
+    public bool exitEast
+    {
+        get { return exitPointEast; }
+        set { exitPointEast = value; }
+    }
+    public bool exitPointEast;
+
+    [SerializeField]
+    public bool exitWest
+    {
+        get { return exitPointWest; }
+        set { exitPointWest = value; }
+    }
+    public bool exitPointWest;
+
+    [SerializeField]
+    public bool haveRoad
+    {
+        get { return thisHasRoad; }
+        set { thisHasRoad = value; }
+    }
+    public bool thisHasRoad;
 
 
     [SerializeField]
@@ -16,17 +53,10 @@ public class Escape_Road_Script : MonoBehaviour {
 
     private void Start()
     {
-        northHasRoad = false;
-        southHasRoad = false;
-        eastHasRoad = false;
-        westHasRoad = false;
-
-        exitPointNorth = false;
-        exitPointSouth = false;
-        exitPointEast = false;
-        exitPointWest = false;
-        StartCoroutine(Waiting());
+        CheckNeighbour();
+        //StartCoroutine(Waiting());
     }
+
     IEnumerator Waiting()
     {
         yield return new WaitForSeconds(0.1f);
@@ -215,10 +245,5 @@ public class Escape_Road_Script : MonoBehaviour {
                 haveRoad = true;
             }
         }
-    }
-
-    public bool hasRoadCheck()
-    {
-        return haveRoad;
     }
 }

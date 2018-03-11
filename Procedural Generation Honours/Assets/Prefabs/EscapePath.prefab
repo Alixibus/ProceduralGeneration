@@ -110,6 +110,10 @@ MonoBehaviour:
   southHasRoad: 0
   eastHasRoad: 0
   westHasRoad: 0
+  exitPointNorth: 0
+  exitPointSouth: 0
+  exitPointEast: 0
+  exitPointWest: 0
   roadPrefabs:
   - {fileID: 1406436339326988, guid: cc3f3e673e1946d44a01e46af40c2e8a, type: 2}
   - {fileID: 1497627032525892, guid: 081e19618835d8e4ea212c856ee54ee6, type: 2}

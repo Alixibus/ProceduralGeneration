@@ -2,215 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test_Road_Builder : MonoBehaviour {
+public class Test_Road_Builder : MonoBehaviour
+{    
+    [SerializeField]
+    public bool exitNorth
+    {
+        get { return exitPointNorth;  }
+        set { exitPointNorth = value; }
+    }
+    public bool exitPointNorth;
 
     [SerializeField]
-    bool haveRoad = false;
+    public bool exitSouth
+    {
+        get { return exitPointSouth; }
+        set { exitPointSouth = value; }
+    }
+    public bool exitPointSouth;
+
     [SerializeField]
-    bool northHasRoad, southHasRoad, eastHasRoad, westHasRoad;
-    bool exitPointNorth, exitPointSouth, exitPointEast, exitPointWest;
-    public GameObject[] roadPrefabs;
-    
+    public bool exitEast
+    {
+        get { return exitPointEast; }
+        set { exitPointEast = value; }
+    }
+    public bool exitPointEast;
 
     [SerializeField]
-    string roadName;
-
-    private void Start()
+    public bool exitWest
     {
-        northHasRoad = false;
-        southHasRoad = false;
-        eastHasRoad = false;
-        westHasRoad = false;
-        exitPointNorth = false;
-        exitPointSouth = false;
-        exitPointEast = false;
-        exitPointWest = false;
+        get { return exitPointWest; }
+        set { exitPointWest = value; }
+    }
+    public bool exitPointWest;
 
-        foreach (Transform child in gameObject.transform)
-        {
-            if (child.tag == "Road Piece")
-            {
-                haveRoad = true;
-                roadName = child.name;
-            }
-        }
-        StartCoroutine(Waiting());
-    }
-    IEnumerator Waiting()
+    [SerializeField]
+    public bool haveRoad
     {
-        yield return new WaitForSeconds(0.1f);
-        CheckNeighbour();
+        get { return thisHasRoad; }
+        set { thisHasRoad = value; }
     }
-
-    void CheckNeighbour()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.forward, out hit))
-        {
-            if(hit.collider.tag == "EscapePath" || hit.collider.tag == "StartPoint" || hit.collider.tag == "EndPoint")
-            {
-                northHasRoad = true;
-                //print("The North has Road");
-                //Instantiate(roadPrefabs[0], transform.position, Quaternion.identity);
-            }
-        }
-        if (Physics.Raycast(transform.position, -Vector3.forward, out hit))
-        {
-            if (hit.collider.tag == "EscapePath" || hit.collider.tag == "StartPoint" || hit.collider.tag == "EndPoint")
-            {
-                southHasRoad = true;
-                //print("The North has Road");
-                //Instantiate(roadPrefabs[0], transform.position, Quaternion.identity);
-            }
-        }
-        if (Physics.Raycast(transform.position, Vector3.right, out hit))
-        {
-            if (hit.collider.tag == "EscapePath" || hit.collider.tag == "StartPoint" || hit.collider.tag == "EndPoint")
-            {
-                eastHasRoad = true;
-                //print("The North has Road");
-                //Instantiate(roadPrefabs[0], transform.position, Quaternion.identity);
-            }
-        }
-        if (Physics.Raycast(transform.position, -Vector3.right, out hit))
-        {
-            if (hit.collider.tag == "EscapePath" || hit.collider.tag == "StartPoint" || hit.collider.tag == "EndPoint")
-            {
-                westHasRoad = true;
-                //print("The North has Road");
-                //Instantiate(roadPrefabs[0], transform.position, Quaternion.identity);
-            }
-        }
-        chooseRoad();
-    }
-
-    void chooseRoad()
-    {
-        if(northHasRoad == true && southHasRoad == true)
-        {
-            float randomise = Random.value;
-            if (randomise > 0 && randomise < 0.2f)
-            {
-                //TJunction has been selected and instantiated, road exit locations have been confirmed
-                GameObject chosenRoad = Instantiate(roadPrefabs[1], transform.position, Quaternion.identity);
-                chosenRoad.transform.SetParent(transform);                
-                exitPointNorth = true;
-                exitPointSouth = true;
-                exitPointEast = true;
-            }
-            else
-            {
-                //Straight has been selected and instantiated, road exit locations have been confirmed
-                GameObject chosenRoad = Instantiate(roadPrefabs[0], transform.position, Quaternion.identity);
-                chosenRoad.transform.SetParent(transform);
-                exitPointNorth = true;
-                exitPointSouth = true;
-            }
-        }
-        if (northHasRoad == true && eastHasRoad == true)
-        {
-            float randomise = Random.value;
-            if (randomise > 0 && randomise < 0.5f)
-            {
-                //TJunction has been selected and instantiated, road exit locations have been confirmed
-                GameObject chosenRoad = Instantiate(roadPrefabs[1], transform.position, Quaternion.Euler(0, 270, 0));
-                chosenRoad.transform.SetParent(transform);
-                exitPointNorth = true;
-                exitPointEast = true;
-                exitPointWest = true;
-            }
-            else
-            {
-                //Corner has been selected and instantiated, road exit locations have been confirmed
-                GameObject chosenRoad = Instantiate(roadPrefabs[2], transform.position, Quaternion.identity);
-                chosenRoad.transform.SetParent(transform);
-                exitPointNorth = true;
-                exitPointEast = true;
-            }
-        }
-        if (northHasRoad == true && westHasRoad == true)
-        {
-            float randomise = Random.value;
-            if (randomise > 0 && randomise < 0.5f)
-            {
-                //TJunction has been selected and instantiated, road exit locations have been confirmed
-                GameObject chosenRoad = Instantiate(roadPrefabs[1], transform.position, Quaternion.Euler(0, 270, 0));
-                chosenRoad.transform.SetParent(transform);
-                exitPointNorth = true;
-                exitPointEast = true;
-                exitPointWest = true;
-            }
-            else
-            {
-                //Corner has been selected and instantiated, road exit locations have been confirmed
-                GameObject chosenRoad = Instantiate(roadPrefabs[2], transform.position, Quaternion.identity);
-                chosenRoad.transform.SetParent(transform);
-                exitPointNorth = true;
-                exitPointWest = true;
-            }
-        }
-        if (southHasRoad == true && eastHasRoad == true)
-        {
-            float randomise = Random.value;
-            if (randomise > 0 && randomise < 0.5f)
-            {
-                //TJunction has been selected and instantiated, road exit locations have been confirmed
-                GameObject chosenRoad = Instantiate(roadPrefabs[1], transform.position, Quaternion.Euler(0, 90, 0));
-                chosenRoad.transform.SetParent(transform);
-                exitPointSouth = true;
-                exitPointEast = true;
-                exitPointWest = true;
-            }
-            else
-            {
-                //Corner has been selected and instantiated, road exit locations have been confirmed
-                GameObject chosenRoad = Instantiate(roadPrefabs[2], transform.position, Quaternion.identity);
-                chosenRoad.transform.SetParent(transform);
-                exitPointSouth = true;
-                exitPointEast = true;
-            }
-        }
-        if (southHasRoad == true && westHasRoad == true)
-        {
-            float randomise = Random.value;
-            if (randomise > 0 && randomise < 0.5f)
-            {
-                //TJunction has been selected and instantiated, road exit locations have been confirmed
-                GameObject chosenRoad = Instantiate(roadPrefabs[1], transform.position, Quaternion.Euler(0, 90, 0));
-                chosenRoad.transform.SetParent(transform);
-                exitPointSouth = true;
-                exitPointEast = true;
-                exitPointWest = true;
-            }
-            else
-            {
-                //Corner has been selected and instantiated, road exit locations have been confirmed
-                GameObject chosenRoad = Instantiate(roadPrefabs[2], transform.position, Quaternion.identity);
-                chosenRoad.transform.SetParent(transform);
-                exitPointSouth = true;
-                exitPointWest = true;
-            }
-        }
-        if (eastHasRoad == true && westHasRoad == true)
-        {
-            float randomise = Random.value;
-            if(randomise > 0 && randomise < 0.2f)
-            {
-                //TJunction has been selected and instantiated, road exit locations have been confirmed
-                GameObject chosenRoad = Instantiate(roadPrefabs[1], transform.position, Quaternion.Euler(0, 90, 0));
-                chosenRoad.transform.SetParent(transform);
-                exitPointSouth = true;
-                exitPointEast = true;
-                exitPointWest = true;
-            }
-            else
-            {
-                //Straight has been selected and instantiated, road exit locations have been confirmed
-                GameObject chosenRoad = Instantiate(roadPrefabs[0], transform.position, Quaternion.Euler(0, 90, 0));
-                chosenRoad.transform.SetParent(transform);
-                exitPointEast = true;
-                exitPointWest = true;
-            }            
-        }
-    }
+    public bool thisHasRoad;
 }

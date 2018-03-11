@@ -10,6 +10,7 @@ public class Road_Type_Script : MonoBehaviour {
     bool northHasRoad, southHasRoad, eastHasRoad, westHasRoad;
     public bool exitPointNorth, exitPointSouth, exitPointEast, exitPointWest;
     public GameObject[] roadPrefabs;
+    public GameObject northNeighbour, southNeighbour, eastNeighbour, westNeighbour;
     int counter = 0;
 
 
@@ -55,11 +56,11 @@ public class Road_Type_Script : MonoBehaviour {
                roadScriptHolder = hit.transform.gameObject.GetComponent<Road_Type_Script>();
             }
 
-            if (hit.transform.gameObject.GetComponent<Escape_Road_Script>() != null && escapeScriptHolder.exitPointSouth == true)
+            if (hit.transform.gameObject.GetComponent<Escape_Road_Script>() != null && escapeScriptHolder.exitPointSouth == true && escapeScriptHolder.haveRoad == true)
             {
                 northHasRoad = true;
             }
-            else if (hit.transform.gameObject.GetComponent<Road_Type_Script>() != null && roadScriptHolder.exitPointSouth == true)
+            else if (hit.transform.gameObject.GetComponent<Road_Type_Script>() != null && roadScriptHolder.exitPointSouth == true && roadScriptHolder.haveRoad == true)
             {
                 northHasRoad = true;
             }
@@ -84,11 +85,11 @@ public class Road_Type_Script : MonoBehaviour {
             {
                 roadScriptHolder = hit.transform.gameObject.GetComponent<Road_Type_Script>();
             }
-            if (hit.transform.gameObject.GetComponent<Escape_Road_Script>() != null && escapeScriptHolder.exitPointNorth == true)
+            if (hit.transform.gameObject.GetComponent<Escape_Road_Script>() != null && escapeScriptHolder.exitPointNorth == true && escapeScriptHolder.haveRoad == true)
             {
                 southHasRoad = true;
             }
-            else if (hit.transform.gameObject.GetComponent<Road_Type_Script>() != null && roadScriptHolder.exitPointNorth == true)
+            else if (hit.transform.gameObject.GetComponent<Road_Type_Script>() != null && roadScriptHolder.exitPointNorth == true && roadScriptHolder.haveRoad == true)
             {
                 southHasRoad = true;
             }
@@ -113,11 +114,11 @@ public class Road_Type_Script : MonoBehaviour {
             {
                 roadScriptHolder = hit.transform.gameObject.GetComponent<Road_Type_Script>();
             }
-            if (hit.transform.gameObject.GetComponent<Escape_Road_Script>() != null && escapeScriptHolder.exitPointWest == true)
+            if (hit.transform.gameObject.GetComponent<Escape_Road_Script>() != null && escapeScriptHolder.exitPointWest == true && escapeScriptHolder.haveRoad == true)
             {
                 eastHasRoad = true;
             }
-            else if (hit.transform.gameObject.GetComponent<Road_Type_Script>() != null && roadScriptHolder.exitPointWest == true)
+            else if (hit.transform.gameObject.GetComponent<Road_Type_Script>() != null && roadScriptHolder.exitPointWest == true && roadScriptHolder.haveRoad == true)
             {
                 eastHasRoad = true;
             }
@@ -142,11 +143,11 @@ public class Road_Type_Script : MonoBehaviour {
             {
                 roadScriptHolder = hit.transform.gameObject.GetComponent<Road_Type_Script>();
             }
-            if (hit.transform.gameObject.GetComponent<Escape_Road_Script>() != null && escapeScriptHolder.exitPointEast == true)
+            if (hit.transform.gameObject.GetComponent<Escape_Road_Script>() != null && escapeScriptHolder.exitPointEast == true && escapeScriptHolder.haveRoad == true)
             {
                 westHasRoad = true;
             }
-            else if (hit.transform.gameObject.GetComponent<Road_Type_Script>() != null && roadScriptHolder.exitPointEast == true)
+            else if (hit.transform.gameObject.GetComponent<Road_Type_Script>() != null && roadScriptHolder.exitPointEast == true && roadScriptHolder.haveRoad == true)
             {
                 westHasRoad = true;
             }
@@ -284,7 +285,7 @@ public class Road_Type_Script : MonoBehaviour {
         if (eastHasRoad == true && westHasRoad == true)
         {
             float randomise = Random.value;
-            if (randomise > 0 && randomise < 0.2f && southHasRoad == true)
+            if (randomise > 0 && randomise < 0.5f && southHasRoad == true)
             {
                 //TJunction has been selected and instantiated, road exit locations have been confirmed
                 GameObject chosenRoad = Instantiate(roadPrefabs[1], transform.position, Quaternion.Euler(0, 90, 0));
@@ -304,10 +305,21 @@ public class Road_Type_Script : MonoBehaviour {
                 haveRoad = true;
             }
         }
-        if(northHasRoad == true && southHasRoad == false && eastHasRoad == false && westHasRoad == false)
+        if (northHasRoad == true && southHasRoad == false && eastHasRoad == false && westHasRoad == false)
         {
-            float randomise = Random.value;
-            if(randomise > 0 && randomise < 0.5f)
+            float randomise = Random.value;            
+
+            if ((randomise > 0 && randomise < 0.5f) && (southHasRoad == false && eastHasRoad == false && westHasRoad == false))
+            {
+                GameObject chosenRoad = Instantiate(roadPrefabs[3], transform.position, Quaternion.identity);
+                chosenRoad.transform.SetParent(transform);
+                exitPointNorth = true;
+                exitPointSouth = true;
+                exitPointEast = true;
+                exitPointWest = true;
+                haveRoad = true;
+            }
+            else
             {
                 GameObject chosenRoad = Instantiate(roadPrefabs[4], transform.position, Quaternion.identity);
                 chosenRoad.transform.SetParent(transform);
@@ -317,7 +329,13 @@ public class Road_Type_Script : MonoBehaviour {
                 exitPointWest = false;
                 haveRoad = true;
             }
-            else
+        }
+
+        if (northHasRoad == false && southHasRoad == true && eastHasRoad == false && westHasRoad == false)
+        {
+            float randomise = Random.value;               
+
+            if (randomise > 0 && randomise < 0.5f && (northHasRoad == false && westHasRoad == false && eastHasRoad == false))
             {
                 GameObject chosenRoad = Instantiate(roadPrefabs[3], transform.position, Quaternion.identity);
                 chosenRoad.transform.SetParent(transform);
@@ -327,11 +345,7 @@ public class Road_Type_Script : MonoBehaviour {
                 exitPointWest = true;
                 haveRoad = true;
             }
-        }
-        if (northHasRoad == false && southHasRoad == true && eastHasRoad == false && westHasRoad == false)
-        {
-            float randomise = Random.value;
-            if (randomise > 0 && randomise < 0.5f)
+            else
             {
                 GameObject chosenRoad = Instantiate(roadPrefabs[4], transform.position, Quaternion.Euler(0, 180, 0));
                 chosenRoad.transform.SetParent(transform);
@@ -341,7 +355,12 @@ public class Road_Type_Script : MonoBehaviour {
                 exitPointWest = false;
                 haveRoad = true;
             }
-            else
+        }
+
+        if (northHasRoad == false && southHasRoad == false && eastHasRoad == true && westHasRoad == false)
+        {
+            float randomise = Random.value;
+            if (randomise > 0 && randomise < 0.5f && (northHasRoad == false && southHasRoad == false && westHasRoad == false))
             {
                 GameObject chosenRoad = Instantiate(roadPrefabs[3], transform.position, Quaternion.identity);
                 chosenRoad.transform.SetParent(transform);
@@ -351,11 +370,7 @@ public class Road_Type_Script : MonoBehaviour {
                 exitPointWest = true;
                 haveRoad = true;
             }
-        }
-        if (northHasRoad == false && southHasRoad == false && eastHasRoad == true && westHasRoad == false)
-        {
-            float randomise = Random.value;
-            if (randomise > 0 && randomise < 0.5f)
+            else
             {
                 GameObject chosenRoad = Instantiate(roadPrefabs[4], transform.position, Quaternion.Euler(0, 90, 0));
                 chosenRoad.transform.SetParent(transform);
@@ -365,7 +380,12 @@ public class Road_Type_Script : MonoBehaviour {
                 exitPointWest = false;
                 haveRoad = true;
             }
-            else
+        }
+
+        if (northHasRoad == false && southHasRoad == false && eastHasRoad == false && westHasRoad == true)
+        {
+            float randomise = Random.value;
+            if (randomise > 0 && randomise < 0.5f && (northHasRoad == false && southHasRoad == false && eastHasRoad == false))
             {
                 GameObject chosenRoad = Instantiate(roadPrefabs[3], transform.position, Quaternion.identity);
                 chosenRoad.transform.SetParent(transform);
@@ -373,29 +393,15 @@ public class Road_Type_Script : MonoBehaviour {
                 exitPointSouth = true;
                 exitPointEast = true;
                 exitPointWest = true;
-                haveRoad = true;
-            }
-        }
-        if (northHasRoad == false && southHasRoad == false && eastHasRoad == false && westHasRoad == true)
-        {
-            float randomise = Random.value;
-            if (randomise > 0 && randomise < 0.5f)
-            {
-                GameObject chosenRoad = Instantiate(roadPrefabs[4], transform.position, Quaternion.Euler(0, 270, 0));
-                chosenRoad.transform.SetParent(transform);
-                exitPointNorth = true;
-                exitPointSouth = false;
-                exitPointEast = false;
-                exitPointWest = false;
-                haveRoad = true;
+                haveRoad = true;               
             }
             else
             {
-                GameObject chosenRoad = Instantiate(roadPrefabs[3], transform.position, Quaternion.identity);
+                GameObject chosenRoad = Instantiate(roadPrefabs[4], transform.position, Quaternion.Euler(0, 270, 0));
                 chosenRoad.transform.SetParent(transform);
-                exitPointNorth = true;
-                exitPointSouth = true;
-                exitPointEast = true;
+                exitPointNorth = false;
+                exitPointSouth = false;
+                exitPointEast = false;
                 exitPointWest = true;
                 haveRoad = true;
             }
@@ -416,5 +422,22 @@ public class Road_Type_Script : MonoBehaviour {
     public bool hasRoadCheck()
     {
         return haveRoad;
+    }
+
+    public void setNorthNeighbour(GameObject neighbour)
+    {
+        northNeighbour = neighbour;
+    }
+    public void setSouthNeighbour(GameObject neighbour)
+    {
+        southNeighbour = neighbour;
+    }
+    public void setEastNeighbour(GameObject neighbour)
+    {
+        eastNeighbour = neighbour;
+    }
+    public void setWestNeighbour(GameObject neighbour)
+    {
+        westNeighbour = neighbour;
     }
 }

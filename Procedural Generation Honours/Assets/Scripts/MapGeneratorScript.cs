@@ -14,7 +14,7 @@ public class MapGeneratorScript : MonoBehaviour {
     private GameObject startPoint, currentTile, exitPoint, getAwayVehicle;
     private Vector3 preExitTile;
     private List<GameObject> gridPath;
-    private GameObject[] instantiatedMap;
+    private GameObject[,] instantiatedMap;
     private List<GameObject> escapeRoute;
     public int gridWidth, gridHeight = 0;
     [SerializeField]
@@ -28,7 +28,8 @@ public class MapGeneratorScript : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        seed = Random.Range(-10000, 10000);
+        //seed = Random.Range(-10000, 10000);
+        seed = 2074; //for Testing purposes 
         Random.InitState(seed);
 
         BuildGrid();
@@ -66,15 +67,15 @@ public class MapGeneratorScript : MonoBehaviour {
             }
         }
 
-        findCornerHeight -= gridHeight / 2;
-        findCornerWidth -= gridWidth / 2;
+        findCornerHeight = 0;
+        findCornerWidth = 0;
         int totalGridPoints = gridWidth * gridHeight;
         gridPath = new List<GameObject>();
 
         int gridCount = 0;
-        for (int makeWidth = 0; makeWidth < gridWidth; makeWidth++)
+        for (int makeWidth = 0; makeWidth <= gridWidth; makeWidth++)
         {
-            for (int makeHeight = 0; makeHeight < gridHeight; makeHeight++)
+            for (int makeHeight = 0; makeHeight <= gridHeight; makeHeight++)
             {
                 gridPath.Add(Instantiate(buildingBlocks[0], new Vector3(findCornerWidth + makeWidth, 0, findCornerHeight + makeHeight), Quaternion.identity));
                 gridCount++;
@@ -88,57 +89,84 @@ public class MapGeneratorScript : MonoBehaviour {
     {
         exitFound = false;
         //Instantiate(prefabObjects[0], new Vector3(0, 0, 0), Quaternion.identity);
-        instantiatedMap = new GameObject[gridPath.Count];
+        instantiatedMap = new GameObject[gridWidth + 1, gridHeight + 1];
         escapeRoute = new List<GameObject>();
         //Generate start point near inner circle, for testing only use 0,0
-        int randomStart = Mathf.RoundToInt(Random.Range(-1.0f, 1.0f));
-        //startPoint = Instantiate(startPointPreFab, new Vector3(randomStart, 0, randomStart), Quaternion.identity);
-       
-        startPoint = Instantiate(startPointPreFab, new Vector3(0, 0, 0), Quaternion.identity);
+        //int randomStart = Mathf.RoundToInt(Random.Range(-1.0f, 1.0f));
+        startPoint = Instantiate(startPointPreFab, new Vector3(Mathf.RoundToInt(gridWidth / 2), 0, Mathf.RoundToInt(gridHeight / 2)), Quaternion.identity);
+        instantiatedMap[Mathf.RoundToInt(startPoint.transform.position.x), Mathf.RoundToInt(startPoint.transform.position.z)] = startPoint;
+
+        //startPoint = Instantiate(startPointPreFab, new Vector3(0, 0, 0), Quaternion.identity);
         getAwayVehicle = Instantiate(getawayVehiclePrefab, new Vector3(startPoint.transform.position.x + 0.077f, startPoint.transform.position.y + 0.078f, startPoint.transform.position.z + 0.346f), Quaternion.identity);
 
         //Generate exit Route on Outer
         ChooseExitPoint();
+        instantiatedMap[Mathf.RoundToInt(exitPoint.transform.position.x), Mathf.RoundToInt(exitPoint.transform.position.z)] = exitPoint;
         currentTile = startPoint;
 
         int tileCount = 0;
         while (exitFound == false)
         {
-            escapeRoute.Add(Instantiate(buildingBlocks[1], ChooseNextTile(currentTile.transform.position, preExitTile), Quaternion.identity));
-            currentTile = escapeRoute[tileCount];
+            //escapeRoute.Add(Instantiate(buildingBlocks[1], ChooseNextTile(currentTile.transform.position, preExitTile), Quaternion.identity));
+            GameObject tempObjectHolder = Instantiate(buildingBlocks[1], ChooseNextTile(currentTile.transform.position, preExitTile), Quaternion.identity);
+            instantiatedMap[Mathf.RoundToInt(tempObjectHolder.transform.position.x), Mathf.RoundToInt(tempObjectHolder.transform.position.z)] = tempObjectHolder;
+            currentTile = tempObjectHolder;
             tileCount++;
         }
 
         for (int x = 0; x < instantiatedMap.Length; x++)
         {
+            
             if (gridPath[x].transform.position == startPoint.transform.position || gridPath[x].transform.position == exitPoint.transform.position)
             {
                 continue;
             }
-            else if (gridPath[x].transform.position.z == gridHeight / 2 || gridPath[x].transform.position.z == findCornerHeight || gridPath[x].transform.position.x == gridWidth / 2 || gridPath[x].transform.position.x == findCornerWidth)
+            else if (gridPath[x].transform.position.z == gridHeight || gridPath[x].transform.position.z == findCornerHeight || gridPath[x].transform.position.x == gridWidth || gridPath[x].transform.position.x == findCornerWidth)
             {
-                instantiatedMap[x] = Instantiate(buildingBlocks[4], gridPath[x].transform.position, Quaternion.identity);
+                
+                instantiatedMap[Mathf.RoundToInt(gridPath[x].transform.position.x), Mathf.RoundToInt(gridPath[x].transform.position.z)] = Instantiate(buildingBlocks[4], gridPath[x].transform.position, Quaternion.identity);
             }
             else
             {
-                instantiatedMap[x] = Instantiate(buildingBlocks[2], gridPath[x].transform.position, Quaternion.identity);
-                ChooseRoadPiece(instantiatedMap[x]);
+                if (instantiatedMap[Mathf.RoundToInt(gridPath[x].transform.position.x), Mathf.RoundToInt(gridPath[x].transform.position.z)] == null)
+                {
+                    float randomize = Random.value;
+                    if (randomize < 0.1)
+                    {
+                        instantiatedMap[Mathf.RoundToInt(gridPath[x].transform.position.x), Mathf.RoundToInt(gridPath[x].transform.position.z)] = Instantiate(buildingBlocks[3], gridPath[x].transform.position, Quaternion.identity);
+                    }
+                    else
+                    {
+                        instantiatedMap[Mathf.RoundToInt(gridPath[x].transform.position.x), Mathf.RoundToInt(gridPath[x].transform.position.z)] = Instantiate(buildingBlocks[2], gridPath[x].transform.position, Quaternion.identity);
+                    }
+                    
+                }
+
             }
-            foreach (GameObject escapeVector in escapeRoute)
+            /*foreach (GameObject escapeVector in escapeRoute)
             {
                 if (gridPath[x].transform.position == escapeVector.transform.position)
                 {
-                    Destroy(instantiatedMap[x], 0.0f);
+                    Destroy(instantiatedMap[Mathf.RoundToInt(gridPath[x].transform.position.x), Mathf.RoundToInt(gridPath[x].transform.position.z)], 0.0f);
                     break;
                 }
-            }
+            }*/
         }        
 
         for (int eachGridPoint = 0; eachGridPoint < gridPath.Count; eachGridPoint++)
         {
             Destroy(gridPath[eachGridPoint], 0.0f);
         }
-        
+
+        addNeighbours();
+        foreach (GameObject chosenTiles in instantiatedMap)
+        {
+            if (chosenTiles.GetComponent<Test_Road_Builder>() != null)
+            {
+                //chosenTiles.GetComponent<Test_Road_Builder>().beginAllProcesses();
+            }
+        }
+            
     }
 
     void ChooseExitPoint()
@@ -152,7 +180,7 @@ public class MapGeneratorScript : MonoBehaviour {
         switch(randomNumber)
         {
             case 1:
-                exitPoint = Instantiate(exitPointPreFab, new Vector3(findCornerWidth + Random.Range(1, gridWidth - 1), 0, gridHeight / 2), Quaternion.Euler(0.0f,90.0f,0.0f));
+                exitPoint = Instantiate(exitPointPreFab, new Vector3(findCornerWidth + Random.Range(1, gridWidth - 1), 0, gridHeight), Quaternion.Euler(0.0f,90.0f,0.0f));
                 preExitTile = new Vector3(exitPoint.transform.position.x, exitPoint.transform.position.y, exitPoint.transform.position.z - 1);
                 break;
             case 2:
@@ -164,12 +192,12 @@ public class MapGeneratorScript : MonoBehaviour {
                 preExitTile = new Vector3(exitPoint.transform.position.x + 1, exitPoint.transform.position.y, exitPoint.transform.position.z);
                 break;
             case 4:
-                exitPoint = Instantiate(exitPointPreFab, new Vector3(gridWidth / 2, 0, findCornerHeight + Random.Range(1, gridHeight - 1)), Quaternion.Euler(0.0f, 180.0f, 0.0f));
+                exitPoint = Instantiate(exitPointPreFab, new Vector3(gridWidth, 0, findCornerHeight + Random.Range(1, gridHeight - 1)), Quaternion.Euler(0.0f, 180.0f, 0.0f));
                 preExitTile = new Vector3(exitPoint.transform.position.x - 1, exitPoint.transform.position.y, exitPoint.transform.position.z);
                 break;
             case 5:
                 //For Testing purposes
-                exitPoint = Instantiate(exitPointPreFab, new Vector3(gridWidth / 2, 0, findCornerHeight + 1), Quaternion.Euler(0.0f, 180.0f, 0.0f));
+                exitPoint = Instantiate(exitPointPreFab, new Vector3(gridWidth , 0, findCornerHeight + 1), Quaternion.Euler(0.0f, 180.0f, 0.0f));
                 preExitTile = new Vector3(exitPoint.transform.position.x - 1, exitPoint.transform.position.y, exitPoint.transform.position.z);
                 break;
             default:
@@ -218,12 +246,18 @@ public class MapGeneratorScript : MonoBehaviour {
             Random.InitState(seed);
             seedHolder.text = "Current Seed = " + seed;
             
-            for (int eachGridPoint = 0; eachGridPoint < instantiatedMap.Length; eachGridPoint++)
+            for (int x = 0; x <= gridWidth; x++)
             {
-                Destroy(instantiatedMap[eachGridPoint], 0.0f);
-                Destroy(gridPath[eachGridPoint], 0.0f);
+                for(int y = 0; y <= gridHeight; y++)
+                {
+                    Destroy(instantiatedMap[x, y], 0.0f);
+                }               
             }
-            for (int x = 0; x < escapeRoute.Count; x++)
+            for (int x = 0; x < gridPath.Count; x++)
+            {
+                Destroy(gridPath[x], 0.0f);
+            }
+                for (int x = 0; x < escapeRoute.Count; x++)
             {
                 Destroy(escapeRoute[x], 0.0f);
             }
@@ -245,10 +279,16 @@ public class MapGeneratorScript : MonoBehaviour {
             long seed = System.Convert.ToInt64(seedInputField.text);
             Random.InitState((int)seed);
 
-            for (int eachGridPoint = 0; eachGridPoint < instantiatedMap.Length; eachGridPoint++)
+            for (int x = 0; x <= gridWidth; x++)
             {
-                Destroy(instantiatedMap[eachGridPoint], 0.0f);
-                Destroy(gridPath[eachGridPoint], 0.0f);
+                for (int y = 0; y <= gridHeight; y++)
+                {
+                    Destroy(instantiatedMap[x, y], 0.0f);
+                }
+            }
+            for (int x = 0; x < gridPath.Count; x++)
+            {
+                Destroy(gridPath[x], 0.0f);
             }
             for (int x = 0; x < escapeRoute.Count; x++)
             {
@@ -274,14 +314,40 @@ public class MapGeneratorScript : MonoBehaviour {
         
     }
 
-    void ChooseRoadPiece(GameObject chosenObject)
+    void addNeighbours()
     {
-        Road_Type_Script currentTile = chosenObject.gameObject.GetComponent<Road_Type_Script>();
-        bool result = currentTile.hasRoadCheck();
-        if (result == false)
+        for (int x = 0; x < gridWidth; x++)
         {
-            print("No Road Found");
-            currentTile.beginAllProcesses();
+            for (int z = 0; z < gridHeight; z++)
+            {
+                if (instantiatedMap[x, z].transform.position.x != findCornerWidth && instantiatedMap[x, z].transform.position.z != findCornerHeight)
+                { 
+                    Test_Road_Builder roadScriptHolder = null;
+                    if (instantiatedMap[x, z].GetComponent<Test_Road_Builder>() != null)
+                    {
+                        roadScriptHolder = instantiatedMap[x, z].GetComponent<Test_Road_Builder>();
+                    }
+                    if (roadScriptHolder != null)
+                    {
+                        if ((instantiatedMap[x, z].transform.position.z + 1) < gridHeight)
+                        {
+                            //roadScriptHolder.setNorthNeighbour(instantiatedMap[x, z + 1]);
+                        }
+                        if ((instantiatedMap[x, z].transform.position.z - 1) > findCornerHeight)
+                        {
+                            //roadScriptHolder.setSouthNeighbour(instantiatedMap[x, z - 1]);
+                        }
+                        if ((instantiatedMap[x, z].transform.position.x + 1) < gridWidth)
+                        {
+                            //roadScriptHolder.setEastNeighbour(instantiatedMap[x + 1, z]);
+                        }
+                        if ((instantiatedMap[x, z].transform.position.x - 1) > findCornerWidth)
+                        {
+                            //roadScriptHolder.setWestNeighbour(instantiatedMap[x - 1, z]);
+                        }
+                    }
+                }
+            }
         }
     }
 }

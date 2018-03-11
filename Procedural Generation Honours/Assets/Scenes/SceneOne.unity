@@ -870,7 +870,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1782234016}
+      - m_Target: {fileID: 1782234017}
         m_MethodName: Generate
         m_Mode: 3
         m_Arguments:
@@ -2037,7 +2037,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1782234015}
-  - component: {fileID: 1782234016}
+  - component: {fileID: 1782234017}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2058,7 +2058,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1782234016
+--- !u!114 &1782234017
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -2066,7 +2066,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1782234014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e73119478d4d25b4aaf40746ce36c211, type: 3}
+  m_Script: {fileID: 11500000, guid: 664070c6201d6454e89df6b526ff4200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startPointPreFab: {fileID: 1897405527962658, guid: 0fd361ed5249701468469f08e4d52e61,
@@ -2081,17 +2081,34 @@ MonoBehaviour:
   - {fileID: 1742870977948756, guid: 2b5522fd90f1e5b41b69d470a7d55b88, type: 2}
   - {fileID: 1718697753274168, guid: 1f490e3ea0bc3ed4aa97c65883fb4d4f, type: 2}
   - {fileID: 1956206006462808, guid: 9ecc944a694154949b40cf75c7de21ad, type: 2}
-  fillerPreFab:
-  - {fileID: 1875679751427462, guid: a3039a3b46ac7b24da478e474f9f375a, type: 2}
-  - {fileID: 1406436339326988, guid: cc3f3e673e1946d44a01e46af40c2e8a, type: 2}
-  - {fileID: 1497627032525892, guid: 081e19618835d8e4ea212c856ee54ee6, type: 2}
-  - {fileID: 1468138092311104, guid: 56e487fd092df6d489df7bdec6d3f74b, type: 2}
   seedInputField: {fileID: 278141773}
   seedHolder: {fileID: 2097112960}
+  roadPieces:
+  - {fileID: 1406436339326988, guid: cc3f3e673e1946d44a01e46af40c2e8a, type: 2}
+  - {fileID: 1497627032525892, guid: 081e19618835d8e4ea212c856ee54ee6, type: 2}
+  - {fileID: 1656305065291224, guid: c898ab5192055e3439123acdb51c916d, type: 2}
+  - {fileID: 1875679751427462, guid: a3039a3b46ac7b24da478e474f9f375a, type: 2}
   gridWidth: 0
   gridHeight: 0
+  probabilityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   seed: 0
-  percentageChancePark: 0
 --- !u!1 &1790724647
 GameObject:
   m_ObjectHideFlags: 0
@@ -2531,7 +2548,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1782234016}
+      - m_Target: {fileID: 1782234017}
         m_MethodName: Generate
         m_Mode: 3
         m_Arguments:

@@ -8,6 +8,8 @@ TagManager:
   - StartPoint
   - EndPoint
   - EscapePath
+  - ParkPiece
+  - Boundary
   layers:
   - Default
   - TransparentFX

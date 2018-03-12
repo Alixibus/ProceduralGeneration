@@ -10,6 +10,8 @@ TagManager:
   - EscapePath
   - ParkPiece
   - Boundary
+  - Road Tile
+  - Building
   layers:
   - Default
   - TransparentFX

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33942432471590224}
   - component: {fileID: 65263323519224262}
   - component: {fileID: 23033362474849526}
+  - component: {fileID: 114214541776574980}
   m_Layer: 0
   m_Name: ExitPoint_Road
   m_TagString: EndPoint
@@ -39,7 +40,7 @@ GameObject:
   - component: {fileID: 4348537946973788}
   - component: {fileID: 33351140072670082}
   - component: {fileID: 23313471756354664}
-  - component: {fileID: 64399367503257868}
+  - component: {fileID: 65507725130592468}
   m_Layer: 0
   m_Name: Exit_Road
   m_TagString: Road Piece
@@ -152,20 +153,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1670002398617470}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &64399367503257868
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1674895935706620}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 0
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300008, guid: bca5c93adbc71744ca9ea932c796e900, type: 3}
 --- !u!65 &65263323519224262
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -178,3 +165,31 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65507725130592468
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1674895935706620}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 29.999872, y: 25.462805, z: 0.42655268}
+  m_Center: {x: 0, y: 0.00000020756637, z: 0.21327624}
+--- !u!114 &114214541776574980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1670002398617470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5244f650f37673f4b82036ad733191f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exitPointNorth: 0
+  exitPointSouth: 0
+  exitPointEast: 0
+  exitPointWest: 0
+  thisHasRoad: 0

@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 33240319066269820}
   - component: {fileID: 65128747642747684}
   - component: {fileID: 23003013996691388}
-  - component: {fileID: 114598149347482608}
+  - component: {fileID: 114597065945453816}
   m_Layer: 0
   m_Name: EscapePath
-  m_TagString: EscapePath
+  m_TagString: Road Piece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,7 +94,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114598149347482608
+--- !u!114 &114597065945453816
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -102,21 +102,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1044576547876792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c3e317f6f5c92841a0674a55deefc24, type: 3}
+  m_Script: {fileID: 11500000, guid: 5244f650f37673f4b82036ad733191f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  haveRoad: 0
-  northHasRoad: 0
-  southHasRoad: 0
-  eastHasRoad: 0
-  westHasRoad: 0
   exitPointNorth: 0
   exitPointSouth: 0
   exitPointEast: 0
   exitPointWest: 0
-  roadPrefabs:
-  - {fileID: 1406436339326988, guid: cc3f3e673e1946d44a01e46af40c2e8a, type: 2}
-  - {fileID: 1497627032525892, guid: 081e19618835d8e4ea212c856ee54ee6, type: 2}
-  - {fileID: 1656305065291224, guid: c898ab5192055e3439123acdb51c916d, type: 2}
-  - {fileID: 1875679751427462, guid: a3039a3b46ac7b24da478e474f9f375a, type: 2}
-  roadName: 
+  thisHasRoad: 0

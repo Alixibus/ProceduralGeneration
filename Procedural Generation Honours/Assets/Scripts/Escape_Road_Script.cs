@@ -6,16 +6,14 @@ public class Escape_Road_Script : MonoBehaviour {
     [SerializeField]
     bool northHasRoad, southHasRoad, eastHasRoad, westHasRoad;
     public GameObject[] roadPrefabs;
-
-    [SerializeField]
+    
     public bool exitNorth
     {
         get { return exitPointNorth; }
         set { exitPointNorth = value; }
     }
     public bool exitPointNorth;
-
-    [SerializeField]
+    
     public bool exitSouth
     {
         get { return exitPointSouth; }
@@ -23,23 +21,20 @@ public class Escape_Road_Script : MonoBehaviour {
     }
     public bool exitPointSouth;
 
-    [SerializeField]
     public bool exitEast
     {
         get { return exitPointEast; }
         set { exitPointEast = value; }
     }
     public bool exitPointEast;
-
-    [SerializeField]
+    
     public bool exitWest
     {
         get { return exitPointWest; }
         set { exitPointWest = value; }
     }
     public bool exitPointWest;
-
-    [SerializeField]
+    
     public bool haveRoad
     {
         get { return thisHasRoad; }
@@ -53,6 +48,7 @@ public class Escape_Road_Script : MonoBehaviour {
 
     private void Start()
     {
+        //StopCoroutine(Waiting());
         CheckNeighbour();
         //StartCoroutine(Waiting());
     }

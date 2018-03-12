@@ -36,6 +36,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4558158385421108}
+  - component: {fileID: 54800868687525314}
+  - component: {fileID: 65041920685887922}
   m_Layer: 0
   m_Name: GetawayVehicle
   m_TagString: Untagged
@@ -119,7 +121,7 @@ Transform:
   m_GameObject: {fileID: 1094606879435748}
   m_LocalRotation: {x: 0.000000081460335, y: -0.000000075497915, z: 6.1500856e-15,
     w: 1}
-  m_LocalPosition: {x: -73.33844, y: -29.202335, z: -126.59236}
+  m_LocalPosition: {x: -73, y: -29, z: -3}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4558158385421108}
@@ -151,7 +153,7 @@ Transform:
   m_GameObject: {fileID: 1525637087398382}
   m_LocalRotation: {x: 0.000000081460335, y: -0.000000075497915, z: 6.1500856e-15,
     w: 1}
-  m_LocalPosition: {x: 77.84822, y: -29.20236, z: -126.73514}
+  m_LocalPosition: {x: 78.18666, y: -29.00004, z: -3.1427536}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4558158385421108}
@@ -165,7 +167,7 @@ Transform:
   m_GameObject: {fileID: 1520897239941886}
   m_LocalRotation: {x: 0.000000081460335, y: -0.000000075497915, z: 6.1500856e-15,
     w: 1}
-  m_LocalPosition: {x: -73.338455, y: -29.20234, z: 147.32266}
+  m_LocalPosition: {x: -73.000015, y: -29.00002, z: 270.91507}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4558158385421108}
@@ -179,7 +181,7 @@ Transform:
   m_GameObject: {fileID: 1765027951220300}
   m_LocalRotation: {x: 0.000000081460335, y: -0.000000075497915, z: 6.1500856e-15,
     w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.33844262, y: 0.20232052, z: 123.59238}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4558158385421108}
@@ -193,7 +195,7 @@ Transform:
   m_GameObject: {fileID: 1621374675866348}
   m_LocalRotation: {x: 0.000000081460335, y: -0.000000075497915, z: 6.1500856e-15,
     w: 1}
-  m_LocalPosition: {x: 77.84821, y: -29.20235, z: 147.1799}
+  m_LocalPosition: {x: 78.18665, y: -29.00003, z: 270.7723}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4558158385421108}
@@ -398,3 +400,30 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1765027951220300}
   m_Mesh: {fileID: 4300008, guid: fe2312509b8ec0a44b4759b8d03b4bd8, type: 3}
+--- !u!54 &54800868687525314
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1450834509033030}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65041920685887922
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1450834509033030}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 181.34004, y: 143.24258, z: 476.91104}
+  m_Center: {x: 3.1099935, y: 8.163771, z: 138.65038}

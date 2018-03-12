@@ -36,7 +36,7 @@ GameObject:
   - component: {fileID: 4706499284733664}
   - component: {fileID: 33957900517017024}
   - component: {fileID: 23164515508324080}
-  - component: {fileID: 64502157297901042}
+  - component: {fileID: 65467791586998542}
   m_Layer: 0
   m_Name: Road_Intersection_A
   m_TagString: Untagged
@@ -110,8 +110,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1928207223536690}
   m_Mesh: {fileID: 4300038, guid: bca5c93adbc71744ca9ea932c796e900, type: 3}
---- !u!64 &64502157297901042
-MeshCollider:
+--- !u!65 &65467791586998542
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -120,7 +120,5 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 0
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300038, guid: bca5c93adbc71744ca9ea932c796e900, type: 3}
+  m_Size: {x: 22.499926, y: 29.999887, z: 0.44529402}
+  m_Center: {x: 0, y: -0.00000071647924, z: 0.2226469}

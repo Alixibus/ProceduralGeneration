@@ -749,7 +749,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 4ca0caed4ca503d4e8cdb983d1dadb8b, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -833,13 +833,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxMotorTorque: 10
   maxSteeringAngle: 30
+  topSpeed: 15
   truck_Infos:
   - leftWheel: {fileID: 146186600009417634}
     leftWheelMesh: {fileID: 1387531598335216}
     rightWheel: {fileID: 146654144343442874}
     rightWheelMesh: {fileID: 1956389431743186}
     motor: 1
-    speed: 0
     steering: 1
     reverseTurn: 0
   - leftWheel: {fileID: 146328988987657262}
@@ -847,7 +847,6 @@ MonoBehaviour:
     rightWheel: {fileID: 146820753222632466}
     rightWheelMesh: {fileID: 1863770395099410}
     motor: 0
-    speed: 0
     steering: 0
     reverseTurn: 0
   vehicleAudio:

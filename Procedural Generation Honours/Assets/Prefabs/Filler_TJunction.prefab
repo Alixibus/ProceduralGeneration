@@ -236,6 +236,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -251,6 +252,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -365,7 +367,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingPrefabTest:
-  - {fileID: 1940719500347730, guid: 0b940ed2eab840c40ba93bd5230b726c, type: 2}
+  - {fileID: 141268, guid: b3d3a7ba5f4d42943920370ae1696723, type: 2}
+  - {fileID: 147108, guid: 3d01ef65dd7df27469c08a5faaf917bd, type: 2}
+  - {fileID: 117616, guid: b2fcb4869e568194ebff11fc13530282, type: 2}
 --- !u!114 &114319360172733566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -378,7 +382,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingPrefabTest:
-  - {fileID: 1940719500347730, guid: 0b940ed2eab840c40ba93bd5230b726c, type: 2}
+  - {fileID: 141268, guid: b3d3a7ba5f4d42943920370ae1696723, type: 2}
+  - {fileID: 147108, guid: 3d01ef65dd7df27469c08a5faaf917bd, type: 2}
+  - {fileID: 117616, guid: b2fcb4869e568194ebff11fc13530282, type: 2}
 --- !u!114 &114593049855110460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -391,7 +397,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingPrefabTest:
-  - {fileID: 1940719500347730, guid: 0b940ed2eab840c40ba93bd5230b726c, type: 2}
+  - {fileID: 141268, guid: b3d3a7ba5f4d42943920370ae1696723, type: 2}
+  - {fileID: 147108, guid: 3d01ef65dd7df27469c08a5faaf917bd, type: 2}
+  - {fileID: 117616, guid: b2fcb4869e568194ebff11fc13530282, type: 2}
 --- !u!114 &114844239048595468
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -404,7 +412,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingPrefabTest:
-  - {fileID: 1940719500347730, guid: 0b940ed2eab840c40ba93bd5230b726c, type: 2}
+  - {fileID: 141268, guid: b3d3a7ba5f4d42943920370ae1696723, type: 2}
+  - {fileID: 147108, guid: 3d01ef65dd7df27469c08a5faaf917bd, type: 2}
+  - {fileID: 117616, guid: b2fcb4869e568194ebff11fc13530282, type: 2}
 --- !u!114 &114998941329971884
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -417,4 +427,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingPrefabTest:
-  - {fileID: 1940719500347730, guid: 0b940ed2eab840c40ba93bd5230b726c, type: 2}
+  - {fileID: 141268, guid: b3d3a7ba5f4d42943920370ae1696723, type: 2}
+  - {fileID: 147108, guid: 3d01ef65dd7df27469c08a5faaf917bd, type: 2}
+  - {fileID: 117616, guid: b2fcb4869e568194ebff11fc13530282, type: 2}

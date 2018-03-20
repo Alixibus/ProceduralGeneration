@@ -16,7 +16,8 @@ public class Test_Map_Generation : MonoBehaviour
     private List<GameObject> gridPath;
     private GameObject[,] instantiatedMap;
     public GameObject[] roadPieces;
-    public Camera gameCamera;
+    public Camera gameCamera, carCamera, minimapCamera;
+    public GameObject exitIndicator;
     private List<GameObject> escapeRoute;
     public int gridWidth, gridHeight = 0;
     public AnimationCurve probabilityCurve;
@@ -49,54 +50,7 @@ public class Test_Map_Generation : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        if (cameraFollowCar == false)
-        {
-            gameCamera.transform.position = getAwayVehicle.transform.position + new Vector3(0, 2, 0);
-            gameCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
-        }
-        if(cameraFollowCar == true)
-        {
-            gameCamera.transform.position = getAwayVehicle.transform.position + new Vector3(0, 0.03f, 0.025f);
-            gameCamera.transform.rotation = Quaternion.Euler(getAwayVehicle.transform.rotation.x, getAwayVehicle.transform.rotation.y , getAwayVehicle.transform.rotation.z);
-        }
-
-        getAwayVehicle.transform.Translate(-Vector3.forward * currentSpeed);
-        if (Input.GetKey(KeyCode.W))
-        {            
-            if(currentSpeed < topSpeed)
-            {
-                currentSpeed = currentSpeed + 0.001f;
-            }
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            if(currentSpeed > reverseSpeed)
-            {
-                currentSpeed = currentSpeed - 0.001f;
-            }
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            if(currentSpeed > 0)
-            {
-                getAwayVehicle.transform.Rotate(Vector3.up * turnSpeed);
-            }
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            if(currentSpeed > 0)
-            {
-                getAwayVehicle.transform.Rotate(-Vector3.up * turnSpeed);
-            }
-        }
-        if(Input.anyKey == false)        
-        {
-            if (currentSpeed > 0)
-            {
-                currentSpeed = currentSpeed - 0.0001f;
-            }
-        }
+    { 
         if(Input.GetKeyDown(KeyCode.C))
         {
             if(cameraFollowCar == false)

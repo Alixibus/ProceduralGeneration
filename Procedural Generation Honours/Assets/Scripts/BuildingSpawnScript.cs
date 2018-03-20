@@ -17,8 +17,24 @@ public class BuildingSpawnScript : MonoBehaviour {
     }
     void BuildBuilding()
     {
-        GameObject temptBuilding = Instantiate(buildingPrefabTest[0], new Vector3(transform.position.x, 0.5f, transform.position.z), Quaternion.identity);
-        temptBuilding.transform.SetParent(transform);
-        thisCollider.enabled = false;
+        float randomValue = Random.value;        
+        if (randomValue > 0 && randomValue < 0.3)
+        {
+            GameObject temptBuilding = Instantiate(buildingPrefabTest[0], new Vector3(transform.position.x, 0.05f, transform.position.z), Quaternion.identity);
+            temptBuilding.transform.SetParent(transform);
+            thisCollider.enabled = false;
+        }
+        if (randomValue > 0.31 && randomValue < 0.6)
+        {
+            GameObject temptBuilding = Instantiate(buildingPrefabTest[1], new Vector3(transform.position.x, 0.05f, transform.position.z), Quaternion.identity);
+            temptBuilding.transform.SetParent(transform);
+            thisCollider.enabled = false;
+        }
+        if (randomValue > 0.61)
+        {
+            GameObject temptBuilding = Instantiate(buildingPrefabTest[2], new Vector3(transform.position.x, 0.05f, transform.position.z), Quaternion.identity);
+            temptBuilding.transform.SetParent(transform);
+            thisCollider.enabled = false;
+        }
     }
 }

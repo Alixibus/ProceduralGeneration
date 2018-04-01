@@ -276,6 +276,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1001 &237495307
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0.00013537705
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.17758095
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0.04943695
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0.000000081460335
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000075497915
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 6.1500856e-15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1426805629905738, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_Name
+      value: EventSpawner
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &278141771
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,6 +673,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 585409591}
+  - component: {fileID: 585409592}
   m_Layer: 5
   m_Name: ExitIndicatorHolder
   m_TagString: Untagged
@@ -653,6 +700,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &585409592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 585409590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 116e2c91fc5cc744498f5e25c405698b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &602238458
 GameObject:
   m_ObjectHideFlags: 0

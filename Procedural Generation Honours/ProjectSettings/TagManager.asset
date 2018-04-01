@@ -12,6 +12,7 @@ TagManager:
   - Boundary
   - Road Tile
   - Building
+  - GetawayVehicle
   layers:
   - Default
   - TransparentFX

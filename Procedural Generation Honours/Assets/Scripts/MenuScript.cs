@@ -4,64 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class MapGeneratorScript : MonoBehaviour {
-
-
-    public GameObject startPointPreFab, exitPointPreFab, getawayVehiclePrefab;
+public class MenuScript : MonoBehaviour {
+    
     public GameObject[] buildingBlocks;
-    public InputField seedInputField;
-    public Text seedHolder;
-    private GameObject startPoint, currentTile, exitPoint, getAwayVehicle;
-    private Vector3 preExitTile;
     private List<GameObject> gridPath;
-    private GameObject[,] instantiatedMap;
-    public GameObject[] roadPieces;
-    public Camera gameCamera, carCamera, minimapCamera;
-    public GameObject exitIndicator;
-    private List<GameObject> escapeRoute;
     public int gridWidth, gridHeight = 0;
-    public AnimationCurve probabilityCurve;
-    [SerializeField]
-    int seed;
-    float topSpeed, currentSpeed, turnSpeed, reverseSpeed;
     int tileCount = 0;
-    bool exitFound;
-    bool cameraFollowCar = false;
     int findCornerHeight = 0;
     int findCornerWidth = 0;
 
     // Use this for initialization
     void Start()
     {
-        seed = Random.Range(-10000, 10000);
-        //seed = 2074; //for Testing purposes 
-        Random.InitState(seed);
-        topSpeed = 0.02f;
-        reverseSpeed = -0.01f;
-        turnSpeed = 2;
-
         BuildGrid();
-        BuildMap();
-
-        //seed = Mathf.RoundToInt(Random.seed);
-        seedHolder.text = "Current Seed = " + seed;
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            if (cameraFollowCar == false)
-            {
-                cameraFollowCar = true;
-            }
-            else
-            {
-                cameraFollowCar = false;
-            }
-        }
     }
 
     void BuildGrid()
@@ -82,7 +37,8 @@ public class MapGeneratorScript : MonoBehaviour {
                 gridHeight = Mathf.RoundToInt(Random.Range(5.0f, 25.0f));
             }
         }
-
+        gridHeight = 10;
+        gridWidth = 14;
         findCornerHeight = 0;
         findCornerWidth = 0;
         int totalGridPoints = gridWidth * gridHeight;
@@ -97,11 +53,11 @@ public class MapGeneratorScript : MonoBehaviour {
                 gridCount++;
             }
         }
-        Vector3 testPos = new Vector3();
-        List<GameObject> goAtPos = gridPath.Where(x => x.transform.position == testPos).ToList();
+        //Vector3 testPos = new Vector3();
+        //List<GameObject> goAtPos = gridPath.Where(x => x.transform.position == testPos).ToList();
     }
 
-    void BuildMap()
+    /*void BuildMap()
     {
         exitFound = false;
         //Instantiate(prefabObjects[0], new Vector3(0, 0, 0), Quaternion.identity);
@@ -799,8 +755,5 @@ public class MapGeneratorScript : MonoBehaviour {
                 }
             }
         }
-    }
+    }*/
 }
-
-
-

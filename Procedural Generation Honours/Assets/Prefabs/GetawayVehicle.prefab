@@ -474,7 +474,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1234194501376672}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -510,7 +510,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1857819885429006}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -791,6 +791,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxMotorTorque: 15
   maxSteeringAngle: 30
+  topSpeed: 5
+  currentSpeed: 0
   truck_Infos:
   - leftWheel: {fileID: 146495659049575978}
     leftWheelMesh: {fileID: 1175548092684510}
@@ -806,6 +808,8 @@ MonoBehaviour:
     motor: 0
     steering: 0
     reverseTurn: 0
+  vehicleAudio: []
+  engineAudio: {fileID: 0}
 --- !u!146 &146012665388989504
 WheelCollider:
   m_ObjectHideFlags: 1

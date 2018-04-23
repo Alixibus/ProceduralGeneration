@@ -29,7 +29,7 @@ public class OffScreenIndicatorScript : MonoBehaviour {
             Vector3 dir = getawayVehicle.InverseTransformPoint(endPoint.position);
             float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
 
-            //angle += 180;
+            angle += 180;
 
             transform.localEulerAngles = new Vector3(0, 180, angle);
         }

@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Linq;
 
-public class MenuScript : MonoBehaviour {
+public class MenuScript : MonoBehaviour
+{
 
     public GameObject startPointPreFab, exitPointPreFab;
     public GameObject[] buildingBlocks;
@@ -228,7 +230,7 @@ public class MenuScript : MonoBehaviour {
 
         DestroyImmediate(startPoint.gameObject);
         startPoint = null;
-        DestroyImmediate(exitPoint.gameObject);        
+        DestroyImmediate(exitPoint.gameObject);
         exitPoint = null;
         for (int x = 0; x <= gridWidth; x++)
         {
@@ -361,7 +363,7 @@ public class MenuScript : MonoBehaviour {
             {
                 continue;
             }
-            else if(gridPath[x].transform.position.z == gridHeight || gridPath[x].transform.position.z == findCornerHeight || gridPath[x].transform.position.x == gridWidth || gridPath[x].transform.position.x == findCornerWidth)
+            else if (gridPath[x].transform.position.z == gridHeight || gridPath[x].transform.position.z == findCornerHeight || gridPath[x].transform.position.x == gridWidth || gridPath[x].transform.position.x == findCornerWidth)
             {
                 instantiatedMap[Mathf.RoundToInt(gridPath[x].transform.position.x), Mathf.RoundToInt(gridPath[x].transform.position.z)] = Instantiate(buildingBlocks[4], gridPath[x].transform.position, Quaternion.identity);
             }
@@ -762,4 +764,20 @@ public class MenuScript : MonoBehaviour {
             }
         }
     }
+
+    public void MenuSelect(int choice)
+    {
+        switch(choice)
+        {
+            case 1:
+                SceneManager.LoadScene("GameScene");
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
+                break;
+        }
     }
+}

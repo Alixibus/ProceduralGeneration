@@ -43,7 +43,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -89,7 +89,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000002, guid: be8306e8f1468cc4db8b9a0af815587d,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -765,17 +766,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1782234017}
-        m_MethodName: Generate
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 657996330}
         m_MethodName: set_interactable
         m_Mode: 6
@@ -1365,7 +1355,9 @@ MonoBehaviour:
   seedInputField: {fileID: 1202364789}
   carCanvas: {fileID: 834781721}
   endCanvas: {fileID: 917331922}
-  seedHolder: {fileID: 2130057756}
+  seedNameHolder: {fileID: 2130057756}
+  obstacles:
+  - {fileID: 1130287671983668, guid: ee57c100a6e45394da0fd48c4629918f, type: 2}
   roadPieces:
   - {fileID: 1406436339326988, guid: cc3f3e673e1946d44a01e46af40c2e8a, type: 2}
   - {fileID: 1497627032525892, guid: 081e19618835d8e4ea212c856ee54ee6, type: 2}
@@ -1478,6 +1470,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!1001 &2001867990
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 10.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0.000000081460335
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000075497915
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 6.1500856e-15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374334236252806, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1330103419593266, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: eb78bc0b9c7b02a4ca5dcd1b0c247c06, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &2055526412
 GameObject:
   m_ObjectHideFlags: 0
@@ -1584,7 +1622,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2111460157}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []

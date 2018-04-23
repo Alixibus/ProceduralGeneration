@@ -15,6 +15,10 @@ TagManager:
   - GetawayVehicle
   - CarCamera
   - MinimapCamera
+  - ExitCamera
+  - ExitCameraHolder
+  - Seed Holder
+  - ObstacleSpawner
   layers:
   - Default
   - TransparentFX

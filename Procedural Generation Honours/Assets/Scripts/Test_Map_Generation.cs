@@ -11,11 +11,13 @@ public class Test_Map_Generation : MonoBehaviour
     public GameObject[] buildingBlocks;
     public InputField seedInputField;
     public Canvas carCanvas, endCanvas;
-    public Text seedHolder;
-    private GameObject startPoint, currentTile, exitPoint, getAwayVehicle;
+    public Text seedNameHolder;
+    private GameObject startPoint, currentTile, exitPoint, getAwayVehicle, seedHolder;
     private Vector3 preExitTile;
     private List<GameObject> gridPath;
     private GameObject[,] instantiatedMap;
+    private GameObject obstacleSpawner;
+    public GameObject[] obstacles;
     public GameObject[] roadPieces;
     private Camera gameCamera, carCamera, minimapCamera;
     public GameObject exitIndicator;
@@ -37,7 +39,22 @@ public class Test_Map_Generation : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        seed = Random.Range(-10000, 10000);
+        seedHolder = GameObject.Find("SeedHolder");
+        
+        if(seedHolder != null)
+        {
+            if(seedHolder.GetComponent<SeedScript>().seededPlay)
+            {
+                seed = seedHolder.GetComponent<SeedScript>().seedNumber;
+            }
+            else
+            {
+                seed = Random.Range(-10000, 10000);
+                seedHolder.GetComponent<SeedScript>().seedNumber = seed;
+            }
+            seedHolder.GetComponent<SeedScript>().seededPlay = false;
+        }
+
         //seed = 2074; //for Testing purposes 
         Random.InitState(seed);
         topSpeed = 0.02f;
@@ -48,15 +65,8 @@ public class Test_Map_Generation : MonoBehaviour
         BuildMap();
 
         //seed = Mathf.RoundToInt(Random.seed);
-        seedHolder.text = "Thank you for playing to replay this map use Seed number:" + seed;
+        seedNameHolder.text = "Thank you for playing to replay this map use Seed number:" + seed;
 
-        carCamera = GameObject.FindGameObjectWithTag("CarCamera").GetComponent<Camera>();
-        minimapCamera = GameObject.FindGameObjectWithTag("MinimapCamera").GetComponent<Camera>();
-        gameCamera = Camera.main;
-        gameCamera.enabled = false;
-
-        carCanvas.enabled = true;
-        endCanvas.enabled = false;
 
     }
 
@@ -82,24 +92,29 @@ public class Test_Map_Generation : MonoBehaviour
             escapeSceneSet = true;
         }
 
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            Obstacle();
+        }
+
     }
 
     void BuildGrid()
     {
         if (gridWidth == 0)
         {
-            gridWidth = Mathf.RoundToInt(Random.Range(9.0f, 25.0f));
+            gridWidth = Mathf.RoundToInt(Random.Range(25.0f, 50.0f));
             while (gridWidth % 2 == 0)
             {
-                gridWidth = Mathf.RoundToInt(Random.Range(9.0f, 25.0f));
+                gridWidth = Mathf.RoundToInt(Random.Range(25.0f, 50.0f));
             }
         }
         if (gridHeight == 0)
         {
-            gridHeight = Mathf.RoundToInt(Random.Range(5.0f, 25.0f));
+            gridHeight = Mathf.RoundToInt(Random.Range(25.0f, 50.0f));
             while (gridHeight % 2 == 0)
             {
-                gridHeight = Mathf.RoundToInt(Random.Range(5.0f, 25.0f));
+                gridHeight = Mathf.RoundToInt(Random.Range(25.0f, 50.0f));
             }
         }
 
@@ -141,7 +156,7 @@ public class Test_Map_Generation : MonoBehaviour
 
         //startPoint = Instantiate(startPointPreFab, new Vector3(0, 0, 0), Quaternion.identity);
         getAwayVehicle = Instantiate(getawayVehiclePrefab, new Vector3(startPoint.transform.position.x + 0.077f, startPoint.transform.position.y + 0.078f, startPoint.transform.position.z + 0.346f), Quaternion.identity);
-
+        
         //Generate exit Route on Outer
         ChooseExitPoint();
         instantiatedMap[Mathf.RoundToInt(exitPoint.transform.position.x), Mathf.RoundToInt(exitPoint.transform.position.z)] = exitPoint;
@@ -195,6 +210,46 @@ public class Test_Map_Generation : MonoBehaviour
         {
             Destroy(gridPath[eachGridPoint], 0.0f);
         }
+
+        foreach (Transform search in getAwayVehicle.transform)
+        {
+            if(search.tag == "ObstacleSpawner")
+            {
+                obstacleSpawner = search.gameObject;
+            }
+            if (search.tag == "CarCamera")
+            {
+                carCamera = search.GetComponent<Camera>();
+                carCamera.enabled = true;
+            }
+            if(search.tag == "MinimapCamera")
+            {
+                minimapCamera = search.GetComponent<Camera>();
+                minimapCamera.enabled = true;
+            }
+        }
+        foreach (Transform holder in exitPoint.transform)
+        {
+            if (holder.tag == "ExitCameraHolder")
+            {
+                foreach (Transform camSearch in holder.transform)
+                {
+
+                    if(camSearch.tag == "ExitCamera")
+                    {
+                        gameCamera = camSearch.GetComponent<Camera>();
+                        print("camera found");
+                        gameCamera.enabled = false;
+                    }
+                }
+            }
+        }
+                  
+        carCanvas.enabled = true;
+        endCanvas.enabled = false;
+
+        escaped = false;
+        escapeSceneSet = false;
     }
 
     void ChooseExitPoint()
@@ -294,11 +349,23 @@ public class Test_Map_Generation : MonoBehaviour
     {
         if (chosenSeed == 0)
         {
-            seed = Random.Range(-10000, 10000);
+            if (seedHolder != null)
+            {
+                if (seedHolder.GetComponent<SeedScript>().seededPlay)
+                {
+                    seed = seedHolder.GetComponent<SeedScript>().seedNumber;
+                }
+                else
+                {
+                    seed = Random.Range(-10000, 10000);
+                    seedHolder.GetComponent<SeedScript>().seedNumber = seed;
+                }
+                seedHolder.GetComponent<SeedScript>().seededPlay = false;
+            }
             Random.InitState(seed);
             tileCount = 0;
             StopAllCoroutines();
-            seedHolder.text = "Thank you for playing to replay this map use Seed number: " + seed;
+            seedNameHolder.text = "Thank you for playing to replay this map use Seed number: " + seed;
 
             for (int x = 0; x <= gridWidth; x++)
             {
@@ -324,26 +391,23 @@ public class Test_Map_Generation : MonoBehaviour
             findCornerWidth = 0;            
             BuildGrid();
             BuildMap();
-
-            carCamera = GameObject.FindGameObjectWithTag("CarCamera").GetComponent<Camera>();
-            minimapCamera = GameObject.FindGameObjectWithTag("MinimapCamera").GetComponent<Camera>();
-            gameCamera = Camera.main;
-            gameCamera.enabled = false;
-
-            carCanvas.enabled = true;
-            endCanvas.enabled = false;
-
-            escaped = false;
-            carCamera.enabled = true;
-            minimapCamera.enabled = true;
-            gameCamera.enabled = false;
-            carCanvas.enabled = true;
-            endCanvas.enabled = false;
-            escapeSceneSet = false;
         }
         else
         {
             long seed = System.Convert.ToInt64(seedInputField.text);
+
+            if (seedHolder != null)
+            {
+                seedHolder.GetComponent<SeedScript>().seededPlay = true;
+
+                if (seedHolder.GetComponent<SeedScript>().seededPlay)
+                {                    
+                    seedHolder.GetComponent<SeedScript>().seedNumber = int.Parse(seedInputField.text);
+                    seed = seedHolder.GetComponent<SeedScript>().seedNumber;
+                }
+
+                seedHolder.GetComponent<SeedScript>().seededPlay = false;
+            }
             Random.InitState((int)seed);
             tileCount = 0;
             StopAllCoroutines();
@@ -369,29 +433,12 @@ public class Test_Map_Generation : MonoBehaviour
             gridHeight = 0;
             findCornerHeight = 0;
             findCornerWidth = 0;
-
-
-            carCamera = GameObject.FindGameObjectWithTag("CarCamera").GetComponent<Camera>();
-            minimapCamera = GameObject.FindGameObjectWithTag("MinimapCamera").GetComponent<Camera>();
-            gameCamera = Camera.main;
-            gameCamera.enabled = false;
-
-            carCanvas.enabled = true;
-            endCanvas.enabled = false;
             BuildGrid();
             BuildMap();
 
             print(seed);
-            seedHolder.text = "Thank you for playing to replay this map use Seed number: " + seed;
+            seedNameHolder.text = "Thank you for playing to replay this map use Seed number: " + seed;
             seedInputField.text = "";
-
-            escaped = false;
-            carCamera.enabled = true;
-            minimapCamera.enabled = true;
-            gameCamera.enabled = false;
-            carCanvas.enabled = true;
-            endCanvas.enabled = false;
-            escapeSceneSet = false;
         }
     }
 
@@ -852,6 +899,11 @@ public class Test_Map_Generation : MonoBehaviour
                 }
             }
         }
+    }
+
+    void Obstacle()
+    {
+       GameObject spawnedObstacle = Instantiate(obstacles[0], obstacleSpawner.transform.position, Quaternion.identity);        
     }
 }
 

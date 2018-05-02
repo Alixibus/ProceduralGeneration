@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 33725345750783646}
   - component: {fileID: 23683329105805162}
   - component: {fileID: 205263097815625396}
+  - component: {fileID: 65716165635978298}
   m_Layer: 0
   m_Name: urb_bui_2_lod0
   m_TagString: Untagged
@@ -91,6 +92,7 @@ GameObject:
   - component: {fileID: 33030116410727826}
   - component: {fileID: 23433557467517014}
   - component: {fileID: 205125006747283994}
+  - component: {fileID: 65447188000815228}
   m_Layer: 0
   m_Name: urb_bui_4_lod0
   m_TagString: Untagged
@@ -126,6 +128,7 @@ GameObject:
   - component: {fileID: 33663147507904996}
   - component: {fileID: 23559647706339662}
   - component: {fileID: 205048427885874896}
+  - component: {fileID: 65654728293295572}
   m_Layer: 0
   m_Name: urb_bui_4_lod0 (1)
   m_TagString: Untagged
@@ -144,6 +147,7 @@ GameObject:
   - component: {fileID: 33767948482711810}
   - component: {fileID: 23064757719011418}
   - component: {fileID: 205760815800268994}
+  - component: {fileID: 65294232650512416}
   m_Layer: 0
   m_Name: urb_bui_2_lod0 (1)
   m_TagString: Untagged
@@ -315,6 +319,7 @@ GameObject:
   - component: {fileID: 33428504116721072}
   - component: {fileID: 23338185097612410}
   - component: {fileID: 205585179843699750}
+  - component: {fileID: 65312977919915758}
   m_Layer: 0
   m_Name: urb_bui_3_lod0
   m_TagString: Untagged
@@ -418,6 +423,7 @@ GameObject:
   - component: {fileID: 33770202889359468}
   - component: {fileID: 23086750424382624}
   - component: {fileID: 205137278169525850}
+  - component: {fileID: 65835121027447906}
   m_Layer: 0
   m_Name: urb_bui_5_lod0
   m_TagString: Untagged
@@ -436,6 +442,7 @@ GameObject:
   - component: {fileID: 33068723608887240}
   - component: {fileID: 23458192209821124}
   - component: {fileID: 205855966412234402}
+  - component: {fileID: 65270044670686402}
   m_Layer: 0
   m_Name: urb_bui_4_lod0 (3)
   m_TagString: Untagged
@@ -454,6 +461,7 @@ GameObject:
   - component: {fileID: 33797564946570976}
   - component: {fileID: 23148108453037682}
   - component: {fileID: 205065034907551344}
+  - component: {fileID: 65434836583505482}
   m_Layer: 0
   m_Name: urb_bui_4_lod0 (2)
   m_TagString: Untagged
@@ -472,6 +480,7 @@ GameObject:
   - component: {fileID: 33766018100018924}
   - component: {fileID: 23971147420389944}
   - component: {fileID: 205322286259483830}
+  - component: {fileID: 65147327397878198}
   m_Layer: 0
   m_Name: urb_bui_1_lod0
   m_TagString: Untagged
@@ -2036,6 +2045,78 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1256037380593212}
   m_Mesh: {fileID: 4300000, guid: 3a6923a1482b2e84599c596ff5d74c1b, type: 3}
+--- !u!65 &65147327397878198
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1893656378291686}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.78, y: 3.1087408, z: 2.6444068}
+  m_Center: {x: 0, y: 1.5543704, z: 0.07220334}
+--- !u!65 &65270044670686402
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1830093865665982}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.0500007, y: 4.6172733, z: 3.0500007}
+  m_Center: {x: 0.175, y: 2.3086367, z: -0.175}
+--- !u!65 &65294232650512416
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1177782788826384}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.605, y: 4.849883, z: 2.0431867}
+  m_Center: {x: 0, y: 2.4249415, z: 0}
+--- !u!65 &65312977919915758
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1474021578445704}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.6000006, y: 3.2017846, z: 2.2992897}
+  m_Center: {x: -1.1142896e-15, y: 1.6008923, z: 0.078411184}
+--- !u!65 &65434836583505482
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1858800890813850}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.05, y: 4.6172733, z: 3.05}
+  m_Center: {x: 0.17499995, y: 2.3086367, z: -0.17499995}
+--- !u!65 &65447188000815228
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1149982327470916}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.05, y: 4.6172733, z: 3.05}
+  m_Center: {x: 0.17499995, y: 2.3086367, z: -0.17499995}
 --- !u!65 &65531971041597158
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2048,6 +2129,42 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65654728293295572
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1162416369657866}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.0500007, y: 4.6172733, z: 3.0500007}
+  m_Center: {x: 0.175, y: 2.3086367, z: -0.175}
+--- !u!65 &65716165635978298
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1067526773349818}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.6050007, y: 4.849883, z: 2.0431871}
+  m_Center: {x: 0, y: 2.4249415, z: 0}
+--- !u!65 &65835121027447906
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1698744672835568}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.62, y: 3.4639435, z: 2.08}
+  m_Center: {x: 0, y: 1.7319717, z: 0}
 --- !u!205 &205048427885874896
 LODGroup:
   m_ObjectHideFlags: 1

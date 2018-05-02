@@ -28,6 +28,7 @@ GameObject:
   - component: {fileID: 3391810}
   - component: {fileID: 2360072}
   - component: {fileID: 20539592}
+  - component: {fileID: 65332831036824852}
   m_Layer: 0
   m_Name: urb_bui_2_lod0
   m_TagString: Untagged
@@ -252,3 +253,15 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 147108}
   m_IsPrefabParent: 1
+--- !u!65 &65332831036824852
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147108}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.605, y: 4.849883, z: 2.0431867}
+  m_Center: {x: 0, y: 2.4249415, z: 0}

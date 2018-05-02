@@ -18,7 +18,7 @@ TagManager:
   - ExitCamera
   - ExitCameraHolder
   - Seed Holder
-  - ObstacleSpawner
+  - CameraAimAt
   layers:
   - Default
   - TransparentFX
@@ -28,8 +28,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Vehicle Body
+  - Tires
   - 
   - 
   - 

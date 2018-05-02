@@ -213,15 +213,6 @@ public class Test_Map_Generation : MonoBehaviour
 
         foreach (Transform search in getAwayVehicle.transform)
         {
-            if(search.tag == "ObstacleSpawner")
-            {
-                obstacleSpawner = search.gameObject;
-            }
-            if (search.tag == "CarCamera")
-            {
-                carCamera = search.GetComponent<Camera>();
-                carCamera.enabled = true;
-            }
             if(search.tag == "MinimapCamera")
             {
                 minimapCamera = search.GetComponent<Camera>();

@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 3376316}
   - component: {fileID: 2329440}
   - component: {fileID: 20563088}
+  - component: {fileID: 64241007515804712}
   m_Layer: 0
   m_Name: urb_bui_4_lod0
   m_TagString: Untagged
@@ -252,3 +253,17 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 189348}
   m_IsPrefabParent: 1
+--- !u!64 &64241007515804712
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 189348}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300004, guid: 3a6923a1482b2e84599c596ff5d74c1b, type: 3}

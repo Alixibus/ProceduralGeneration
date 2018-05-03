@@ -144,7 +144,9 @@ public class Test_Map_Generation : MonoBehaviour
         escapeRoute = new List<GameObject>();
         //Generate start point near inner circle, for testing only use 0,0
         //int randomStart = Mathf.RoundToInt(Random.Range(-1.0f, 1.0f));
+
         startPoint = Instantiate(startPointPreFab, new Vector3(Mathf.RoundToInt(gridWidth / 2), 0, Mathf.RoundToInt(gridHeight / 2)), Quaternion.identity);
+
         Test_Road_Builder testRoadScript = startPoint.GetComponent<Test_Road_Builder>();
         testRoadScript.exitPointNorth = true;
         testRoadScript.exitPointSouth = true;
@@ -186,7 +188,7 @@ public class Test_Map_Generation : MonoBehaviour
             {
                 if (instantiatedMap[Mathf.RoundToInt(gridPath[x].transform.position.x), Mathf.RoundToInt(gridPath[x].transform.position.z)] == null)
                 {
-                    tileDecision(gridPath[x].transform.position);
+                    TileDecision(gridPath[x].transform.position);
                     tileCount++;
                 }
             }
@@ -433,7 +435,7 @@ public class Test_Map_Generation : MonoBehaviour
         }
     }
 
-    void tileDecision(Vector3 tileLocation)
+    void TileDecision(Vector3 tileLocation)
     {
         string chosenType = "";
         bool canBePark = true;
@@ -444,14 +446,14 @@ public class Test_Map_Generation : MonoBehaviour
             {
                 canBePark = false;
             }
-            if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z + 1)].tag == "Road Tile")
-            {
-                roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z + 1)].GetComponent<Test_Road_Builder>();
-                if (roadScriptHolder.haveRoad == true)
-                {
-                    canBePark = false;
-                }
-            }
+            //if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z + 1)].tag == "Road Tile")
+            //{
+            //    roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z + 1)].GetComponent<Test_Road_Builder>();
+            //    if (roadScriptHolder.haveRoad == true)
+            //    {
+            //        canBePark = false;
+            //    }
+            //}
         }
         if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z - 1)] != null)
         {
@@ -459,14 +461,14 @@ public class Test_Map_Generation : MonoBehaviour
             {
                 canBePark = false;
             }
-            if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z - 1)].tag == "Road Tile")
-            {
-                roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z - 1)].GetComponent<Test_Road_Builder>();
-                if (roadScriptHolder.haveRoad == true)
-                {
-                    canBePark = false;
-                }
-            }
+            //if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z - 1)].tag == "Road Tile")
+            //{
+            //    roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z - 1)].GetComponent<Test_Road_Builder>();
+            //    if (roadScriptHolder.haveRoad == true)
+            //    {
+            //        canBePark = false;
+            //    }
+            //}
         }
         if (instantiatedMap[Mathf.RoundToInt(tileLocation.x + 1), Mathf.RoundToInt(tileLocation.z)] != null)
         {
@@ -474,14 +476,14 @@ public class Test_Map_Generation : MonoBehaviour
             {
                 canBePark = false;
             }
-            if (instantiatedMap[Mathf.RoundToInt(tileLocation.x + 1), Mathf.RoundToInt(tileLocation.z)].tag == "Road Tile")
-            {
-                roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x + 1), Mathf.RoundToInt(tileLocation.z)].GetComponent<Test_Road_Builder>();
-                if (roadScriptHolder.haveRoad == true)
-                {
-                    canBePark = false;
-                }
-            }
+            //if (instantiatedMap[Mathf.RoundToInt(tileLocation.x + 1), Mathf.RoundToInt(tileLocation.z)].tag == "Road Tile")
+            //{
+            //    roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x + 1), Mathf.RoundToInt(tileLocation.z)].GetComponent<Test_Road_Builder>();
+            //    if (roadScriptHolder.haveRoad == true)
+            //    {
+            //        canBePark = false;
+            //    }
+            //}
         }
         if (instantiatedMap[Mathf.RoundToInt(tileLocation.x - 1), Mathf.RoundToInt(tileLocation.z)] != null)
         {
@@ -489,14 +491,14 @@ public class Test_Map_Generation : MonoBehaviour
             {
                 canBePark = false;
             }
-            if (instantiatedMap[Mathf.RoundToInt(tileLocation.x - 1), Mathf.RoundToInt(tileLocation.z)].tag == "Road Tile")
-            {
-                roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x - 1), Mathf.RoundToInt(tileLocation.z)].GetComponent<Test_Road_Builder>();
-                if (roadScriptHolder.haveRoad == true)
-                {
-                    canBePark = false;
-                }
-            }
+            //if (instantiatedMap[Mathf.RoundToInt(tileLocation.x - 1), Mathf.RoundToInt(tileLocation.z)].tag == "Road Tile")
+            //{
+            //    roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x - 1), Mathf.RoundToInt(tileLocation.z)].GetComponent<Test_Road_Builder>();
+            //    if (roadScriptHolder.haveRoad == true)
+            //    {
+            //        canBePark = false;
+            //    }
+            //}
         }
 
         float animationCurveTest;
@@ -520,10 +522,10 @@ public class Test_Map_Generation : MonoBehaviour
     IEnumerator Waiting(GameObject passThrough)
     {
         yield return new WaitForSeconds(0.2f);
-        decideRoad(passThrough);
+        DecideRoad(passThrough);
     }
 
-    void decideRoad(GameObject passedTile)
+    void DecideRoad(GameObject passedTile)
     {
         bool possibleNorth = false;
         bool possibleSouth = false;
@@ -808,18 +810,6 @@ public class Test_Map_Generation : MonoBehaviour
                         testRoadScript.exitEast = true;
                         testRoadScript.exitNorth = true;
                         testRoadScript.exitWest = true;
-                        //}
-                        //if (animationCurveRandom > 0.11 && animationCurveRandom < 0.3)
-                        //{
-                        //    selectedRoadPiece = Instantiate(roadPieces[1], passedTile.transform.position, Quaternion.identity);
-                        //    selectedRoadPiece.transform.SetParent(passedTile.transform);
-                        //    testRoadScript.haveRoad = true;
-                        //    roadChosen = true;
-                        //    testRoadScript.exitSouth = true;
-                        //    testRoadScript.exitEast = true;
-                        //    testRoadScript.exitNorth = true;
-                        //    testRoadScript.exitWest = false;
-                        //}
                     }
                     if (animationCurveRandom > 0.31 && animationCurveRandom < 0.6 && possibleEast == false && possibleWest == false)
                     {

@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33312736365247340}
   - component: {fileID: 65230652705814946}
   - component: {fileID: 23615763175408728}
-  - component: {fileID: 114977229094744716}
+  - component: {fileID: 114234857234342350}
   m_Layer: 0
   m_Name: InnerElements
   m_TagString: Road Tile
@@ -96,7 +96,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114977229094744716
+--- !u!114 &114234857234342350
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1742870977948756}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5244f650f37673f4b82036ad733191f2, type: 3}
+  m_Script: {fileID: 11500000, guid: 88f3833afdf8ed24197ba3b112c4fdf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   exitPointNorth: 0

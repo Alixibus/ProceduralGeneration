@@ -4574,7 +4574,7 @@ GameObject:
   - component: {fileID: 33942432471590224}
   - component: {fileID: 65263323519224262}
   - component: {fileID: 23033362474849526}
-  - component: {fileID: 114214541776574980}
+  - component: {fileID: 114000350429936878}
   m_Layer: 0
   m_Name: ExitPoint_Road
   m_TagString: EndPoint
@@ -33961,7 +33961,7 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114214541776574980
+--- !u!114 &114000350429936878
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -33969,7 +33969,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1670002398617470}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5244f650f37673f4b82036ad733191f2, type: 3}
+  m_Script: {fileID: 11500000, guid: 88f3833afdf8ed24197ba3b112c4fdf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   exitPointNorth: 0

@@ -10,13 +10,16 @@ public class MapGeneratorScript : MonoBehaviour {
     public GameObject startPointPreFab, exitPointPreFab, getawayVehiclePrefab;
     public GameObject[] buildingBlocks;
     public InputField seedInputField;
-    public Text seedHolder;
-    private GameObject startPoint, currentTile, exitPoint, getAwayVehicle;
+    public Canvas carCanvas, endCanvas;
+    public Text seedNameHolder;
+    private GameObject startPoint, currentTile, exitPoint, getAwayVehicle, seedHolder;
     private Vector3 preExitTile;
     private List<GameObject> gridPath;
     private GameObject[,] instantiatedMap;
+    private GameObject obstacleSpawner;
+    public GameObject[] obstacles;
     public GameObject[] roadPieces;
-    public Camera gameCamera, carCamera, minimapCamera;
+    private Camera gameCamera, carCamera, minimapCamera;
     public GameObject exitIndicator;
     private List<GameObject> escapeRoute;
     public int gridWidth, gridHeight = 0;
@@ -25,7 +28,10 @@ public class MapGeneratorScript : MonoBehaviour {
     int seed;
     float topSpeed, currentSpeed, turnSpeed, reverseSpeed;
     int tileCount = 0;
+    float escapeDistance;
     bool exitFound;
+    bool escaped;
+    bool escapeSceneSet = false;
     bool cameraFollowCar = false;
     int findCornerHeight = 0;
     int findCornerWidth = 0;
@@ -33,7 +39,22 @@ public class MapGeneratorScript : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        seed = Random.Range(-10000, 10000);
+        seedHolder = GameObject.Find("SeedHolder");
+
+        if (seedHolder != null)
+        {
+            if (seedHolder.GetComponent<SeedScript>().seededPlay)
+            {
+                seed = seedHolder.GetComponent<SeedScript>().seedNumber;
+            }
+            else
+            {
+                seed = Random.Range(-10000, 10000);
+                seedHolder.GetComponent<SeedScript>().seedNumber = seed;
+            }
+            seedHolder.GetComponent<SeedScript>().seededPlay = false;
+        }
+
         //seed = 2074; //for Testing purposes 
         Random.InitState(seed);
         topSpeed = 0.02f;
@@ -44,42 +65,56 @@ public class MapGeneratorScript : MonoBehaviour {
         BuildMap();
 
         //seed = Mathf.RoundToInt(Random.seed);
-        seedHolder.text = "Current Seed = " + seed;
+        seedNameHolder.text = "Thank you for playing to replay this map use Seed number:" + seed;
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        escapeDistance = Vector3.Distance(exitPoint.transform.position, getAwayVehicle.transform.position);
+        //print(escapeDistance);
+        if (escapeDistance < 0.2f)
         {
-            if (cameraFollowCar == false)
-            {
-                cameraFollowCar = true;
-            }
-            else
-            {
-                cameraFollowCar = false;
-            }
+            escaped = true;
+            print("escaped");
         }
+        if (escaped == true && escapeSceneSet == false)
+        {
+            print("Camera Switch");
+
+            carCamera.enabled = false;
+            minimapCamera.enabled = false;
+            gameCamera.enabled = true;
+            carCanvas.enabled = false;
+            endCanvas.enabled = true;
+            escapeSceneSet = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Obstacle();
+        }
+
     }
 
     void BuildGrid()
     {
         if (gridWidth == 0)
         {
-            gridWidth = Mathf.RoundToInt(Random.Range(9.0f, 25.0f));
+            gridWidth = Mathf.RoundToInt(Random.Range(25.0f, 50.0f));
             while (gridWidth % 2 == 0)
             {
-                gridWidth = Mathf.RoundToInt(Random.Range(9.0f, 25.0f));
+                gridWidth = Mathf.RoundToInt(Random.Range(25.0f, 50.0f));
             }
         }
         if (gridHeight == 0)
         {
-            gridHeight = Mathf.RoundToInt(Random.Range(5.0f, 25.0f));
+            gridHeight = Mathf.RoundToInt(Random.Range(25.0f, 50.0f));
             while (gridHeight % 2 == 0)
             {
-                gridHeight = Mathf.RoundToInt(Random.Range(5.0f, 25.0f));
+                gridHeight = Mathf.RoundToInt(Random.Range(25.0f, 50.0f));
             }
         }
 
@@ -109,13 +144,15 @@ public class MapGeneratorScript : MonoBehaviour {
         escapeRoute = new List<GameObject>();
         //Generate start point near inner circle, for testing only use 0,0
         //int randomStart = Mathf.RoundToInt(Random.Range(-1.0f, 1.0f));
+
         startPoint = Instantiate(startPointPreFab, new Vector3(Mathf.RoundToInt(gridWidth / 2), 0, Mathf.RoundToInt(gridHeight / 2)), Quaternion.identity);
-        Test_Road_Builder testRoadScript = startPoint.GetComponent<Test_Road_Builder>();
-        testRoadScript.exitPointNorth = true;
-        testRoadScript.exitPointSouth = true;
-        testRoadScript.exitPointEast = true;
-        testRoadScript.exitPointWest = true;
-        testRoadScript.thisHasRoad = true;
+
+        Road_Type_Script roadScript = startPoint.GetComponent<Road_Type_Script>();
+        roadScript.exitPointNorth = true;
+        roadScript.exitPointSouth = true;
+        roadScript.exitPointEast = true;
+        roadScript.exitPointWest = true;
+        roadScript.thisHasRoad = true;
 
         instantiatedMap[Mathf.RoundToInt(startPoint.transform.position.x), Mathf.RoundToInt(startPoint.transform.position.z)] = startPoint;
 
@@ -151,7 +188,7 @@ public class MapGeneratorScript : MonoBehaviour {
             {
                 if (instantiatedMap[Mathf.RoundToInt(gridPath[x].transform.position.x), Mathf.RoundToInt(gridPath[x].transform.position.z)] == null)
                 {
-                    tileDecision(gridPath[x].transform.position);
+                    TileDecision(gridPath[x].transform.position);
                     tileCount++;
                 }
             }
@@ -175,6 +212,37 @@ public class MapGeneratorScript : MonoBehaviour {
         {
             Destroy(gridPath[eachGridPoint], 0.0f);
         }
+
+        foreach (Transform search in getAwayVehicle.transform)
+        {
+            if (search.tag == "MinimapCamera")
+            {
+                minimapCamera = search.GetComponent<Camera>();
+                minimapCamera.enabled = true;
+            }
+        }
+        foreach (Transform holder in exitPoint.transform)
+        {
+            if (holder.tag == "ExitCameraHolder")
+            {
+                foreach (Transform camSearch in holder.transform)
+                {
+
+                    if (camSearch.tag == "ExitCamera")
+                    {
+                        gameCamera = camSearch.GetComponent<Camera>();
+                        print("camera found");
+                        gameCamera.enabled = false;
+                    }
+                }
+            }
+        }
+
+        carCanvas.enabled = true;
+        endCanvas.enabled = false;
+
+        escaped = false;
+        escapeSceneSet = false;
     }
 
     void ChooseExitPoint()
@@ -182,7 +250,7 @@ public class MapGeneratorScript : MonoBehaviour {
         //Choose top, bottom, left or right for exit location by randomly generating a number between 1 and 4,
         // let 1 represent Top of Grid, 2 Bottom, 3 Left and 4 Right
         int randomNumber = Mathf.RoundToInt(Random.Range(1.0f, 4.0f));
-        Test_Road_Builder testRoadScript = null;
+        Road_Type_Script roadScript = null;
         // int randomNumber = 5; //For Testing
 
         switch (randomNumber)
@@ -190,42 +258,42 @@ public class MapGeneratorScript : MonoBehaviour {
             case 1:
                 exitPoint = Instantiate(exitPointPreFab, new Vector3(findCornerWidth + Random.Range(1, gridWidth - 1), 0, gridHeight), Quaternion.Euler(0.0f, 90.0f, 0.0f));
                 preExitTile = new Vector3(exitPoint.transform.position.x, exitPoint.transform.position.y, exitPoint.transform.position.z - 1);
-                testRoadScript = exitPoint.GetComponent<Test_Road_Builder>();
-                testRoadScript.exitPointNorth = false;
-                testRoadScript.exitPointSouth = true;
-                testRoadScript.exitPointEast = false;
-                testRoadScript.exitPointWest = false;
-                testRoadScript.thisHasRoad = true;
+                roadScript = exitPoint.GetComponent<Road_Type_Script>();
+                roadScript.exitPointNorth = false;
+                roadScript.exitPointSouth = true;
+                roadScript.exitPointEast = false;
+                roadScript.exitPointWest = false;
+                roadScript.thisHasRoad = true;
                 break;
             case 2:
                 exitPoint = Instantiate(exitPointPreFab, new Vector3(findCornerWidth + Random.Range(1, gridWidth - 1), 0, findCornerHeight), Quaternion.Euler(0.0f, 270.0f, 0.0f));
                 preExitTile = new Vector3(exitPoint.transform.position.x, exitPoint.transform.position.y, exitPoint.transform.position.z + 1);
-                testRoadScript = exitPoint.GetComponent<Test_Road_Builder>();
-                testRoadScript.exitPointNorth = true;
-                testRoadScript.exitPointSouth = false;
-                testRoadScript.exitPointEast = false;
-                testRoadScript.exitPointWest = false;
-                testRoadScript.thisHasRoad = true;
+                roadScript = exitPoint.GetComponent<Road_Type_Script>();
+                roadScript.exitPointNorth = true;
+                roadScript.exitPointSouth = false;
+                roadScript.exitPointEast = false;
+                roadScript.exitPointWest = false;
+                roadScript.thisHasRoad = true;
                 break;
             case 3:
                 exitPoint = Instantiate(exitPointPreFab, new Vector3(findCornerWidth, 0, findCornerHeight + Random.Range(1, gridHeight - 1)), Quaternion.identity);
                 preExitTile = new Vector3(exitPoint.transform.position.x + 1, exitPoint.transform.position.y, exitPoint.transform.position.z);
-                testRoadScript = exitPoint.GetComponent<Test_Road_Builder>();
-                testRoadScript.exitPointNorth = false;
-                testRoadScript.exitPointSouth = false;
-                testRoadScript.exitPointEast = true;
-                testRoadScript.exitPointWest = false;
-                testRoadScript.thisHasRoad = true;
+                roadScript = exitPoint.GetComponent<Road_Type_Script>();
+                roadScript.exitPointNorth = false;
+                roadScript.exitPointSouth = false;
+                roadScript.exitPointEast = true;
+                roadScript.exitPointWest = false;
+                roadScript.thisHasRoad = true;
                 break;
             case 4:
                 exitPoint = Instantiate(exitPointPreFab, new Vector3(gridWidth, 0, findCornerHeight + Random.Range(1, gridHeight - 1)), Quaternion.Euler(0.0f, 180.0f, 0.0f));
                 preExitTile = new Vector3(exitPoint.transform.position.x - 1, exitPoint.transform.position.y, exitPoint.transform.position.z);
-                testRoadScript = exitPoint.GetComponent<Test_Road_Builder>();
-                testRoadScript.exitPointNorth = false;
-                testRoadScript.exitPointSouth = false;
-                testRoadScript.exitPointEast = false;
-                testRoadScript.exitPointWest = true;
-                testRoadScript.thisHasRoad = true;
+                roadScript = exitPoint.GetComponent<Road_Type_Script>();
+                roadScript.exitPointNorth = false;
+                roadScript.exitPointSouth = false;
+                roadScript.exitPointEast = false;
+                roadScript.exitPointWest = true;
+                roadScript.thisHasRoad = true;
                 break;
             case 5:
                 //For Testing purposes
@@ -274,11 +342,23 @@ public class MapGeneratorScript : MonoBehaviour {
     {
         if (chosenSeed == 0)
         {
-            seed = Random.Range(-10000, 10000);
+            if (seedHolder != null)
+            {
+                if (seedHolder.GetComponent<SeedScript>().seededPlay)
+                {
+                    seed = seedHolder.GetComponent<SeedScript>().seedNumber;
+                }
+                else
+                {
+                    seed = Random.Range(-10000, 10000);
+                    seedHolder.GetComponent<SeedScript>().seedNumber = seed;
+                }
+                seedHolder.GetComponent<SeedScript>().seededPlay = false;
+            }
             Random.InitState(seed);
             tileCount = 0;
             StopAllCoroutines();
-            seedHolder.text = "Current Seed = " + seed;
+            seedNameHolder.text = "Thank you for playing to replay this map use Seed number: " + seed;
 
             for (int x = 0; x <= gridWidth; x++)
             {
@@ -308,6 +388,19 @@ public class MapGeneratorScript : MonoBehaviour {
         else
         {
             long seed = System.Convert.ToInt64(seedInputField.text);
+
+            if (seedHolder != null)
+            {
+                seedHolder.GetComponent<SeedScript>().seededPlay = true;
+
+                if (seedHolder.GetComponent<SeedScript>().seededPlay)
+                {
+                    seedHolder.GetComponent<SeedScript>().seedNumber = int.Parse(seedInputField.text);
+                    seed = seedHolder.GetComponent<SeedScript>().seedNumber;
+                }
+
+                seedHolder.GetComponent<SeedScript>().seededPlay = false;
+            }
             Random.InitState((int)seed);
             tileCount = 0;
             StopAllCoroutines();
@@ -337,12 +430,12 @@ public class MapGeneratorScript : MonoBehaviour {
             BuildMap();
 
             print(seed);
-            seedHolder.text = "Current Seed = " + seed;
+            seedNameHolder.text = "Thank you for playing to replay this map use Seed number: " + seed;
             seedInputField.text = "";
         }
     }
 
-    void tileDecision(Vector3 tileLocation)
+    void TileDecision(Vector3 tileLocation)
     {
         string chosenType = "";
         bool canBePark = true;
@@ -353,14 +446,14 @@ public class MapGeneratorScript : MonoBehaviour {
             {
                 canBePark = false;
             }
-            if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z + 1)].tag == "Road Tile")
-            {
-                roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z + 1)].GetComponent<Test_Road_Builder>();
-                if (roadScriptHolder.haveRoad == true)
-                {
-                    canBePark = false;
-                }
-            }
+            //if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z + 1)].tag == "Road Tile")
+            //{
+            //    roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z + 1)].GetComponent<Test_Road_Builder>();
+            //    if (roadScriptHolder.haveRoad == true)
+            //    {
+            //        canBePark = false;
+            //    }
+            //}
         }
         if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z - 1)] != null)
         {
@@ -368,14 +461,14 @@ public class MapGeneratorScript : MonoBehaviour {
             {
                 canBePark = false;
             }
-            if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z - 1)].tag == "Road Tile")
-            {
-                roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z - 1)].GetComponent<Test_Road_Builder>();
-                if (roadScriptHolder.haveRoad == true)
-                {
-                    canBePark = false;
-                }
-            }
+            //if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z - 1)].tag == "Road Tile")
+            //{
+            //    roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z - 1)].GetComponent<Test_Road_Builder>();
+            //    if (roadScriptHolder.haveRoad == true)
+            //    {
+            //        canBePark = false;
+            //    }
+            //}
         }
         if (instantiatedMap[Mathf.RoundToInt(tileLocation.x + 1), Mathf.RoundToInt(tileLocation.z)] != null)
         {
@@ -383,14 +476,14 @@ public class MapGeneratorScript : MonoBehaviour {
             {
                 canBePark = false;
             }
-            if (instantiatedMap[Mathf.RoundToInt(tileLocation.x + 1), Mathf.RoundToInt(tileLocation.z)].tag == "Road Tile")
-            {
-                roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x + 1), Mathf.RoundToInt(tileLocation.z)].GetComponent<Test_Road_Builder>();
-                if (roadScriptHolder.haveRoad == true)
-                {
-                    canBePark = false;
-                }
-            }
+            //if (instantiatedMap[Mathf.RoundToInt(tileLocation.x + 1), Mathf.RoundToInt(tileLocation.z)].tag == "Road Tile")
+            //{
+            //    roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x + 1), Mathf.RoundToInt(tileLocation.z)].GetComponent<Test_Road_Builder>();
+            //    if (roadScriptHolder.haveRoad == true)
+            //    {
+            //        canBePark = false;
+            //    }
+            //}
         }
         if (instantiatedMap[Mathf.RoundToInt(tileLocation.x - 1), Mathf.RoundToInt(tileLocation.z)] != null)
         {
@@ -398,14 +491,14 @@ public class MapGeneratorScript : MonoBehaviour {
             {
                 canBePark = false;
             }
-            if (instantiatedMap[Mathf.RoundToInt(tileLocation.x - 1), Mathf.RoundToInt(tileLocation.z)].tag == "Road Tile")
-            {
-                roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x - 1), Mathf.RoundToInt(tileLocation.z)].GetComponent<Test_Road_Builder>();
-                if (roadScriptHolder.haveRoad == true)
-                {
-                    canBePark = false;
-                }
-            }
+            //if (instantiatedMap[Mathf.RoundToInt(tileLocation.x - 1), Mathf.RoundToInt(tileLocation.z)].tag == "Road Tile")
+            //{
+            //    roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x - 1), Mathf.RoundToInt(tileLocation.z)].GetComponent<Test_Road_Builder>();
+            //    if (roadScriptHolder.haveRoad == true)
+            //    {
+            //        canBePark = false;
+            //    }
+            //}
         }
 
         float animationCurveTest;
@@ -429,10 +522,10 @@ public class MapGeneratorScript : MonoBehaviour {
     IEnumerator Waiting(GameObject passThrough)
     {
         yield return new WaitForSeconds(0.2f);
-        decideRoad(passThrough);
+        DecideRoad(passThrough);
     }
 
-    void decideRoad(GameObject passedTile)
+    void DecideRoad(GameObject passedTile)
     {
         bool possibleNorth = false;
         bool possibleSouth = false;
@@ -444,40 +537,22 @@ public class MapGeneratorScript : MonoBehaviour {
         bool westHasRoad = false;
         bool roadChosen = false;
 
-        Test_Road_Builder testRoadScript = null;
-        Escape_Road_Script escapeRoadScriptHolder = null;
+        Road_Type_Script roadScriptHolder = null;
         GameObject selectedRoadPiece;
-        if (passedTile.GetComponent<Test_Road_Builder>() != null)
+        if (passedTile.GetComponent<Road_Type_Script>() != null)
         {
-            testRoadScript = passedTile.GetComponent<Test_Road_Builder>();
-        }
-        if (passedTile.GetComponent<Escape_Road_Script>() != null)
-        {
-            escapeRoadScriptHolder = passedTile.GetComponent<Escape_Road_Script>();
+            roadScriptHolder = passedTile.GetComponent<Road_Type_Script>();
         }
 
         if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z + 1)] != null)
         {
-            if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z + 1)].tag == "EscapePath")
-            {
-                Escape_Road_Script tempEscapeRoadScriptHolder = instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z + 1)].GetComponent<Escape_Road_Script>();
-                if (tempEscapeRoadScriptHolder.thisHasRoad == true)
-                {
-                    possibleNorth = tempEscapeRoadScriptHolder.exitSouth;
-                    northHasRoad = tempEscapeRoadScriptHolder.haveRoad;
-                }
-                else
-                {
-                    possibleNorth = true;
-                }
-            }
             if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z + 1)].tag == "StartPoint" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z + 1)].tag == "Road Tile" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z + 1)].tag == "EndPoint")
             {
-                Test_Road_Builder tempTestRoadScriptHolder = instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z + 1)].GetComponent<Test_Road_Builder>();
-                if (tempTestRoadScriptHolder.thisHasRoad == true)
+                Road_Type_Script tempRoadScriptHolder = instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z + 1)].GetComponent<Road_Type_Script>();
+                if (tempRoadScriptHolder.thisHasRoad == true)
                 {
-                    possibleNorth = tempTestRoadScriptHolder.exitSouth;
-                    northHasRoad = tempTestRoadScriptHolder.haveRoad;
+                    possibleNorth = tempRoadScriptHolder.exitSouth;
+                    northHasRoad = tempRoadScriptHolder.haveRoad;
                 }
                 else
                 {
@@ -487,31 +562,13 @@ public class MapGeneratorScript : MonoBehaviour {
         }
         if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z - 1)] != null)
         {
-
-            if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z - 1)].tag == "EndPoint")
-            {
-                print("I Found The End");
-            }
-            if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z - 1)].tag == "EscapePath")
-            {
-                Escape_Road_Script tempEscapeRoadScriptHolder = instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z - 1)].GetComponent<Escape_Road_Script>();
-                if (tempEscapeRoadScriptHolder.thisHasRoad == true)
-                {
-                    possibleSouth = tempEscapeRoadScriptHolder.exitNorth;
-                    southHasRoad = tempEscapeRoadScriptHolder.haveRoad;
-                }
-                else
-                {
-                    possibleSouth = true;
-                }
-            }
             if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z - 1)].tag == "StartPoint" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z - 1)].tag == "Road Tile" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z - 1)].tag == "EndPoint")
             {
-                Test_Road_Builder tempTestRoadScriptHolder = instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z - 1)].GetComponent<Test_Road_Builder>();
-                if (tempTestRoadScriptHolder.thisHasRoad == true)
+                Road_Type_Script tempRoadScriptHolder = instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z - 1)].GetComponent<Road_Type_Script>();
+                if (tempRoadScriptHolder.thisHasRoad == true)
                 {
-                    possibleSouth = tempTestRoadScriptHolder.exitNorth;
-                    southHasRoad = tempTestRoadScriptHolder.haveRoad;
+                    possibleSouth = tempRoadScriptHolder.exitNorth;
+                    southHasRoad = tempRoadScriptHolder.haveRoad;
                 }
                 else
                 {
@@ -521,26 +578,13 @@ public class MapGeneratorScript : MonoBehaviour {
         }
         if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)] != null)
         {
-            if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "EscapePath")
-            {
-                Escape_Road_Script tempEscapeRoadScriptHolder = instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].GetComponent<Escape_Road_Script>();
-                if (tempEscapeRoadScriptHolder.thisHasRoad)
-                {
-                    possibleEast = tempEscapeRoadScriptHolder.exitWest;
-                    eastHasRoad = tempEscapeRoadScriptHolder.haveRoad;
-                }
-                else
-                {
-                    possibleEast = true;
-                }
-            }
             if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "StartPoint" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "Road Tile" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "EndPoint")
             {
-                Test_Road_Builder tempTestRoadScriptHolder = instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].GetComponent<Test_Road_Builder>();
-                if (tempTestRoadScriptHolder.thisHasRoad == true)
+                Road_Type_Script tempRoadScriptHolder = instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].GetComponent<Road_Type_Script>();
+                if (tempRoadScriptHolder.thisHasRoad == true)
                 {
-                    possibleEast = tempTestRoadScriptHolder.exitWest;
-                    eastHasRoad = tempTestRoadScriptHolder.haveRoad;
+                    possibleEast = tempRoadScriptHolder.exitWest;
+                    eastHasRoad = tempRoadScriptHolder.haveRoad;
                 }
                 else
                 {
@@ -555,26 +599,13 @@ public class MapGeneratorScript : MonoBehaviour {
 
         if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)] != null)
         {
-            if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "EscapePath")
-            {
-                Escape_Road_Script tempEscapeRoadScriptHolder = instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].GetComponent<Escape_Road_Script>();
-                if (tempEscapeRoadScriptHolder.thisHasRoad == true)
-                {
-                    possibleWest = tempEscapeRoadScriptHolder.exitEast;
-                    westHasRoad = tempEscapeRoadScriptHolder.haveRoad;
-                }
-                else
-                {
-                    possibleWest = true;
-                }
-            }
             if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "StartPoint" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "Road Tile" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "EndPoint")
             {
-                Test_Road_Builder tempTestRoadScriptHolder = instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].GetComponent<Test_Road_Builder>();
-                if (tempTestRoadScriptHolder.thisHasRoad == true)
+                Road_Type_Script tempRoadScriptHolder = instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].GetComponent<Road_Type_Script>();
+                if (tempRoadScriptHolder.thisHasRoad == true)
                 {
-                    possibleWest = tempTestRoadScriptHolder.exitEast;
-                    westHasRoad = tempTestRoadScriptHolder.haveRoad;
+                    possibleWest = tempRoadScriptHolder.exitEast;
+                    westHasRoad = tempRoadScriptHolder.haveRoad;
                 }
                 else
                 {
@@ -586,9 +617,9 @@ public class MapGeneratorScript : MonoBehaviour {
                 possibleWest = false;
             }
         }
-        if (testRoadScript != null)
+        if (roadScriptHolder != null)
         {
-            if (testRoadScript.haveRoad == false)
+            if (roadScriptHolder.haveRoad == false)
             {
                 float animationCurveRandom;
                 animationCurveRandom = probabilityCurve.Evaluate(Random.value);
@@ -597,112 +628,112 @@ public class MapGeneratorScript : MonoBehaviour {
                 {
                     selectedRoadPiece = Instantiate(roadPieces[0], passedTile.transform.position, Quaternion.identity);
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    testRoadScript.haveRoad = true;
+                    roadScriptHolder.haveRoad = true;
                     roadChosen = true;
-                    testRoadScript.exitSouth = true;
-                    testRoadScript.exitEast = false;
-                    testRoadScript.exitNorth = true;
-                    testRoadScript.exitWest = false;
+                    roadScriptHolder.exitSouth = true;
+                    roadScriptHolder.exitEast = false;
+                    roadScriptHolder.exitNorth = true;
+                    roadScriptHolder.exitWest = false;
                 }
                 if (possibleNorth == true && possibleEast == true && possibleSouth == false && possibleWest == false)
                 {
                     selectedRoadPiece = Instantiate(roadPieces[2], passedTile.transform.position, Quaternion.identity);
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    testRoadScript.haveRoad = true;
+                    roadScriptHolder.haveRoad = true;
                     roadChosen = true;
-                    testRoadScript.exitSouth = false;
-                    testRoadScript.exitEast = true;
-                    testRoadScript.exitNorth = true;
-                    testRoadScript.exitWest = false;
+                    roadScriptHolder.exitSouth = false;
+                    roadScriptHolder.exitEast = true;
+                    roadScriptHolder.exitNorth = true;
+                    roadScriptHolder.exitWest = false;
                 }
                 if (possibleNorth == true && possibleWest == true && possibleSouth == false && possibleEast == false)
                 {
 
                     selectedRoadPiece = Instantiate(roadPieces[2], passedTile.transform.position, Quaternion.Euler(0, 270, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    testRoadScript.haveRoad = true;
+                    roadScriptHolder.haveRoad = true;
                     roadChosen = true;
-                    testRoadScript.exitSouth = false;
-                    testRoadScript.exitEast = false;
-                    testRoadScript.exitNorth = true;
-                    testRoadScript.exitWest = true;
+                    roadScriptHolder.exitSouth = false;
+                    roadScriptHolder.exitEast = false;
+                    roadScriptHolder.exitNorth = true;
+                    roadScriptHolder.exitWest = true;
                 }
                 if (possibleSouth == true && possibleEast == true && possibleNorth == false && possibleWest == false)
                 {
                     selectedRoadPiece = Instantiate(roadPieces[2], passedTile.transform.position, Quaternion.Euler(0, 90, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    testRoadScript.haveRoad = true;
+                    roadScriptHolder.haveRoad = true;
                     roadChosen = true;
-                    testRoadScript.exitSouth = true;
-                    testRoadScript.exitEast = true;
-                    testRoadScript.exitNorth = false;
-                    testRoadScript.exitWest = false;
+                    roadScriptHolder.exitSouth = true;
+                    roadScriptHolder.exitEast = true;
+                    roadScriptHolder.exitNorth = false;
+                    roadScriptHolder.exitWest = false;
                 }
                 if (possibleSouth == true && possibleWest == true && possibleNorth == false && possibleEast == false)
                 {
                     selectedRoadPiece = Instantiate(roadPieces[2], passedTile.transform.position, Quaternion.Euler(0, 180, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    testRoadScript.haveRoad = true;
+                    roadScriptHolder.haveRoad = true;
                     roadChosen = true;
-                    testRoadScript.exitSouth = true;
-                    testRoadScript.exitEast = false;
-                    testRoadScript.exitNorth = false;
-                    testRoadScript.exitWest = true;
+                    roadScriptHolder.exitSouth = true;
+                    roadScriptHolder.exitEast = false;
+                    roadScriptHolder.exitNorth = false;
+                    roadScriptHolder.exitWest = true;
                 }
                 if (possibleEast == true && possibleWest == true && possibleSouth == false && possibleNorth == false)
                 {
                     selectedRoadPiece = Instantiate(roadPieces[0], passedTile.transform.position, Quaternion.Euler(0, 90, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    testRoadScript.haveRoad = true;
+                    roadScriptHolder.haveRoad = true;
                     roadChosen = true;
-                    testRoadScript.exitSouth = false;
-                    testRoadScript.exitEast = true;
-                    testRoadScript.exitNorth = false;
-                    testRoadScript.exitWest = true;
+                    roadScriptHolder.exitSouth = false;
+                    roadScriptHolder.exitEast = true;
+                    roadScriptHolder.exitNorth = false;
+                    roadScriptHolder.exitWest = true;
                 }
                 if (possibleEast == true && possibleWest == true && possibleSouth == true && possibleNorth == false)
                 {
                     selectedRoadPiece = Instantiate(roadPieces[1], passedTile.transform.position, Quaternion.Euler(0, 90, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    testRoadScript.haveRoad = true;
+                    roadScriptHolder.haveRoad = true;
                     roadChosen = true;
-                    testRoadScript.exitSouth = true;
-                    testRoadScript.exitEast = true;
-                    testRoadScript.exitNorth = false;
-                    testRoadScript.exitWest = true;
+                    roadScriptHolder.exitSouth = true;
+                    roadScriptHolder.exitEast = true;
+                    roadScriptHolder.exitNorth = false;
+                    roadScriptHolder.exitWest = true;
                 }
                 if (possibleEast == true && possibleWest == true && possibleSouth == false && possibleNorth == true)
                 {
                     selectedRoadPiece = Instantiate(roadPieces[1], passedTile.transform.position, Quaternion.Euler(0, 270, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    testRoadScript.haveRoad = true;
+                    roadScriptHolder.haveRoad = true;
                     roadChosen = true;
-                    testRoadScript.exitSouth = false;
-                    testRoadScript.exitEast = true;
-                    testRoadScript.exitNorth = true;
-                    testRoadScript.exitWest = true;
+                    roadScriptHolder.exitSouth = false;
+                    roadScriptHolder.exitEast = true;
+                    roadScriptHolder.exitNorth = true;
+                    roadScriptHolder.exitWest = true;
                 }
                 if (possibleEast == false && possibleWest == true && possibleSouth == true && possibleNorth == true)
                 {
                     selectedRoadPiece = Instantiate(roadPieces[1], passedTile.transform.position, Quaternion.Euler(0, 180, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    testRoadScript.haveRoad = true;
+                    roadScriptHolder.haveRoad = true;
                     roadChosen = true;
-                    testRoadScript.exitSouth = true;
-                    testRoadScript.exitEast = false;
-                    testRoadScript.exitNorth = true;
-                    testRoadScript.exitWest = true;
+                    roadScriptHolder.exitSouth = true;
+                    roadScriptHolder.exitEast = false;
+                    roadScriptHolder.exitNorth = true;
+                    roadScriptHolder.exitWest = true;
                 }
                 if (possibleEast == true && possibleWest == false && possibleSouth == true && possibleNorth == true)
                 {
                     selectedRoadPiece = Instantiate(roadPieces[1], passedTile.transform.position, Quaternion.identity);
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    testRoadScript.haveRoad = true;
+                    roadScriptHolder.haveRoad = true;
                     roadChosen = true;
-                    testRoadScript.exitSouth = true;
-                    testRoadScript.exitEast = true;
-                    testRoadScript.exitNorth = true;
-                    testRoadScript.exitWest = false;
+                    roadScriptHolder.exitSouth = true;
+                    roadScriptHolder.exitEast = true;
+                    roadScriptHolder.exitNorth = true;
+                    roadScriptHolder.exitWest = false;
                 }
                 if (possibleNorth == true && possibleSouth == true && possibleEast == true && possibleWest == true && roadChosen == false)
                 {
@@ -711,96 +742,87 @@ public class MapGeneratorScript : MonoBehaviour {
                     {
                         selectedRoadPiece = Instantiate(roadPieces[3], passedTile.transform.position, Quaternion.identity);
                         selectedRoadPiece.transform.SetParent(passedTile.transform);
-                        testRoadScript.haveRoad = true;
+                        roadScriptHolder.haveRoad = true;
                         roadChosen = true;
-                        testRoadScript.exitSouth = true;
-                        testRoadScript.exitEast = true;
-                        testRoadScript.exitNorth = true;
-                        testRoadScript.exitWest = true;
-                        //}
-                        //if (animationCurveRandom > 0.11 && animationCurveRandom < 0.3)
-                        //{
-                        //    selectedRoadPiece = Instantiate(roadPieces[1], passedTile.transform.position, Quaternion.identity);
-                        //    selectedRoadPiece.transform.SetParent(passedTile.transform);
-                        //    testRoadScript.haveRoad = true;
-                        //    roadChosen = true;
-                        //    testRoadScript.exitSouth = true;
-                        //    testRoadScript.exitEast = true;
-                        //    testRoadScript.exitNorth = true;
-                        //    testRoadScript.exitWest = false;
-                        //}
+                        roadScriptHolder.exitSouth = true;
+                        roadScriptHolder.exitEast = true;
+                        roadScriptHolder.exitNorth = true;
+                        roadScriptHolder.exitWest = true;
                     }
                     if (animationCurveRandom > 0.31 && animationCurveRandom < 0.6 && possibleEast == false && possibleWest == false)
                     {
                         selectedRoadPiece = Instantiate(roadPieces[0], passedTile.transform.position, Quaternion.identity);
                         selectedRoadPiece.transform.SetParent(passedTile.transform);
-                        testRoadScript.haveRoad = true;
+                        roadScriptHolder.haveRoad = true;
                         roadChosen = true;
-                        testRoadScript.exitSouth = true;
-                        testRoadScript.exitEast = false;
-                        testRoadScript.exitNorth = true;
-                        testRoadScript.exitWest = false;
+                        roadScriptHolder.exitSouth = true;
+                        roadScriptHolder.exitEast = false;
+                        roadScriptHolder.exitNorth = true;
+                        roadScriptHolder.exitWest = false;
                     }
                     if (roadChosen == false)
                     {
                         selectedRoadPiece = Instantiate(roadPieces[3], passedTile.transform.position, Quaternion.identity);
                         selectedRoadPiece.transform.SetParent(passedTile.transform);
-                        testRoadScript.haveRoad = true;
+                        roadScriptHolder.haveRoad = true;
                         roadChosen = true;
-                        testRoadScript.exitSouth = true;
-                        testRoadScript.exitEast = true;
-                        testRoadScript.exitNorth = true;
-                        testRoadScript.exitWest = true;
+                        roadScriptHolder.exitSouth = true;
+                        roadScriptHolder.exitEast = true;
+                        roadScriptHolder.exitNorth = true;
+                        roadScriptHolder.exitWest = true;
                     }
                 }
                 if (possibleNorth == true && possibleSouth == false && possibleEast == false && possibleWest == false && roadChosen == false)
                 {
                     selectedRoadPiece = Instantiate(roadPieces[4], passedTile.transform.position, Quaternion.identity);
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    testRoadScript.haveRoad = true;
+                    roadScriptHolder.haveRoad = true;
                     roadChosen = true;
-                    testRoadScript.exitSouth = false;
-                    testRoadScript.exitEast = false;
-                    testRoadScript.exitNorth = true;
-                    testRoadScript.exitWest = false;
+                    roadScriptHolder.exitSouth = false;
+                    roadScriptHolder.exitEast = false;
+                    roadScriptHolder.exitNorth = true;
+                    roadScriptHolder.exitWest = false;
                 }
                 if (possibleNorth == false && possibleSouth == true && possibleEast == false && possibleWest == false && roadChosen == false)
                 {
                     selectedRoadPiece = Instantiate(roadPieces[4], passedTile.transform.position, Quaternion.Euler(0, 180, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    testRoadScript.haveRoad = true;
+                    roadScriptHolder.haveRoad = true;
                     roadChosen = true;
-                    testRoadScript.exitSouth = true;
-                    testRoadScript.exitEast = false;
-                    testRoadScript.exitNorth = false;
-                    testRoadScript.exitWest = false;
+                    roadScriptHolder.exitSouth = true;
+                    roadScriptHolder.exitEast = false;
+                    roadScriptHolder.exitNorth = false;
+                    roadScriptHolder.exitWest = false;
                 }
                 if (possibleNorth == false && possibleSouth == false && possibleEast == true && possibleWest == false && roadChosen == false)
                 {
                     selectedRoadPiece = Instantiate(roadPieces[4], passedTile.transform.position, Quaternion.Euler(0, 90, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    testRoadScript.haveRoad = true;
+                    roadScriptHolder.haveRoad = true;
                     roadChosen = true;
-                    testRoadScript.exitSouth = false;
-                    testRoadScript.exitEast = true;
-                    testRoadScript.exitNorth = false;
-                    testRoadScript.exitWest = false;
+                    roadScriptHolder.exitSouth = false;
+                    roadScriptHolder.exitEast = true;
+                    roadScriptHolder.exitNorth = false;
+                    roadScriptHolder.exitWest = false;
                 }
                 if (possibleNorth == false && possibleSouth == false && possibleEast == false && possibleWest == true && roadChosen == false)
                 {
                     selectedRoadPiece = Instantiate(roadPieces[4], passedTile.transform.position, Quaternion.Euler(0, 270, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    testRoadScript.haveRoad = true;
+                    roadScriptHolder.haveRoad = true;
                     roadChosen = true;
-                    testRoadScript.exitSouth = false;
-                    testRoadScript.exitEast = false;
-                    testRoadScript.exitNorth = false;
-                    testRoadScript.exitWest = true;
+                    roadScriptHolder.exitSouth = false;
+                    roadScriptHolder.exitEast = false;
+                    roadScriptHolder.exitNorth = false;
+                    roadScriptHolder.exitWest = true;
                 }
             }
         }
     }
+
+    void Obstacle()
+    {
+        GameObject spawnedObstacle = Instantiate(obstacles[0], obstacleSpawner.transform.position, Quaternion.identity);
+    }
 }
-
-
 

@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 33448309055802768}
   - component: {fileID: 65483192921299910}
   - component: {fileID: 23342459563792860}
-  - component: {fileID: 114270952560914262}
+  - component: {fileID: 114467792643957092}
   m_Layer: 0
   m_Name: StartPoint_Official
   m_TagString: StartPoint
@@ -183,7 +183,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114270952560914262
+--- !u!114 &114467792643957092
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1897405527962658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5244f650f37673f4b82036ad733191f2, type: 3}
+  m_Script: {fileID: 11500000, guid: 88f3833afdf8ed24197ba3b112c4fdf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   exitPointNorth: 0

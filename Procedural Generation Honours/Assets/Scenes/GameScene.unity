@@ -479,7 +479,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1782234017}
+      - m_Target: {fileID: 0}
         m_MethodName: Generate
         m_Mode: 3
         m_Arguments:
@@ -1458,7 +1458,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1782234015}
-  - component: {fileID: 1782234017}
+  - component: {fileID: 1782234016}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1479,7 +1479,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1782234017
+--- !u!114 &1782234016
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -1487,7 +1487,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1782234014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 664070c6201d6454e89df6b526ff4200, type: 3}
+  m_Script: {fileID: 11500000, guid: e73119478d4d25b4aaf40746ce36c211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startPointPreFab: {fileID: 1897405527962658, guid: 0fd361ed5249701468469f08e4d52e61,
@@ -1506,9 +1506,7 @@ MonoBehaviour:
   carCanvas: {fileID: 834781721}
   endCanvas: {fileID: 917331922}
   seedNameHolder: {fileID: 2130057756}
-  obstacles:
-  - {fileID: 1240599268382518, guid: 6fba14461a78702489232e9123eed0a5, type: 2}
-  - {fileID: 1414372363354428, guid: 8dd0375d142bad64b82019d280c0ba7a, type: 2}
+  obstacles: []
   roadPieces:
   - {fileID: 1406436339326988, guid: cc3f3e673e1946d44a01e46af40c2e8a, type: 2}
   - {fileID: 1497627032525892, guid: 081e19618835d8e4ea212c856ee54ee6, type: 2}
@@ -1524,14 +1522,14 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

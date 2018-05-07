@@ -522,10 +522,10 @@ public class MapGeneratorScript : MonoBehaviour {
     IEnumerator Waiting(GameObject passThrough)
     {
         yield return new WaitForSeconds(0.2f);
-        DecideRoad(passThrough);
+        RoadBuilder(passThrough);
     }
 
-    void DecideRoad(GameObject passedTile)
+    void RoadBuilder(GameObject passedTile)
     {
         bool possibleNorth = false;
         bool possibleSouth = false;
@@ -629,7 +629,6 @@ public class MapGeneratorScript : MonoBehaviour {
                     selectedRoadPiece = Instantiate(roadPieces[0], passedTile.transform.position, Quaternion.identity);
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
                     roadScriptHolder.haveRoad = true;
-                    roadChosen = true;
                     roadScriptHolder.exitSouth = true;
                     roadScriptHolder.exitEast = false;
                     roadScriptHolder.exitNorth = true;
@@ -640,7 +639,6 @@ public class MapGeneratorScript : MonoBehaviour {
                     selectedRoadPiece = Instantiate(roadPieces[2], passedTile.transform.position, Quaternion.identity);
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
                     roadScriptHolder.haveRoad = true;
-                    roadChosen = true;
                     roadScriptHolder.exitSouth = false;
                     roadScriptHolder.exitEast = true;
                     roadScriptHolder.exitNorth = true;
@@ -652,7 +650,6 @@ public class MapGeneratorScript : MonoBehaviour {
                     selectedRoadPiece = Instantiate(roadPieces[2], passedTile.transform.position, Quaternion.Euler(0, 270, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
                     roadScriptHolder.haveRoad = true;
-                    roadChosen = true;
                     roadScriptHolder.exitSouth = false;
                     roadScriptHolder.exitEast = false;
                     roadScriptHolder.exitNorth = true;
@@ -663,7 +660,6 @@ public class MapGeneratorScript : MonoBehaviour {
                     selectedRoadPiece = Instantiate(roadPieces[2], passedTile.transform.position, Quaternion.Euler(0, 90, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
                     roadScriptHolder.haveRoad = true;
-                    roadChosen = true;
                     roadScriptHolder.exitSouth = true;
                     roadScriptHolder.exitEast = true;
                     roadScriptHolder.exitNorth = false;
@@ -674,7 +670,6 @@ public class MapGeneratorScript : MonoBehaviour {
                     selectedRoadPiece = Instantiate(roadPieces[2], passedTile.transform.position, Quaternion.Euler(0, 180, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
                     roadScriptHolder.haveRoad = true;
-                    roadChosen = true;
                     roadScriptHolder.exitSouth = true;
                     roadScriptHolder.exitEast = false;
                     roadScriptHolder.exitNorth = false;
@@ -685,7 +680,6 @@ public class MapGeneratorScript : MonoBehaviour {
                     selectedRoadPiece = Instantiate(roadPieces[0], passedTile.transform.position, Quaternion.Euler(0, 90, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
                     roadScriptHolder.haveRoad = true;
-                    roadChosen = true;
                     roadScriptHolder.exitSouth = false;
                     roadScriptHolder.exitEast = true;
                     roadScriptHolder.exitNorth = false;
@@ -696,7 +690,6 @@ public class MapGeneratorScript : MonoBehaviour {
                     selectedRoadPiece = Instantiate(roadPieces[1], passedTile.transform.position, Quaternion.Euler(0, 90, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
                     roadScriptHolder.haveRoad = true;
-                    roadChosen = true;
                     roadScriptHolder.exitSouth = true;
                     roadScriptHolder.exitEast = true;
                     roadScriptHolder.exitNorth = false;
@@ -707,7 +700,6 @@ public class MapGeneratorScript : MonoBehaviour {
                     selectedRoadPiece = Instantiate(roadPieces[1], passedTile.transform.position, Quaternion.Euler(0, 270, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
                     roadScriptHolder.haveRoad = true;
-                    roadChosen = true;
                     roadScriptHolder.exitSouth = false;
                     roadScriptHolder.exitEast = true;
                     roadScriptHolder.exitNorth = true;
@@ -718,7 +710,6 @@ public class MapGeneratorScript : MonoBehaviour {
                     selectedRoadPiece = Instantiate(roadPieces[1], passedTile.transform.position, Quaternion.Euler(0, 180, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
                     roadScriptHolder.haveRoad = true;
-                    roadChosen = true;
                     roadScriptHolder.exitSouth = true;
                     roadScriptHolder.exitEast = false;
                     roadScriptHolder.exitNorth = true;
@@ -729,7 +720,6 @@ public class MapGeneratorScript : MonoBehaviour {
                     selectedRoadPiece = Instantiate(roadPieces[1], passedTile.transform.position, Quaternion.identity);
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
                     roadScriptHolder.haveRoad = true;
-                    roadChosen = true;
                     roadScriptHolder.exitSouth = true;
                     roadScriptHolder.exitEast = true;
                     roadScriptHolder.exitNorth = true;
@@ -743,7 +733,6 @@ public class MapGeneratorScript : MonoBehaviour {
                         selectedRoadPiece = Instantiate(roadPieces[3], passedTile.transform.position, Quaternion.identity);
                         selectedRoadPiece.transform.SetParent(passedTile.transform);
                         roadScriptHolder.haveRoad = true;
-                        roadChosen = true;
                         roadScriptHolder.exitSouth = true;
                         roadScriptHolder.exitEast = true;
                         roadScriptHolder.exitNorth = true;
@@ -754,7 +743,6 @@ public class MapGeneratorScript : MonoBehaviour {
                         selectedRoadPiece = Instantiate(roadPieces[0], passedTile.transform.position, Quaternion.identity);
                         selectedRoadPiece.transform.SetParent(passedTile.transform);
                         roadScriptHolder.haveRoad = true;
-                        roadChosen = true;
                         roadScriptHolder.exitSouth = true;
                         roadScriptHolder.exitEast = false;
                         roadScriptHolder.exitNorth = true;
@@ -765,7 +753,6 @@ public class MapGeneratorScript : MonoBehaviour {
                         selectedRoadPiece = Instantiate(roadPieces[3], passedTile.transform.position, Quaternion.identity);
                         selectedRoadPiece.transform.SetParent(passedTile.transform);
                         roadScriptHolder.haveRoad = true;
-                        roadChosen = true;
                         roadScriptHolder.exitSouth = true;
                         roadScriptHolder.exitEast = true;
                         roadScriptHolder.exitNorth = true;
@@ -777,7 +764,6 @@ public class MapGeneratorScript : MonoBehaviour {
                     selectedRoadPiece = Instantiate(roadPieces[4], passedTile.transform.position, Quaternion.identity);
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
                     roadScriptHolder.haveRoad = true;
-                    roadChosen = true;
                     roadScriptHolder.exitSouth = false;
                     roadScriptHolder.exitEast = false;
                     roadScriptHolder.exitNorth = true;
@@ -788,7 +774,6 @@ public class MapGeneratorScript : MonoBehaviour {
                     selectedRoadPiece = Instantiate(roadPieces[4], passedTile.transform.position, Quaternion.Euler(0, 180, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
                     roadScriptHolder.haveRoad = true;
-                    roadChosen = true;
                     roadScriptHolder.exitSouth = true;
                     roadScriptHolder.exitEast = false;
                     roadScriptHolder.exitNorth = false;
@@ -799,7 +784,6 @@ public class MapGeneratorScript : MonoBehaviour {
                     selectedRoadPiece = Instantiate(roadPieces[4], passedTile.transform.position, Quaternion.Euler(0, 90, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
                     roadScriptHolder.haveRoad = true;
-                    roadChosen = true;
                     roadScriptHolder.exitSouth = false;
                     roadScriptHolder.exitEast = true;
                     roadScriptHolder.exitNorth = false;
@@ -809,13 +793,13 @@ public class MapGeneratorScript : MonoBehaviour {
                 {
                     selectedRoadPiece = Instantiate(roadPieces[4], passedTile.transform.position, Quaternion.Euler(0, 270, 0));
                     selectedRoadPiece.transform.SetParent(passedTile.transform);
-                    roadScriptHolder.haveRoad = true;
-                    roadChosen = true;
+                    roadScriptHolder.haveRoad = true;                    
                     roadScriptHolder.exitSouth = false;
                     roadScriptHolder.exitEast = false;
                     roadScriptHolder.exitNorth = false;
                     roadScriptHolder.exitWest = true;
                 }
+                roadChosen = true;
             }
         }
     }

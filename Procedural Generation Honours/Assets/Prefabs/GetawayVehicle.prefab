@@ -341,7 +341,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1993637344945866}
-  m_LocalRotation: {x: -0.9230045, y: 0.000000014149631, z: 0.00000008318909, w: 0.3847891}
+  m_LocalRotation: {x: -0.92300457, y: 0.000000014149632, z: 0.0000000831891, w: 0.38478914}
   m_LocalPosition: {x: 0.80499953, y: -0.3, z: -1.2699993}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -412,7 +412,7 @@ Transform:
   m_GameObject: {fileID: 1467952597322886}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0.0053, z: -0.0494}
-  m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
+  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
   m_Children:
   - {fileID: 4575406544796590}
   - {fileID: 4046764877191278}
@@ -798,9 +798,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c73e278ff2d2bc4b9b7e87a18cf892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMotorTorque: 15
+  maxMotorTorque: 20
   maxSteeringAngle: 40
-  topSpeed: 15
   currentSpeed: 0
   truck_Infos:
   - leftWheel: {fileID: 146967047783325220}

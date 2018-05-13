@@ -507,7 +507,7 @@ public class MapGeneratorScript : MonoBehaviour {
         if (animationCurveTest < 0.3 && canBePark == true)
         {
             chosenType = "Park";
-            instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z)] = Instantiate(buildingBlocks[3], tileLocation, Quaternion.identity);
+            instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z)] = Instantiate(buildingBlocks[3], tileLocation + new Vector3(0, 0.01524f, 0), Quaternion.identity);
         }
         else
         {
@@ -591,10 +591,10 @@ public class MapGeneratorScript : MonoBehaviour {
                     possibleEast = true;
                 }
             }
-            if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "ParkPiece" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "Boundary")
-            {
-                possibleEast = false;
-            }
+            //if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "ParkPiece" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "Boundary")
+            //{
+            //    possibleEast = false;
+            //}
         }
 
         if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)] != null)
@@ -612,10 +612,10 @@ public class MapGeneratorScript : MonoBehaviour {
                     possibleWest = true;
                 }
             }
-            if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "ParkPiece" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "Boundary")
-            {
-                possibleWest = false;
-            }
+            //if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "ParkPiece" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "Boundary")
+            //{
+            //    possibleWest = false;
+            //}
         }
         if (roadScriptHolder != null)
         {

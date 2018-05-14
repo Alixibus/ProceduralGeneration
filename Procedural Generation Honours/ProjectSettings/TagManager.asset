@@ -19,6 +19,7 @@ TagManager:
   - ExitCameraHolder
   - Seed Holder
   - CameraAimAt
+  - GearText
   layers:
   - Default
   - TransparentFX

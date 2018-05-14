@@ -756,6 +756,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 7d3bd2cddb1b9d94b8a2e02330a93d3e, type: 2}
   m_StaticBatchInfo:
@@ -790,6 +791,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: a4fcea2077c4d3f4ba5b4cde11c9f3db, type: 2}
   m_StaticBatchInfo:
@@ -824,6 +826,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 7d3bd2cddb1b9d94b8a2e02330a93d3e, type: 2}
   m_StaticBatchInfo:
@@ -858,6 +861,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 7d3bd2cddb1b9d94b8a2e02330a93d3e, type: 2}
   m_StaticBatchInfo:
@@ -892,6 +896,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 7d3bd2cddb1b9d94b8a2e02330a93d3e, type: 2}
   m_StaticBatchInfo:
@@ -926,6 +931,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: d1bd61ae1b8bd994184b93a9bb891045, type: 2}
   - {fileID: 2100000, guid: 0e0f912d310c3f94b96b16d7b5cdfa85, type: 2}
@@ -964,6 +970,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: a4fcea2077c4d3f4ba5b4cde11c9f3db, type: 2}
   m_StaticBatchInfo:
@@ -1312,8 +1319,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c73e278ff2d2bc4b9b7e87a18cf892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMotorTorque: 20
-  maxSteeringAngle: 40
+  maxMotorTorque: 2
+  maxSteeringAngle: 0
+  gearDisplay: {fileID: 0}
   brakeMat: {fileID: 2100000, guid: a4fcea2077c4d3f4ba5b4cde11c9f3db, type: 2}
   brakeOffTexture: {fileID: 2800000, guid: abe1200e81340a249b2be306a5a2cfb7, type: 3}
   brakeOnTexture: {fileID: 2800000, guid: 2ad7b8def8f80fc47a7687698e80c1f0, type: 3}
@@ -1326,7 +1334,7 @@ MonoBehaviour:
     rightWheelMesh: {fileID: 1460337681133174}
     leftBrake: {fileID: 0}
     rightBrake: {fileID: 0}
-    motor: 0
+    motor: 1
     steering: 1
     reverseTurn: 0
   - leftWheel: {fileID: 146255078355559318}
@@ -1335,7 +1343,7 @@ MonoBehaviour:
     rightWheelMesh: {fileID: 1488746244847002}
     leftBrake: {fileID: 0}
     rightBrake: {fileID: 0}
-    motor: 1
+    motor: 0
     steering: 0
     reverseTurn: 0
 --- !u!146 &146151184305768688

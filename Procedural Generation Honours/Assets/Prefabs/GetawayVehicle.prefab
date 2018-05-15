@@ -154,6 +154,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!1 &1397322567601602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4767476809549078}
+  - component: {fileID: 20185155447737804}
+  - component: {fileID: 124227100944254324}
+  - component: {fileID: 81468733715335090}
+  m_Layer: 0
+  m_Name: RearCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1414081186887270
 GameObject:
   m_ObjectHideFlags: 1
@@ -617,6 +635,19 @@ Transform:
   m_Father: {fileID: 4316775935527508}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4767476809549078
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397322567601602}
+  m_LocalRotation: {x: 0.017451717, y: 0.009161446, z: -0.00015991404, w: 0.99980575}
+  m_LocalPosition: {x: -0.17333335, y: 0.87, z: 0.31666657}
+  m_LocalScale: {x: 3.3333344, y: 3.3333337, z: 3.3333344}
+  m_Children: []
+  m_Father: {fileID: 4983423389070718}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 2, y: 1.0500001, z: 0}
 --- !u!4 &4811429340317872
 Transform:
   m_ObjectHideFlags: 1
@@ -691,6 +722,7 @@ Transform:
   - {fileID: 4535046775072416}
   - {fileID: 4046764877191278}
   - {fileID: 4971799866650662}
+  - {fileID: 4767476809549078}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -707,6 +739,42 @@ Transform:
   m_Father: {fileID: 4046764877191278}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!20 &20185155447737804
+Camera:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397322567601602}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.1
+  far clip plane: 1000
+  field of view: 20
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 8400000, guid: 8a577a5eca700a34ab9a4e5735cfd65a, type: 2}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!20 &20284627301564966
 Camera:
   m_ObjectHideFlags: 1
@@ -756,7 +824,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 7d3bd2cddb1b9d94b8a2e02330a93d3e, type: 2}
   m_StaticBatchInfo:
@@ -791,7 +858,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: a4fcea2077c4d3f4ba5b4cde11c9f3db, type: 2}
   m_StaticBatchInfo:
@@ -826,7 +892,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 7d3bd2cddb1b9d94b8a2e02330a93d3e, type: 2}
   m_StaticBatchInfo:
@@ -861,7 +926,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 7d3bd2cddb1b9d94b8a2e02330a93d3e, type: 2}
   m_StaticBatchInfo:
@@ -896,7 +960,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 7d3bd2cddb1b9d94b8a2e02330a93d3e, type: 2}
   m_StaticBatchInfo:
@@ -931,7 +994,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: d1bd61ae1b8bd994184b93a9bb891045, type: 2}
   - {fileID: 2100000, guid: 0e0f912d310c3f94b96b16d7b5cdfa85, type: 2}
@@ -970,7 +1032,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: a4fcea2077c4d3f4ba5b4cde11c9f3db, type: 2}
   m_StaticBatchInfo:
@@ -1092,6 +1153,13 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!81 &81468733715335090
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397322567601602}
+  m_Enabled: 1
 --- !u!108 &108112712103209286
 Light:
   m_ObjectHideFlags: 1
@@ -1321,7 +1389,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxMotorTorque: 2
   maxSteeringAngle: 0
-  gearDisplay: {fileID: 0}
   brakeMat: {fileID: 2100000, guid: a4fcea2077c4d3f4ba5b4cde11c9f3db, type: 2}
   brakeOffTexture: {fileID: 2800000, guid: abe1200e81340a249b2be306a5a2cfb7, type: 3}
   brakeOnTexture: {fileID: 2800000, guid: 2ad7b8def8f80fc47a7687698e80c1f0, type: 3}
@@ -1346,6 +1413,13 @@ MonoBehaviour:
     motor: 0
     steering: 0
     reverseTurn: 0
+--- !u!124 &124227100944254324
+Behaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397322567601602}
+  m_Enabled: 1
 --- !u!146 &146151184305768688
 WheelCollider:
   m_ObjectHideFlags: 1

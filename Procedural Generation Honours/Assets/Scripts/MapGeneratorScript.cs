@@ -16,6 +16,7 @@ public class MapGeneratorScript : MonoBehaviour {
     private Vector3 preExitTile;
     private List<GameObject> gridPath;
     private GameObject[,] instantiatedMap;
+    private Canvas mainUI;
     private GameObject obstacleSpawner;
     public GameObject[] obstacles;
     public GameObject[] roadPieces;
@@ -40,19 +41,21 @@ public class MapGeneratorScript : MonoBehaviour {
     void Start()
     {
         seedHolder = GameObject.Find("SeedHolder");
+        mainUI = GameObject.Find("Canvas").GetComponent<Canvas>();
 
         if (seedHolder != null)
         {
-            if (seedHolder.GetComponent<SeedScript>().seededPlay)
+            if (seedHolder.GetComponent<SeedScript>().SeededPlay)
             {
-                seed = seedHolder.GetComponent<SeedScript>().seedNumber;
+                seed = seedHolder.GetComponent<SeedScript>().SeedNumber;
             }
             else
             {
                 seed = Random.Range(-10000, 10000);
-                seedHolder.GetComponent<SeedScript>().seedNumber = seed;
+                seedHolder.GetComponent<SeedScript>().SeedNumber = seed;
             }
-            seedHolder.GetComponent<SeedScript>().seededPlay = false;
+            seedHolder.GetComponent<SeedScript>().SeededPlay = false;
+            getawayVehiclePrefab = seedHolder.GetComponent<SeedScript>().GetawayVehicle;
         }
 
         //seed = 2074; //for Testing purposes 
@@ -73,6 +76,11 @@ public class MapGeneratorScript : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (mainUI != null)
+        {
+            mainUI.gameObject.SetActive(false);
+        }
+
         escapeDistance = Vector3.Distance(exitPoint.transform.position, getAwayVehicle.transform.position);
         //print(escapeDistance);
         if (escapeDistance < 0.2f)
@@ -92,9 +100,19 @@ public class MapGeneratorScript : MonoBehaviour {
             escapeSceneSet = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Obstacle();
+            if(mainUI != null)
+            {
+                if(mainUI.gameObject.activeInHierarchy)
+                {
+                    mainUI.gameObject.SetActive(false);
+                }
+                else
+                {
+                    mainUI.gameObject.SetActive(true);
+                }
+            }
         }
 
     }
@@ -106,12 +124,12 @@ public class MapGeneratorScript : MonoBehaviour {
             gridWidth = Mathf.RoundToInt(Random.Range(25.0f, 50.0f));
             while (gridWidth % 2 == 0)
             {
-                gridWidth = Mathf.RoundToInt(Random.Range(25.0f, 50.0f));
+                gridWidth = Mathf.RoundToInt(Random.Range(25.0f, 40.0f));
             }
         }
         if (gridHeight == 0)
         {
-            gridHeight = Mathf.RoundToInt(Random.Range(25.0f, 50.0f));
+            gridHeight = Mathf.RoundToInt(Random.Range(25.0f, 40.0f));
             while (gridHeight % 2 == 0)
             {
                 gridHeight = Mathf.RoundToInt(Random.Range(25.0f, 50.0f));
@@ -157,7 +175,9 @@ public class MapGeneratorScript : MonoBehaviour {
         instantiatedMap[Mathf.RoundToInt(startPoint.transform.position.x), Mathf.RoundToInt(startPoint.transform.position.z)] = startPoint;
 
         //startPoint = Instantiate(startPointPreFab, new Vector3(0, 0, 0), Quaternion.identity);
+        
         getAwayVehicle = Instantiate(getawayVehiclePrefab, new Vector3(startPoint.transform.position.x + 0.077f, startPoint.transform.position.y + 0.078f, startPoint.transform.position.z + 0.346f), Quaternion.identity);
+               
 
         //Generate exit Route on Outer
         ChooseExitPoint();
@@ -344,16 +364,17 @@ public class MapGeneratorScript : MonoBehaviour {
         {
             if (seedHolder != null)
             {
-                if (seedHolder.GetComponent<SeedScript>().seededPlay)
+                if (seedHolder.GetComponent<SeedScript>().SeededPlay)
                 {
-                    seed = seedHolder.GetComponent<SeedScript>().seedNumber;
+                    seed = seedHolder.GetComponent<SeedScript>().SeedNumber;
                 }
                 else
                 {
                     seed = Random.Range(-10000, 10000);
-                    seedHolder.GetComponent<SeedScript>().seedNumber = seed;
+                    seedHolder.GetComponent<SeedScript>().SeedNumber = seed;
                 }
-                seedHolder.GetComponent<SeedScript>().seededPlay = false;
+                seedHolder.GetComponent<SeedScript>().SeededPlay = false;
+                getAwayVehicle = seedHolder.GetComponent<SeedScript>().GetawayVehicle;
             }
             Random.InitState(seed);
             tileCount = 0;
@@ -391,15 +412,15 @@ public class MapGeneratorScript : MonoBehaviour {
 
             if (seedHolder != null)
             {
-                seedHolder.GetComponent<SeedScript>().seededPlay = true;
+                seedHolder.GetComponent<SeedScript>().SeededPlay = true;
 
-                if (seedHolder.GetComponent<SeedScript>().seededPlay)
+                if (seedHolder.GetComponent<SeedScript>().SeededPlay)
                 {
-                    seedHolder.GetComponent<SeedScript>().seedNumber = int.Parse(seedInputField.text);
-                    seed = seedHolder.GetComponent<SeedScript>().seedNumber;
+                    seedHolder.GetComponent<SeedScript>().SeedNumber = int.Parse(seedInputField.text);
+                    seed = seedHolder.GetComponent<SeedScript>().SeedNumber;
                 }
 
-                seedHolder.GetComponent<SeedScript>().seededPlay = false;
+                seedHolder.GetComponent<SeedScript>().SeededPlay = false;
             }
             Random.InitState((int)seed);
             tileCount = 0;

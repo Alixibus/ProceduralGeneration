@@ -10,6 +10,7 @@ public class MenuScript : MonoBehaviour
 
     public GameObject startPointPreFab, exitPointPreFab;
     public GameObject[] buildingBlocks;
+    public GameObject seedHolder; 
     private GameObject startPoint, currentTile, exitPoint;
     private Vector3 preExitTile;
     private List<GameObject> gridPath;
@@ -28,6 +29,10 @@ public class MenuScript : MonoBehaviour
     void Start()
     {
         BuildGrid();
+    }
+
+    private void Update()
+    {
     }
 
     void BuildGrid()

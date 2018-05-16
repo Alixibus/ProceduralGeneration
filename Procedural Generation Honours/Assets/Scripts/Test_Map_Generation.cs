@@ -43,16 +43,16 @@ public class Test_Map_Generation : MonoBehaviour
         
         if(seedHolder != null)
         {
-            if(seedHolder.GetComponent<SeedScript>().seededPlay)
+            if(seedHolder.GetComponent<SeedScript>().SeededPlay)
             {
-                seed = seedHolder.GetComponent<SeedScript>().seedNumber;
+                seed = seedHolder.GetComponent<SeedScript>().SeedNumber;
             }
             else
             {
                 seed = Random.Range(-10000, 10000);
-                seedHolder.GetComponent<SeedScript>().seedNumber = seed;
+                seedHolder.GetComponent<SeedScript>().SeedNumber = seed;
             }
-            seedHolder.GetComponent<SeedScript>().seededPlay = false;
+            seedHolder.GetComponent<SeedScript>().SeededPlay = false;
         }
 
         //seed = 2074; //for Testing purposes 
@@ -344,16 +344,16 @@ public class Test_Map_Generation : MonoBehaviour
         {
             if (seedHolder != null)
             {
-                if (seedHolder.GetComponent<SeedScript>().seededPlay)
+                if (seedHolder.GetComponent<SeedScript>().SeededPlay)
                 {
-                    seed = seedHolder.GetComponent<SeedScript>().seedNumber;
+                    seed = seedHolder.GetComponent<SeedScript>().SeedNumber;
                 }
                 else
                 {
                     seed = Random.Range(-10000, 10000);
-                    seedHolder.GetComponent<SeedScript>().seedNumber = seed;
+                    seedHolder.GetComponent<SeedScript>().SeedNumber = seed;
                 }
-                seedHolder.GetComponent<SeedScript>().seededPlay = false;
+                seedHolder.GetComponent<SeedScript>().SeededPlay = false;
             }
             Random.InitState(seed);
             tileCount = 0;
@@ -391,15 +391,15 @@ public class Test_Map_Generation : MonoBehaviour
 
             if (seedHolder != null)
             {
-                seedHolder.GetComponent<SeedScript>().seededPlay = true;
+                seedHolder.GetComponent<SeedScript>().SeededPlay = true;
 
-                if (seedHolder.GetComponent<SeedScript>().seededPlay)
+                if (seedHolder.GetComponent<SeedScript>().SeededPlay)
                 {                    
-                    seedHolder.GetComponent<SeedScript>().seedNumber = int.Parse(seedInputField.text);
-                    seed = seedHolder.GetComponent<SeedScript>().seedNumber;
+                    seedHolder.GetComponent<SeedScript>().SeedNumber = int.Parse(seedInputField.text);
+                    seed = seedHolder.GetComponent<SeedScript>().SeedNumber;
                 }
 
-                seedHolder.GetComponent<SeedScript>().seededPlay = false;
+                seedHolder.GetComponent<SeedScript>().SeededPlay = false;
             }
             Random.InitState((int)seed);
             tileCount = 0;

@@ -12,11 +12,10 @@ public class MapGeneratorScript : MonoBehaviour {
     public InputField seedInputField;
     public Canvas carCanvas, endCanvas;
     public Text seedNameHolder;
-    private GameObject startPoint, currentTile, exitPoint, getAwayVehicle, seedHolder;
+    private GameObject startPoint, currentTile, exitPoint, getawayVehicle, seedHolder;
     private Vector3 preExitTile;
     private List<GameObject> gridPath;
     private GameObject[,] instantiatedMap;
-    private Canvas mainUI;
     private GameObject obstacleSpawner;
     public GameObject[] obstacles;
     public GameObject[] roadPieces;
@@ -28,7 +27,7 @@ public class MapGeneratorScript : MonoBehaviour {
     [SerializeField]
     int seed;
     float topSpeed, currentSpeed, turnSpeed, reverseSpeed;
-    int tileCount = 0;
+    int counter = 0;
     float escapeDistance;
     bool exitFound;
     bool escaped;
@@ -37,11 +36,17 @@ public class MapGeneratorScript : MonoBehaviour {
     int findCornerHeight = 0;
     int findCornerWidth = 0;
 
+    public Sprite[] vehicleOutlines;
+    public Button vehicleSelectorButton;
+    public Text vehicleDescription;
+    public GameObject[] theGetawayVehicles;
+    int vehicleCount = 1;
+
     // Use this for initialization
     void Start()
     {
         seedHolder = GameObject.Find("SeedHolder");
-        mainUI = GameObject.Find("Canvas").GetComponent<Canvas>();
+        StartCoroutine(Obstacles());
 
         if (seedHolder != null)
         {
@@ -56,10 +61,19 @@ public class MapGeneratorScript : MonoBehaviour {
             }
             seedHolder.GetComponent<SeedScript>().SeededPlay = false;
             getawayVehiclePrefab = seedHolder.GetComponent<SeedScript>().GetawayVehicle;
+            vehicleSelectorButton.image.sprite = seedHolder.GetComponent<SeedScript>().chosenVehicleOutline;
+            vehicleDescription.text = seedHolder.GetComponent<SeedScript>().chosenVehicleDescription;
         }
+        else
+        {
+            seed = Random.Range(-10000, 10000);
+        }
+
+        carCamera = Camera.main;
 
         //seed = 2074; //for Testing purposes 
         Random.InitState(seed);
+        print("Seed = " + seed);
         topSpeed = 0.02f;
         reverseSpeed = -0.01f;
         turnSpeed = 2;
@@ -68,21 +82,14 @@ public class MapGeneratorScript : MonoBehaviour {
         BuildMap();
 
         //seed = Mathf.RoundToInt(Random.seed);
-        seedNameHolder.text = "Thank you for playing to replay this map use Seed number:" + seed;
-
-
+        seedNameHolder.text = "" + seed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (mainUI != null)
-        {
-            mainUI.gameObject.SetActive(false);
-        }
-
-        escapeDistance = Vector3.Distance(exitPoint.transform.position, getAwayVehicle.transform.position);
-        //print(escapeDistance);
+        escapeDistance = Vector3.Distance(exitPoint.transform.position, getawayVehicle.transform.position);
+        
         if (escapeDistance < 0.2f)
         {
             escaped = true;
@@ -102,23 +109,30 @@ public class MapGeneratorScript : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(mainUI != null)
+            if( endCanvas != null)
             {
-                if(mainUI.gameObject.activeInHierarchy)
+                if (endCanvas.enabled != true)
                 {
-                    mainUI.gameObject.SetActive(false);
+                    endCanvas.enabled = true;
+                    print("Canvas button pressed");
                 }
-                else
+                else if(endCanvas.enabled == true)
                 {
-                    mainUI.gameObject.SetActive(true);
+                    endCanvas.enabled = false;
+                    print("Canvas button pressed");
                 }
             }
         }
-
     }
 
     void BuildGrid()
     {
+        Block[] destroyBlocks = FindObjectsOfType<Block>();
+        foreach(Block block in destroyBlocks)
+        {
+            Destroy(block.gameObject);
+        }
+
         if (gridWidth == 0)
         {
             gridWidth = Mathf.RoundToInt(Random.Range(25.0f, 50.0f));
@@ -176,7 +190,7 @@ public class MapGeneratorScript : MonoBehaviour {
 
         //startPoint = Instantiate(startPointPreFab, new Vector3(0, 0, 0), Quaternion.identity);
         
-        getAwayVehicle = Instantiate(getawayVehiclePrefab, new Vector3(startPoint.transform.position.x + 0.077f, startPoint.transform.position.y + 0.078f, startPoint.transform.position.z + 0.346f), Quaternion.identity);
+        getawayVehicle = Instantiate(getawayVehiclePrefab, new Vector3(startPoint.transform.position.x + 0.077f, startPoint.transform.position.y + 0.078f, startPoint.transform.position.z + 0.346f), Quaternion.identity);
                
 
         //Generate exit Route on Outer
@@ -209,7 +223,6 @@ public class MapGeneratorScript : MonoBehaviour {
                 if (instantiatedMap[Mathf.RoundToInt(gridPath[x].transform.position.x), Mathf.RoundToInt(gridPath[x].transform.position.z)] == null)
                 {
                     TileDecision(gridPath[x].transform.position);
-                    tileCount++;
                 }
             }
         }
@@ -233,7 +246,7 @@ public class MapGeneratorScript : MonoBehaviour {
             Destroy(gridPath[eachGridPoint], 0.0f);
         }
 
-        foreach (Transform search in getAwayVehicle.transform)
+        foreach (Transform search in getawayVehicle.transform)
         {
             if (search.tag == "MinimapCamera")
             {
@@ -374,12 +387,16 @@ public class MapGeneratorScript : MonoBehaviour {
                     seedHolder.GetComponent<SeedScript>().SeedNumber = seed;
                 }
                 seedHolder.GetComponent<SeedScript>().SeededPlay = false;
-                getAwayVehicle = seedHolder.GetComponent<SeedScript>().GetawayVehicle;
+                getawayVehiclePrefab = seedHolder.GetComponent<SeedScript>().GetawayVehicle;
+            }
+            else
+            {
+                seed = Random.Range(-10000, 10000);
             }
             Random.InitState(seed);
-            tileCount = 0;
+            print("Seed = " + seed);
             StopAllCoroutines();
-            seedNameHolder.text = "Thank you for playing to replay this map use Seed number: " + seed;
+            seedNameHolder.text = "" + seed;
 
             for (int x = 0; x <= gridWidth; x++)
             {
@@ -398,7 +415,7 @@ public class MapGeneratorScript : MonoBehaviour {
             }
             Destroy(startPoint, 0.0f);
             Destroy(exitPoint, 0.0f);
-            Destroy(getAwayVehicle, 0.0f);
+            Destroy(getawayVehicle, 0.0f);
             gridWidth = 0;
             gridHeight = 0;
             findCornerHeight = 0;
@@ -406,7 +423,7 @@ public class MapGeneratorScript : MonoBehaviour {
             BuildGrid();
             BuildMap();
         }
-        else
+        else if(chosenSeed == 1)
         {
             long seed = System.Convert.ToInt64(seedInputField.text);
 
@@ -423,7 +440,7 @@ public class MapGeneratorScript : MonoBehaviour {
                 seedHolder.GetComponent<SeedScript>().SeededPlay = false;
             }
             Random.InitState((int)seed);
-            tileCount = 0;
+            print("Seed = " + seed);
             StopAllCoroutines();
             for (int x = 0; x <= gridWidth; x++)
             {
@@ -442,7 +459,7 @@ public class MapGeneratorScript : MonoBehaviour {
             }
             Destroy(startPoint, 0.0f);
             Destroy(exitPoint, 0.0f);
-            Destroy(getAwayVehicle, 0.0f);
+            Destroy(getawayVehicle, 0.0f);
             gridWidth = 0;
             gridHeight = 0;
             findCornerHeight = 0;
@@ -451,16 +468,61 @@ public class MapGeneratorScript : MonoBehaviour {
             BuildMap();
 
             print(seed);
-            seedNameHolder.text = "Thank you for playing to replay this map use Seed number: " + seed;
+            seedNameHolder.text = "" + seed;
             seedInputField.text = "";
         }
+        else if (chosenSeed == 2)
+        {
+            if (seedHolder != null)
+            {
+                seedHolder.GetComponent<SeedScript>().SeedNumber = seed;
+                
+                seedHolder.GetComponent<SeedScript>().SeededPlay = false;
+                getawayVehiclePrefab = seedHolder.GetComponent<SeedScript>().GetawayVehicle;
+            }
+            Random.InitState((int)seed);
+            print("Seed = " + seed);
+            StopAllCoroutines();
+            for (int x = 0; x <= gridWidth; x++)
+            {
+                for (int y = 0; y <= gridHeight; y++)
+                {
+                    Destroy(instantiatedMap[x, y], 0.0f);
+                }
+            }
+            for (int x = 0; x < gridPath.Count; x++)
+            {
+                Destroy(gridPath[x], 0.0f);
+            }
+            for (int x = 0; x < escapeRoute.Count; x++)
+            {
+                Destroy(escapeRoute[x], 0.0f);
+            }
+            Destroy(startPoint, 0.0f);
+            Destroy(exitPoint, 0.0f);
+            Destroy(getawayVehicle, 0.0f);
+            gridWidth = 0;
+            gridHeight = 0;
+            findCornerHeight = 0;
+            findCornerWidth = 0;
+            BuildGrid();
+            BuildMap();
+
+            print(seed);
+            seedNameHolder.text = "" + seed;
+            seedInputField.text = "";
+        }
+        carCamera.enabled = true;
+        minimapCamera.enabled = true;
+        gameCamera.enabled = false;
+        carCanvas.enabled = true;
+        endCanvas.enabled = false;
+        escapeSceneSet = false;
     }
 
     void TileDecision(Vector3 tileLocation)
     {
-        string chosenType = "";
         bool canBePark = true;
-        Test_Road_Builder roadScriptHolder = null;
         if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z + 1)] != null)
         {
             if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z + 1)].tag == "EscapePath" || instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z + 1)].tag == "StartPoint")
@@ -527,17 +589,13 @@ public class MapGeneratorScript : MonoBehaviour {
 
         if (animationCurveTest < 0.3 && canBePark == true)
         {
-            chosenType = "Park";
             instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z)] = Instantiate(buildingBlocks[3], tileLocation + new Vector3(0, 0.01524f, 0), Quaternion.identity);
         }
         else
         {
-            chosenType = "Road";
             GameObject roadTileHolder = null;
             roadTileHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z)] = Instantiate(buildingBlocks[2], tileLocation, Quaternion.identity);
         }
-
-        //print(tileCount + " : " + animationCurveTest + " : " + chosenType + " : " + tileLocation);
     }
 
     IEnumerator Waiting(GameObject passThrough)
@@ -824,10 +882,67 @@ public class MapGeneratorScript : MonoBehaviour {
             }
         }
     }
-
-    void Obstacle()
+    public void VehicleSelection()
     {
-        GameObject spawnedObstacle = Instantiate(obstacles[0], obstacleSpawner.transform.position, Quaternion.identity);
+        vehicleCount++;
+        if (vehicleCount == 4)
+        {
+            vehicleCount = 1;
+        }
+        if (vehicleCount == 1)
+        {
+            getawayVehiclePrefab = theGetawayVehicles[0];
+            vehicleSelectorButton.image.sprite = vehicleOutlines[0];
+            vehicleDescription.text = "-1967 Chevrolet Corvette Stingray";
+            print("Corvette Selected");
+        }
+        if (vehicleCount == 2)
+        {
+            getawayVehiclePrefab = theGetawayVehicles[1];
+            vehicleSelectorButton.image.sprite = vehicleOutlines[1];
+            vehicleDescription.text = "-1967 Shelby Mustang GT500";
+            print("Mustang Selected");
+        }
+        if (vehicleCount == 3)
+        {
+            getawayVehiclePrefab = theGetawayVehicles[2];
+            vehicleSelectorButton.image.sprite = vehicleOutlines[2];
+            vehicleDescription.text = "-1970 Dodge Charger";
+            print("Charger Selected");
+        }
+    }
+
+    IEnumerator Obstacles()
+    {        
+        int firstRun = 2;
+        if(firstRun == 1)
+        {
+            yield return new WaitForSeconds(5);
+            firstRun++;
+        }
+        else
+        {
+            yield return new WaitForSeconds(5);
+            float randomValue = Random.Range(0.0f, 100.0f);
+            if (randomValue > 0.0f)
+            {
+                Vector3 vehiclePosition = getawayVehicle.transform.position;
+                Vector3 vehicleDirection = -getawayVehicle.transform.forward;
+                Quaternion vehicleRotation = getawayVehicle.transform.rotation;
+                float offset = 2;
+
+                Vector3 spawnLocation = vehiclePosition + vehicleDirection * offset;
+                GameObject spawnedObstacle = Instantiate(obstacles[0], spawnLocation + new Vector3 (0, 0.1f, 0), Quaternion.Euler(-90, 0, 0));
+                spawnedObstacle.transform.LookAt(getawayVehicle.transform, -getawayVehicle.transform.right);
+                //spawn the obstacle
+                print("Spawned an Obstacle");
+            }
+            else
+            {
+                print("Not this time Sonny");
+            }
+        }
+        StartCoroutine(Obstacles());
     }
 }
 

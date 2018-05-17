@@ -30,7 +30,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1147454713621144
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -145,7 +145,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1410622401692894
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -225,7 +225,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1543579132720786
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -242,7 +242,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1599037244079088
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -477,7 +477,7 @@ Transform:
   m_LocalScale: {x: 3.3333385, y: 3.3333347, z: 3.333339}
   m_Children: []
   m_Father: {fileID: 4994645069296600}
-  m_RootOrder: 12
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 2, y: 180, z: 0}
 --- !u!4 &4107325919119512
 Transform:
@@ -499,11 +499,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1543579132720786}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.85, y: -0.40900004, z: 2.9943335}
+  m_LocalPosition: {x: 0.85, y: -0.30000007, z: 1.6970004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4994645069296600}
-  m_RootOrder: 9
+  m_Father: {fileID: 4302356486490086}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4154066221308384
 Transform:
@@ -566,7 +566,11 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.109, z: 1.2973334}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4923434902509278}
+  - {fileID: 4118241866260874}
+  - {fileID: 4825906414147720}
+  - {fileID: 4561233368595538}
   m_Father: {fileID: 4994645069296600}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -603,11 +607,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1147454713621144}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.85, y: -0.40900004, z: 2.9943335}
+  m_LocalPosition: {x: -0.85, y: -0.30000007, z: 1.6970004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4994645069296600}
-  m_RootOrder: 11
+  m_Father: {fileID: 4302356486490086}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4561962689590804
 Transform:
@@ -707,11 +711,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1599037244079088}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.85, y: -0.40900004, z: 0.027333947}
+  m_LocalPosition: {x: -0.85, y: -0.30000007, z: -1.2699994}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4994645069296600}
-  m_RootOrder: 10
+  m_Father: {fileID: 4302356486490086}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4896458323643676
 Transform:
@@ -750,11 +754,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1410622401692894}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.85, y: -0.40900004, z: 0.027334072}
+  m_LocalPosition: {x: 0.85, y: -0.30000007, z: -1.2699993}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4994645069296600}
-  m_RootOrder: 8
+  m_Father: {fileID: 4302356486490086}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4980440286195226
 Transform:
@@ -787,10 +791,6 @@ Transform:
   - {fileID: 4624025593268950}
   - {fileID: 4913925904121208}
   - {fileID: 4302356486490086}
-  - {fileID: 4923434902509278}
-  - {fileID: 4118241866260874}
-  - {fileID: 4825906414147720}
-  - {fileID: 4561233368595538}
   - {fileID: 4105805539507872}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1343,16 +1343,16 @@ MonoBehaviour:
   currentSpeed: 0
   truck_Infos:
   - leftWheel: {fileID: 146195997388799202}
-    leftWheelMesh: {fileID: 0}
+    leftWheelMesh: {fileID: 1410622401692894}
     rightWheel: {fileID: 146695474972639552}
-    rightWheelMesh: {fileID: 0}
+    rightWheelMesh: {fileID: 1599037244079088}
     motor: 1
     steering: 1
     reverseTurn: 0
   - leftWheel: {fileID: 146667090854827760}
-    leftWheelMesh: {fileID: 0}
+    leftWheelMesh: {fileID: 1543579132720786}
     rightWheel: {fileID: 146994552800374958}
-    rightWheelMesh: {fileID: 0}
+    rightWheelMesh: {fileID: 1147454713621144}
     motor: 0
     steering: 0
     reverseTurn: 0

@@ -7,10 +7,12 @@ using UnityEngine;
 public class SeedScript : MonoBehaviour {
 
     public Sprite[] vehicleOutlines;
+    public Sprite chosenVehicleOutline;
     public Button vehicleSelectorButton;
     public Text vehicleDescription;
+    public string chosenVehicleDescription;
     public GameObject[] theGetawayVehicles;
-    int vehicleCount = 1;
+    public int vehicleCount = 1;
 
     public GameObject GetawayVehicle
     {
@@ -60,23 +62,25 @@ public class SeedScript : MonoBehaviour {
         if (vehicleCount == 1)
         {
             GetawayVehicle = theGetawayVehicles[0];
-            vehicleSelectorButton.image.sprite = vehicleOutlines[0];
-            vehicleDescription.text = "-1967 Chevrolet Corvette Stingray";
+            chosenVehicleOutline = vehicleOutlines[0];
+            chosenVehicleDescription = "-1967 Chevrolet Corvette Stingray";
             print("Corvette Selected");
         }
         if (vehicleCount == 2)
         {
             GetawayVehicle = theGetawayVehicles[1];
-            vehicleSelectorButton.image.sprite = vehicleOutlines[1];
-            vehicleDescription.text = "-1967 Shelby Mustang GT500";
+            chosenVehicleOutline = vehicleOutlines[1];
+            chosenVehicleDescription = "-1967 Shelby Mustang GT500";
             print("Mustang Selected");
         }
         if (vehicleCount == 3)
         {
             GetawayVehicle = theGetawayVehicles[2];
-            vehicleSelectorButton.image.sprite = vehicleOutlines[2];
-            vehicleDescription.text = "-1970 Dodge Charger";
+            chosenVehicleOutline = vehicleOutlines[2];
+            chosenVehicleDescription = "-1970 Dodge Charger";
             print("Charger Selected");
-        }   
+        }
+        vehicleSelectorButton.image.sprite = chosenVehicleOutline;
+        vehicleDescription.text = chosenVehicleDescription;
     }
 }

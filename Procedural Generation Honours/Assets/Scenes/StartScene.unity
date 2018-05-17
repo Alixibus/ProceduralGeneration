@@ -412,7 +412,6 @@ GameObject:
   - component: {fileID: 326786505}
   - component: {fileID: 326786504}
   - component: {fileID: 326786508}
-  - component: {fileID: 326786509}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -513,17 +512,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &326786509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 326786503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a110d9e00501564e9529df7a3c1efcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &342770343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1137,12 +1125,15 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6dcefa35ea766e4459709c687838c0fe, type: 3}
   - {fileID: 21300000, guid: 6e4e36c1314594945909025bca38a3ed, type: 3}
   - {fileID: 21300000, guid: 981d3fd44c887cc428f65701ebd74002, type: 3}
+  chosenVehicleOutline: {fileID: 0}
   vehicleSelectorButton: {fileID: 399798081}
   vehicleDescription: {fileID: 1492827774}
+  chosenVehicleDescription: 
   theGetawayVehicles:
   - {fileID: 1711685485712764, guid: 54851dea871822542a94c86d7a80e91a, type: 2}
   - {fileID: 1467952597322886, guid: 51febbe5849ca1f4684fbaf10bf87fb5, type: 2}
   - {fileID: 1112172439282104, guid: 3bed08ed6ffa1c640ac8f11f2b6c544c, type: 2}
+  vehicleCount: 1
   getawayVehicleChosen: {fileID: 0}
   seedNumberChosen: 0
   seededPlayChosen: 0

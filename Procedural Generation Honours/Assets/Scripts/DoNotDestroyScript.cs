@@ -9,9 +9,4 @@ public class DoNotDestroyScript : MonoBehaviour {
     {
         DontDestroyOnLoad(gameObject);
     }
-
-    public void changeVisibility(bool changedValue)
-    {
-        gameObject.SetActive(changedValue);
-    }
 }

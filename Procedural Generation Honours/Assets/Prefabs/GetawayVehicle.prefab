@@ -247,7 +247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4958438566737216}
   - component: {fileID: 212415486827145572}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BrakeLightRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,7 +425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4561321675794188}
   - component: {fileID: 212291362360967910}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BrakeLightLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}

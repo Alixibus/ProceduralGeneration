@@ -891,21 +891,33 @@ public class MapGeneratorScript : MonoBehaviour {
         }
         if (vehicleCount == 1)
         {
-            getawayVehiclePrefab = theGetawayVehicles[0];
+            //getawayVehiclePrefab = theGetawayVehicles[0];
+            if (seedHolder != null)
+            {
+                seedHolder.GetComponent<SeedScript>().GetawayVehicle = theGetawayVehicles[0];
+            }
             vehicleSelectorButton.image.sprite = vehicleOutlines[0];
             vehicleDescription.text = "-1967 Chevrolet Corvette Stingray";
             print("Corvette Selected");
         }
         if (vehicleCount == 2)
         {
-            getawayVehiclePrefab = theGetawayVehicles[1];
+            //getawayVehiclePrefab = theGetawayVehicles[1];
+            if (seedHolder != null)
+            {
+                seedHolder.GetComponent<SeedScript>().GetawayVehicle = theGetawayVehicles[1];
+            }
             vehicleSelectorButton.image.sprite = vehicleOutlines[1];
             vehicleDescription.text = "-1967 Shelby Mustang GT500";
             print("Mustang Selected");
         }
         if (vehicleCount == 3)
         {
-            getawayVehiclePrefab = theGetawayVehicles[2];
+            //getawayVehiclePrefab = theGetawayVehicles[2];
+            if (seedHolder != null)
+            {
+                seedHolder.GetComponent<SeedScript>().GetawayVehicle = theGetawayVehicles[2];
+            }
             vehicleSelectorButton.image.sprite = vehicleOutlines[2];
             vehicleDescription.text = "-1970 Dodge Charger";
             print("Charger Selected");

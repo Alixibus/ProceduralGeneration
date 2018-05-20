@@ -1,9 +1,11 @@
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/Assets/AssetStoreTools*
+/Procedural Generation Honours/[Ll]ibrary/
+/Procedural Generation Honours/[Tt]emp/
+/Procedural Generation Honours/[Oo]bj/
+/Procedural Generation Honours/[Bb]uild/
+/Procedural Generation Honours/[Bb]uilds/
+/Procedural Generation Honours/Assets/AssetStoreTools*
+/Procedural Generation Honours/Assets/ProCore/
+/Procedural Generation Honours/Assets/PostProcessing/
 
 # Visual Studio 2015 cache directory
 /.vs/
@@ -25,6 +27,7 @@ ExportedObj/
 
 # Unity3D generated meta files
 *.pidb.meta
+*.pdb.meta
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt

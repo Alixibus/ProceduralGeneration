@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Road_Type_Script : MonoBehaviour
 {
-
+    //Script designed to hold the information regarding implimentation 
+    //of the road generation system, a list of bools used for checking
     public bool exitNorth
     {
         get { return exitPointNorth; }

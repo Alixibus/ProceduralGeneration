@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 38ace51d8defb654788a4175b7529bcf
-folderAsset: yes
-timeCreated: 1526765084
+guid: 02d3f4ad224b2d946b50b0aa71defd39
+timeCreated: 1526777857
 licenseType: Free
-DefaultImporter:
+NativeFormatImporter:
   externalObjects: {}
+  mainObjectFileID: 11400000
   userData: 
   assetBundleName: 
   assetBundleVariant: 

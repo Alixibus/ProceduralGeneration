@@ -670,7 +670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: 2558c58e9642423468ec18152bf0ab38, type: 2}
+  profile: {fileID: 11400000, guid: 02d3f4ad224b2d946b50b0aa71defd39, type: 2}
 --- !u!54 &277892332
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -740,7 +740,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 277892328}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.616204, y: 2.4, z: 249.64}
+  m_LocalPosition: {x: 10, y: 500, z: 10}
   m_LocalScale: {x: 0.004000004, y: 0.0040000016, z: 0.004000002}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2964,15 +2964,6 @@ MonoBehaviour:
   carCanvas: {fileID: 834781721}
   endCanvas: {fileID: 917331922}
   seedNameHolder: {fileID: 1804347413}
-  obstacles:
-  - {fileID: 1653363690224432, guid: 63b9241cd1ad14b41bdc5f5827effa8e, type: 2}
-  roadPieces:
-  - {fileID: 1406436339326988, guid: cc3f3e673e1946d44a01e46af40c2e8a, type: 2}
-  - {fileID: 1497627032525892, guid: 081e19618835d8e4ea212c856ee54ee6, type: 2}
-  - {fileID: 1656305065291224, guid: c898ab5192055e3439123acdb51c916d, type: 2}
-  - {fileID: 1875679751427462, guid: a3039a3b46ac7b24da478e474f9f375a, type: 2}
-  - {fileID: 1468138092311104, guid: 56e487fd092df6d489df7bdec6d3f74b, type: 2}
-  exitIndicator: {fileID: 585409590}
   gridWidth: 0
   gridHeight: 0
   probabilityCurve:
@@ -2993,7 +2984,15 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  seed: 0
+  exitIndicator: {fileID: 585409590}
+  obstacles:
+  - {fileID: 1653363690224432, guid: 63b9241cd1ad14b41bdc5f5827effa8e, type: 2}
+  roadPieces:
+  - {fileID: 1406436339326988, guid: cc3f3e673e1946d44a01e46af40c2e8a, type: 2}
+  - {fileID: 1497627032525892, guid: 081e19618835d8e4ea212c856ee54ee6, type: 2}
+  - {fileID: 1656305065291224, guid: c898ab5192055e3439123acdb51c916d, type: 2}
+  - {fileID: 1875679751427462, guid: a3039a3b46ac7b24da478e474f9f375a, type: 2}
+  - {fileID: 1468138092311104, guid: 56e487fd092df6d489df7bdec6d3f74b, type: 2}
   vehicleOutlines:
   - {fileID: 21300000, guid: 6dcefa35ea766e4459709c687838c0fe, type: 3}
   - {fileID: 21300000, guid: 6e4e36c1314594945909025bca38a3ed, type: 3}
@@ -3004,6 +3003,7 @@ MonoBehaviour:
   - {fileID: 1711685485712764, guid: 54851dea871822542a94c86d7a80e91a, type: 2}
   - {fileID: 1467952597322886, guid: 51febbe5849ca1f4684fbaf10bf87fb5, type: 2}
   - {fileID: 1112172439282104, guid: 3bed08ed6ffa1c640ac8f11f2b6c544c, type: 2}
+  seed: 0
 --- !u!1 &1804347411
 GameObject:
   m_ObjectHideFlags: 0

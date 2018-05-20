@@ -6,27 +6,34 @@ using System.Linq;
 
 public class MapGeneratorScript : MonoBehaviour {
 
-
+    //variable decleration of all public variables required for algorithm to function
     public GameObject startPointPreFab, exitPointPreFab, getawayVehiclePrefab;
     public GameObject[] buildingBlocks;
     public InputField seedInputField;
     public Canvas carCanvas, endCanvas;
     public Text seedNameHolder;
+    public int gridWidth, gridHeight = 0;
+    public AnimationCurve probabilityCurve;
+    public GameObject exitIndicator;
+    public GameObject[] obstacles;
+    public GameObject[] roadPieces;
+    public Sprite[] vehicleOutlines;
+    public Button vehicleSelectorButton;
+    public Text vehicleDescription;
+    public GameObject[] theGetawayVehicles;
+
+    //Variable decleration for all private variables required for algorithm
     private GameObject startPoint, currentTile, exitPoint, getawayVehicle, seedHolder;
     private Vector3 preExitTile;
     private List<GameObject> gridPath;
     private GameObject[,] instantiatedMap;
     private GameObject obstacleSpawner;
-    public GameObject[] obstacles;
-    public GameObject[] roadPieces;
     private Camera gameCamera, carCamera, minimapCamera;
-    public GameObject exitIndicator;
     private List<GameObject> escapeRoute;
-    public int gridWidth, gridHeight = 0;
-    public AnimationCurve probabilityCurve;
+
+
     [SerializeField]
     int seed;
-    float topSpeed, currentSpeed, turnSpeed, reverseSpeed;
     int counter = 0;
     float escapeDistance;
     bool exitFound;
@@ -35,19 +42,21 @@ public class MapGeneratorScript : MonoBehaviour {
     bool cameraFollowCar = false;
     int findCornerHeight = 0;
     int findCornerWidth = 0;
-
-    public Sprite[] vehicleOutlines;
-    public Button vehicleSelectorButton;
-    public Text vehicleDescription;
-    public GameObject[] theGetawayVehicles;
     int vehicleCount = 1;
 
     // Use this for initialization
     void Start()
-    {
+    {     
+        //fin the seed gameobject and store here
         seedHolder = GameObject.Find("SeedHolder");
+
+        //start obstacles co routine, this could be improved in future iterations
         StartCoroutine(Obstacles());
 
+        //check if the seedHolder has an object inside, if so and seededPlay returns true
+        //take this seeded number stored and assign it as the seed of the level
+        // if not randomly generate a seed between -10000 and 10000, this is the best method
+        //for procedural generation to function
         if (seedHolder != null)
         {
             if (seedHolder.GetComponent<SeedScript>().SeededPlay)
@@ -69,15 +78,14 @@ public class MapGeneratorScript : MonoBehaviour {
             seed = Random.Range(-10000, 10000);
         }
 
+        //set the car camera
         carCamera = Camera.main;
-
-        //seed = 2074; //for Testing purposes 
+        
+        //IMPORTANT: InitState is the method of setting the Random starting number, due to
+        //psuedo randomisation this garuntee's the procedural generation
         Random.InitState(seed);
-        print("Seed = " + seed);
-        topSpeed = 0.02f;
-        reverseSpeed = -0.01f;
-        turnSpeed = 2;
-
+        
+        //Kickoff the BuildGrid method and BuildMap method
         BuildGrid();
         BuildMap();
 
@@ -88,17 +96,17 @@ public class MapGeneratorScript : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        //assign the distance of vehicle from exit point
         escapeDistance = Vector3.Distance(exitPoint.transform.position, getawayVehicle.transform.position);
         
+        //if vehicle is close to exit, the exit has been reached, so begin end screen
+        // could be improved in future iterations
         if (escapeDistance < 0.2f)
         {
             escaped = true;
-            print("escaped");
         }
         if (escaped == true && escapeSceneSet == false)
         {
-            print("Camera Switch");
-
             carCamera.enabled = false;
             minimapCamera.enabled = false;
             gameCamera.enabled = true;
@@ -107,6 +115,7 @@ public class MapGeneratorScript : MonoBehaviour {
             escapeSceneSet = true;
         }
 
+        //activate the "Pause" menu
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if( endCanvas != null)
@@ -114,12 +123,10 @@ public class MapGeneratorScript : MonoBehaviour {
                 if (endCanvas.enabled != true)
                 {
                     endCanvas.enabled = true;
-                    print("Canvas button pressed");
                 }
                 else if(endCanvas.enabled == true)
                 {
                     endCanvas.enabled = false;
-                    print("Canvas button pressed");
                 }
             }
         }
@@ -127,12 +134,14 @@ public class MapGeneratorScript : MonoBehaviour {
 
     void BuildGrid()
     {
+        // ensure all obstacles are destroyed
         Block[] destroyBlocks = FindObjectsOfType<Block>();
         foreach(Block block in destroyBlocks)
         {
             Destroy(block.gameObject);
         }
 
+        //build the grid width, ensuring an odd width
         if (gridWidth == 0)
         {
             gridWidth = Mathf.RoundToInt(Random.Range(25.0f, 50.0f));
@@ -141,6 +150,7 @@ public class MapGeneratorScript : MonoBehaviour {
                 gridWidth = Mathf.RoundToInt(Random.Range(25.0f, 40.0f));
             }
         }
+        //generate grid height ensuring odd height
         if (gridHeight == 0)
         {
             gridHeight = Mathf.RoundToInt(Random.Range(25.0f, 40.0f));
@@ -150,11 +160,15 @@ public class MapGeneratorScript : MonoBehaviour {
             }
         }
 
+        //set the corner of the grid
         findCornerHeight = 0;
         findCornerWidth = 0;
+
+        //find total grid points
         int totalGridPoints = gridWidth * gridHeight;
         gridPath = new List<GameObject>();
-
+        
+        //create the grid
         int gridCount = 0;
         for (int makeWidth = 0; makeWidth <= gridWidth; makeWidth++)
         {
@@ -164,21 +178,18 @@ public class MapGeneratorScript : MonoBehaviour {
                 gridCount++;
             }
         }
-        Vector3 testPos = new Vector3();
-        List<GameObject> goAtPos = gridPath.Where(x => x.transform.position == testPos).ToList();
     }
 
     void BuildMap()
     {
         exitFound = false;
-        //Instantiate(prefabObjects[0], new Vector3(0, 0, 0), Quaternion.identity);
         instantiatedMap = new GameObject[gridWidth + 1, gridHeight + 1];
         escapeRoute = new List<GameObject>();
-        //Generate start point near inner circle, for testing only use 0,0
-        //int randomStart = Mathf.RoundToInt(Random.Range(-1.0f, 1.0f));
-
+        
+        //Instantiate the start point in the centre of the grid
         startPoint = Instantiate(startPointPreFab, new Vector3(Mathf.RoundToInt(gridWidth / 2), 0, Mathf.RoundToInt(gridHeight / 2)), Quaternion.identity);
 
+        //set the start point road exits
         Road_Type_Script roadScript = startPoint.GetComponent<Road_Type_Script>();
         roadScript.exitPointNorth = true;
         roadScript.exitPointSouth = true;
@@ -186,10 +197,10 @@ public class MapGeneratorScript : MonoBehaviour {
         roadScript.exitPointWest = true;
         roadScript.thisHasRoad = true;
 
+        //add to the map array
         instantiatedMap[Mathf.RoundToInt(startPoint.transform.position.x), Mathf.RoundToInt(startPoint.transform.position.z)] = startPoint;
-
-        //startPoint = Instantiate(startPointPreFab, new Vector3(0, 0, 0), Quaternion.identity);
         
+        //Instantiate chosen getaway vehicle
         getawayVehicle = Instantiate(getawayVehiclePrefab, new Vector3(startPoint.transform.position.x + 0.077f, startPoint.transform.position.y + 0.078f, startPoint.transform.position.z + 0.346f), Quaternion.identity);
                
 
@@ -198,15 +209,18 @@ public class MapGeneratorScript : MonoBehaviour {
         instantiatedMap[Mathf.RoundToInt(exitPoint.transform.position.x), Mathf.RoundToInt(exitPoint.transform.position.z)] = exitPoint;
         currentTile = startPoint;
 
-
+        //Loop through tiles beginning with start, locate closest tile to exit point, assign this as a step towards exit
+        //continue till exit found
         while (exitFound == false)
         {
-            //escapeRoute.Add(Instantiate(buildingBlocks[1], ChooseNextTile(currentTile.transform.position, preExitTile), Quaternion.identity));
             GameObject tempObjectHolder = Instantiate(buildingBlocks[1], ChooseNextTile(currentTile.transform.position, preExitTile), Quaternion.identity);
             instantiatedMap[Mathf.RoundToInt(tempObjectHolder.transform.position.x), Mathf.RoundToInt(tempObjectHolder.transform.position.z)] = tempObjectHolder;
             currentTile = tempObjectHolder;
         }
 
+        //for the rest of the grid points not already assigned, decide what type of tile
+        //to generate, taking into consideration whether tile is on the edge or deciding
+        // between park and road tile
         for (int x = 0; x < instantiatedMap.Length; x++)
         {
 
@@ -227,6 +241,7 @@ public class MapGeneratorScript : MonoBehaviour {
             }
         }
 
+        //Loop through all tiles generated, waiting for a set timeframe, then deciding road type
         for (int x = 1; x < gridWidth; x++)
         {
             for (int z = 1; z < gridHeight; z++)
@@ -238,14 +253,13 @@ public class MapGeneratorScript : MonoBehaviour {
             }
         }
 
-        //StartCoroutine(Waiting(instantiatedMap[7, 3]));
-        //decideRoad(instantiatedMap[7, 4]);
-
+        //destroy grid after generation
         for (int eachGridPoint = 0; eachGridPoint < gridPath.Count; eachGridPoint++)
         {
             Destroy(gridPath[eachGridPoint], 0.0f);
         }
 
+        //enabled the minimap camera of instantiated getaway vehicle
         foreach (Transform search in getawayVehicle.transform)
         {
             if (search.tag == "MinimapCamera")
@@ -254,6 +268,8 @@ public class MapGeneratorScript : MonoBehaviour {
                 minimapCamera.enabled = true;
             }
         }
+
+        //Set exit camera
         foreach (Transform holder in exitPoint.transform)
         {
             if (holder.tag == "ExitCameraHolder")
@@ -276,6 +292,8 @@ public class MapGeneratorScript : MonoBehaviour {
 
         escaped = false;
         escapeSceneSet = false;
+
+        StartCoroutine(DoubleCheck());
     }
 
     void ChooseExitPoint()
@@ -341,6 +359,8 @@ public class MapGeneratorScript : MonoBehaviour {
 
     Vector3 ChooseNextTile(Vector3 currentTile, Vector3 exitPoint)
     {
+        //here a vector is passed in, the north, south, east and west vecotors surrounding this are
+        //checked and which ever is closest to the exit point, becomes the chosen tile for escape path instantiation
         Vector3 chosenTile = currentTile;
         Vector3 northPoint = new Vector3(currentTile.x, currentTile.y, currentTile.z + 1);
         Vector3 southPoint = new Vector3(currentTile.x, currentTile.y, currentTile.z - 1);
@@ -373,7 +393,9 @@ public class MapGeneratorScript : MonoBehaviour {
 
     public void Generate(int chosenSeed)
     {
-        if (chosenSeed == 0)
+        //Generate is used, to destroy and redo all aspects of the algorithm, this can be used for restarting the same seed, starting a new seed
+        // or choosing a known seed
+        if (chosenSeed == 0)//Start a new level, seed number to be randomised
         {
             if (seedHolder != null)
             {
@@ -394,7 +416,6 @@ public class MapGeneratorScript : MonoBehaviour {
                 seed = Random.Range(-10000, 10000);
             }
             Random.InitState(seed);
-            print("Seed = " + seed);
             StopAllCoroutines();
             seedNameHolder.text = "" + seed;
 
@@ -423,7 +444,7 @@ public class MapGeneratorScript : MonoBehaviour {
             BuildGrid();
             BuildMap();
         }
-        else if(chosenSeed == 1)
+        else if(chosenSeed == 1)//Choose specific see to play
         {
             long seed = System.Convert.ToInt64(seedInputField.text);
 
@@ -471,7 +492,7 @@ public class MapGeneratorScript : MonoBehaviour {
             seedNameHolder.text = "" + seed;
             seedInputField.text = "";
         }
-        else if (chosenSeed == 2)
+        else if (chosenSeed == 2)//Restart using current seed
         {
             if (seedHolder != null)
             {
@@ -522,6 +543,9 @@ public class MapGeneratorScript : MonoBehaviour {
 
     void TileDecision(Vector3 tileLocation)
     {
+        //Before deciding whether the tile can be Park or Road
+        //we need to check the neighbours to ensure the escape 
+        //tiles and the start tile can have road
         bool canBePark = true;
         if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z + 1)] != null)
         {
@@ -529,14 +553,6 @@ public class MapGeneratorScript : MonoBehaviour {
             {
                 canBePark = false;
             }
-            //if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z + 1)].tag == "Road Tile")
-            //{
-            //    roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z + 1)].GetComponent<Test_Road_Builder>();
-            //    if (roadScriptHolder.haveRoad == true)
-            //    {
-            //        canBePark = false;
-            //    }
-            //}
         }
         if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z - 1)] != null)
         {
@@ -544,14 +560,6 @@ public class MapGeneratorScript : MonoBehaviour {
             {
                 canBePark = false;
             }
-            //if (instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z - 1)].tag == "Road Tile")
-            //{
-            //    roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z - 1)].GetComponent<Test_Road_Builder>();
-            //    if (roadScriptHolder.haveRoad == true)
-            //    {
-            //        canBePark = false;
-            //    }
-            //}
         }
         if (instantiatedMap[Mathf.RoundToInt(tileLocation.x + 1), Mathf.RoundToInt(tileLocation.z)] != null)
         {
@@ -559,14 +567,6 @@ public class MapGeneratorScript : MonoBehaviour {
             {
                 canBePark = false;
             }
-            //if (instantiatedMap[Mathf.RoundToInt(tileLocation.x + 1), Mathf.RoundToInt(tileLocation.z)].tag == "Road Tile")
-            //{
-            //    roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x + 1), Mathf.RoundToInt(tileLocation.z)].GetComponent<Test_Road_Builder>();
-            //    if (roadScriptHolder.haveRoad == true)
-            //    {
-            //        canBePark = false;
-            //    }
-            //}
         }
         if (instantiatedMap[Mathf.RoundToInt(tileLocation.x - 1), Mathf.RoundToInt(tileLocation.z)] != null)
         {
@@ -574,16 +574,9 @@ public class MapGeneratorScript : MonoBehaviour {
             {
                 canBePark = false;
             }
-            //if (instantiatedMap[Mathf.RoundToInt(tileLocation.x - 1), Mathf.RoundToInt(tileLocation.z)].tag == "Road Tile")
-            //{
-            //    roadScriptHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x - 1), Mathf.RoundToInt(tileLocation.z)].GetComponent<Test_Road_Builder>();
-            //    if (roadScriptHolder.haveRoad == true)
-            //    {
-            //        canBePark = false;
-            //    }
-            //}
         }
 
+        //check a randomised value against the animation curve and decide outcome
         float animationCurveTest;
         animationCurveTest = probabilityCurve.Evaluate(Random.value);
 
@@ -595,6 +588,31 @@ public class MapGeneratorScript : MonoBehaviour {
         {
             GameObject roadTileHolder = null;
             roadTileHolder = instantiatedMap[Mathf.RoundToInt(tileLocation.x), Mathf.RoundToInt(tileLocation.z)] = Instantiate(buildingBlocks[2], tileLocation, Quaternion.identity);
+        }
+    }
+
+    IEnumerator DoubleCheck()
+    {
+        //call to check to ensure there are no doubleings of tiles on top of each other
+        
+        yield return new WaitForSeconds(0.5f);
+        for (int x = 1; x < gridWidth; x++)
+        {
+            for (int z = 1; z < gridHeight; z++)
+            {
+                if (instantiatedMap[x, z] != null)
+                {
+                    int counter = 0;
+                    foreach (Transform child in instantiatedMap[x, z].transform)
+                    {
+                        counter++;
+                        if (counter > 1 && child.tag != "ParkPiece")
+                        {                            
+                            Destroy(child.gameObject);
+                        }
+                    }
+                }
+            }
         }
     }
 

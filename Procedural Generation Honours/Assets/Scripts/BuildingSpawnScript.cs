@@ -6,8 +6,10 @@ public class BuildingSpawnScript : MonoBehaviour {
     public GameObject[] buildingPrefabTest;
     Collider thisCollider;
 
+    //Script for generating buildings
     private void Start()
     {
+
         thisCollider = gameObject.GetComponent<Collider>();
         if(thisCollider.enabled == false)
         {
@@ -17,6 +19,7 @@ public class BuildingSpawnScript : MonoBehaviour {
     }
     void BuildBuilding()
     {
+        //Randomly decide which building type to generate
         float randomValue = Random.value;        
         if (randomValue > 0 && randomValue < 0.3)
         {

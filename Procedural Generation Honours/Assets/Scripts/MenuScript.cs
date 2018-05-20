@@ -7,7 +7,7 @@ using System.Linq;
 
 public class MenuScript : MonoBehaviour
 {
-    public GameObject optionsHolder, imageHolder;
+    //Menu selector
     public void MenuSelect(int choice)
     {
         switch(choice)
@@ -24,20 +24,7 @@ public class MenuScript : MonoBehaviour
         }
     }
 
-    public void OptionsMenu()
-    {
-        if (optionsHolder.activeInHierarchy)
-        {
-            optionsHolder.SetActive(false);
-            imageHolder.SetActive(true);
-        }
-        else
-        {
-            optionsHolder.SetActive(true);
-            imageHolder.SetActive(false);
-        }
-    }
-
+    //Method to switch simple actives
     public void SwitchActive(GameObject objectSwitching)
     {
         if (objectSwitching.activeInHierarchy)

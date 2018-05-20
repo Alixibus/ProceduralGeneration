@@ -974,5 +974,23 @@ public class MapGeneratorScript : MonoBehaviour {
         }
         StartCoroutine(Obstacles());
     }
+
+    public void MenuSelect(int choice)
+    {
+        switch (choice)
+        {
+            case 1:                
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                Application.Quit();
+                break;
+            default:
+                break;
+        }
+    }
 }
 

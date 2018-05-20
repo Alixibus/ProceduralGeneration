@@ -19,6 +19,9 @@ public class MenuScript : MonoBehaviour
                 break;
             case 3:
                 break;
+            case 4:
+                Application.Quit();
+                break;
             default:
                 break;
         }

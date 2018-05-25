@@ -129,7 +129,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &22693321
 RectTransform:
   m_ObjectHideFlags: 0
@@ -669,7 +669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &297855148
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1326,7 +1326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &606838900
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2276,7 +2276,7 @@ GameObject:
   - component: {fileID: 1116184153}
   - component: {fileID: 1116184152}
   m_Layer: 5
-  m_Name: Numpad Zero Key
+  m_Name: Zero Key
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2295,8 +2295,8 @@ RectTransform:
   m_Father: {fileID: 1721944757}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.7911528, y: 0.12200001}
-  m_AnchorMax: {x: 0.93720376, y: 0.32900003}
+  m_AnchorMin: {x: 0.7728297, y: 0.078792445}
+  m_AnchorMax: {x: 0.93720376, y: 0.26662266}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2784,7 +2784,7 @@ GameObject:
   - component: {fileID: 1577253663}
   - component: {fileID: 1577253662}
   m_Layer: 5
-  m_Name: Plus Key
+  m_Name: Q Key
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2803,8 +2803,8 @@ RectTransform:
   m_Father: {fileID: 1721944757}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.77900004, y: 0.703}
-  m_AnchorMax: {x: 0.92100006, y: 0.8897181}
+  m_AnchorMin: {x: 0.7666594, y: 0.6546227}
+  m_AnchorMax: {x: 0.92100006, y: 0.8562076}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2840,7 +2840,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: +
+  m_Text: Q
 --- !u!222 &1577253663
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2996,7 +2996,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1613545093
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3595,7 +3595,7 @@ GameObject:
   - component: {fileID: 2005646344}
   - component: {fileID: 2005646343}
   m_Layer: 5
-  m_Name: Subtract Key
+  m_Name: E Key
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3614,8 +3614,8 @@ RectTransform:
   m_Father: {fileID: 1721944757}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.7911528, y: 0.41080415}
-  m_AnchorMax: {x: 0.93720376, y: 0.6056736}
+  m_AnchorMin: {x: 0.7728297, y: 0.35320756}
+  m_AnchorMax: {x: 0.93720376, y: 0.55300003}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3651,7 +3651,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '-'
+  m_Text: E
 --- !u!222 &2005646344
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -624,6 +624,8 @@ public class MapGeneratorScript : MonoBehaviour {
 
     void RoadBuilder(GameObject passedTile)
     {
+
+        //bools for checks
         bool possibleNorth = false;
         bool possibleSouth = false;
         bool possibleEast = false;
@@ -634,13 +636,16 @@ public class MapGeneratorScript : MonoBehaviour {
         bool westHasRoad = false;
         bool roadChosen = false;
 
+        //create script holder
         Road_Type_Script roadScriptHolder = null;
         GameObject selectedRoadPiece;
         if (passedTile.GetComponent<Road_Type_Script>() != null)
         {
+            //if the passed tile contains the script, grab it
             roadScriptHolder = passedTile.GetComponent<Road_Type_Script>();
         }
 
+        //check the north tile has a possible road connection
         if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z + 1)] != null)
         {
             if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z + 1)].tag == "StartPoint" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z + 1)].tag == "Road Tile" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z + 1)].tag == "EndPoint")
@@ -657,6 +662,8 @@ public class MapGeneratorScript : MonoBehaviour {
                 }
             }
         }
+
+        //check the south tile has a possible road connection
         if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z - 1)] != null)
         {
             if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z - 1)].tag == "StartPoint" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z - 1)].tag == "Road Tile" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x), Mathf.RoundToInt(passedTile.transform.position.z - 1)].tag == "EndPoint")
@@ -673,6 +680,8 @@ public class MapGeneratorScript : MonoBehaviour {
                 }
             }
         }
+
+        //check the east tile has a possible road connection
         if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)] != null)
         {
             if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "StartPoint" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "Road Tile" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "EndPoint")
@@ -688,12 +697,9 @@ public class MapGeneratorScript : MonoBehaviour {
                     possibleEast = true;
                 }
             }
-            //if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "ParkPiece" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x + 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "Boundary")
-            //{
-            //    possibleEast = false;
-            //}
         }
 
+        //check the west tile has a possible road connection
         if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)] != null)
         {
             if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "StartPoint" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "Road Tile" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "EndPoint")
@@ -709,11 +715,9 @@ public class MapGeneratorScript : MonoBehaviour {
                     possibleWest = true;
                 }
             }
-            //if (instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "ParkPiece" || instantiatedMap[Mathf.RoundToInt(passedTile.transform.position.x - 1), Mathf.RoundToInt(passedTile.transform.position.z)].tag == "Boundary")
-            //{
-            //    possibleWest = false;
-            //}
         }
+
+        //based off the boolean options following the checks, build appropriate road
         if (roadScriptHolder != null)
         {
             if (roadScriptHolder.haveRoad == false)
@@ -943,7 +947,8 @@ public class MapGeneratorScript : MonoBehaviour {
     }
 
     IEnumerator Obstacles()
-    {        
+    {      
+        //obstacles spawner
         int firstRun = 2;
         if(firstRun == 1)
         {
@@ -977,6 +982,7 @@ public class MapGeneratorScript : MonoBehaviour {
 
     public void MenuSelect(int choice)
     {
+        //menu selector, room for improvement in future interations
         switch (choice)
         {
             case 1:                
